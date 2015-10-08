@@ -47,11 +47,11 @@ public class NPCHandlers {
 		case "b": 
 			System.out.println("Blacksmith: What will it be?");
 			System.out.println("You have " + player.getGold() + "gold.");
-			System.out.println("Item	Price.");
-			System.out.println(items.getItems().get(6).getName() + items.getItems().get(6).getValue());
-			System.out.println(items.getItems().get(7).getName() + items.getItems().get(7).getValue());
-			System.out.println(items.getItems().get(8).getName() + items.getItems().get(8).getValue());
-			System.out.println(items.getItems().get(9).getName() + items.getItems().get(9).getValue());
+			System.out.println("Item \tPrice.");
+			System.out.println(items.getItems().get(6).getName() + "\t" + items.getItems().get(6).getValue());
+			System.out.println(items.getItems().get(7).getName() + "\t" + items.getItems().get(7).getValue());
+			System.out.println(items.getItems().get(8).getName() + "\t" + items.getItems().get(8).getValue());
+			System.out.println(items.getItems().get(9).getName() + "\t" + items.getItems().get(9).getValue());
 			String buy = player.getInput().getInput();
 			switch (buy){
 			case "copper sword":
@@ -550,6 +550,29 @@ public class NPCHandlers {
 	}
 	public static Character talkToFarmer(Character player, Items items) {
 		System.out.println(Locations.farmer.getTalkTo());
+		System.out.println("You have " + player.getGold() + "gold.");
+		System.out.println("Item \tPrice.");
+		System.out.println(items.getItems().get(14).getName() + "\t" + items.getItems().get(14).getValue());
+		System.out.println(items.getItems().get(15).getName() + "\t" + items.getItems().get(15).getValue());
+		System.out.println("nothing");
+		String buy = player.getInput().getInput();
+		switch (buy){
+		case "milk":
+			if (player.getGold >= items.getItems().get(14).getValue()){
+				player.setGold(player.getGold - items.getItems().get(14).getValue())
+				player.getInventory().addItem(items.getItems().get(14));
+			} else {
+				
+			}
+			break;
+		case "cheese":
+			player.getInventory().addItem(items.getItems().get(15));
+			break;
+		case "nothing":
+		case "n":
+			break;
+			default:
+		}
 		return player;
 	}
 }
