@@ -23,23 +23,7 @@ public class LocHandlers {
 				player = Combat.combat(player, items);
 				if (player.getWin()){
 					brotherQuest = 2;
-					System.out.println("As he crawls to his feet, all menace is gone from his appearance. \nYes, he is still the hellhound, but he's cute and cuddly, not menacing. \nHellhound: You saved me. Let's get out of here.\nThe hellhound leads you out of the temple. Hellhound: you really saved me back there. I wish I could repay you, but I don't have anything.");
-					player.setCurrentLocation(Locations.l7);
-					Locations.l3.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
-					Locations.l3.addExit(new Exit(Exit.south, Locations.l15));
-					System.out.println( player.getCurrentLocation().getDescription());
-
-					// Show available exits
-					System.out.println( "\nAvailable exits :" );
-					for (Enumeration<Exit> e = player.getCurrentLocation().getExits().elements(); e.hasMoreElements();)
-					{
-						Exit an_exit = (Exit) e.nextElement();
-						System.out.println(an_exit);
-					}
-						if (player.getCurrentLocation().getNPCs().size() != 0){
-						System.out.println("You see " + player.getCurrentLocation().getNPCs().get(0).getName());
-						System.out.println("You can LOOK or TALK");
-						}
+					brotherQuest2RoundUp(player);
 				}
 				break;
 			case "l":
@@ -78,6 +62,25 @@ public class LocHandlers {
 			System.out.println("You find nothing of value.");
 		}
 		return player;
+	}
+	private static void brotherQuest2RoundUp(Character player) {
+		System.out.println("As he crawls to his feet, all menace is gone from his appearance. \nYes, he is still the hellhound, but he's cute and cuddly, not menacing. \nHellhound: You saved me. Let's get out of here.\nThe hellhound leads you out of the temple. Hellhound: you really saved me back there. I wish I could repay you, but I don't have anything.");
+		player.setCurrentLocation(Locations.l7);
+		Locations.l3.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
+		Locations.l3.addExit(new Exit(Exit.south, Locations.l15));
+		System.out.println( player.getCurrentLocation().getDescription());
+
+		// Show available exits
+		System.out.println( "\nAvailable exits :" );
+		for (Enumeration<Exit> e = player.getCurrentLocation().getExits().elements(); e.hasMoreElements();)
+		{
+			Exit an_exit = (Exit) e.nextElement();
+			System.out.println(an_exit);
+		}
+			if (player.getCurrentLocation().getNPCs().size() != 0){
+			System.out.println("You see " + player.getCurrentLocation().getNPCs().get(0).getName());
+			System.out.println("You can LOOK or TALK");
+			}
 	}
 	public static Character setFTDonations(Character player){
 		System.out.println("You stand in front of the offer block. There is a slot in the middle to prevent people from retrieving offers given. Will you donate?");

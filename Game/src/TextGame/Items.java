@@ -100,7 +100,6 @@ public class Items {
 		case "copper sword":
 			player.removeItem(copperSword);
 			player.getEquipment().set(4, copperSword);
-			
 			System.out.println("You equipped a copper sword.");
 			break;
 		case "copper shield":

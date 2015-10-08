@@ -15,49 +15,21 @@ public class Combat {
 			boolean creatureTurn = true;
 			boolean playerTurn = true;
 			while (playerTurn){
-			System.out.println(player.getEnemy().getDescription());
+				System.out.println(player.getEnemy().getDescription());
 				System.out.println("You have " + player.getHP() + "HP");
-			System.out.println("You may try to ATTACK, FLEE, use an ITEM.");
-			if (player.getSpells().size() > 0){
-				System.out.println("Or you may cast a spell.");
-			}
-			String action = Input.getInput();
+				System.out.println("You may try to ATTACK, FLEE, use an ITEM.");
+				if (player.getSpells().size() > 0){
+					System.out.println("Or you may cast a spell.");
+				}
+				String action = Input.getInput();
 			switch (action){
 			case "attack":
 			case "a":
 				boolean hit;
 				playerTurn = false;
-				int attackDie = Input.dice(1,6);
-				switch (attackDie){
-				case 6:
-					hit = true;
-					break;
-				case 0:
-					hit = false;
-					break;
-				default:
-					int attack = player.getAttack() + attackDie;
-					if (attack>=player.getEnemy().getDodge()){
-						hit = true;
-					}
-					else{
-						hit = false;
-					}
-				}
-				
-				
+				hit = decideHit(player);
 				if (hit){
-					System.out.println("You hit the " + player.getEnemy().getName());
-					int playerDamage = player.getWeapon().getDamage();
-					if (playerDamage >= player.getEnemy().getShield()){
-						int damage = playerDamage - player.getEnemy().getShield();
-						int HP = player.getEnemy().getHP() - damage;
-						player.getEnemy().setHP(HP);
-						System.out.println("for " + damage + " damage");
-					} else{
-						System.out.println("but it did no damage.");
-					}
-					
+					player = dealDamage(player);
 				}
 				if (player.getEnemy().getHP() <= 0){
 				win = true;
@@ -66,29 +38,12 @@ public class Combat {
 				
 			case "flee":
 			case "f":
+				boolean escape;
 				if (player.getEnemy().getCanFlee()){
 					playerTurn = false;
-					boolean escape;
-				int escapeDie = Input.dice(1,6);
-				switch (escapeDie){
-				case 6:
-					escape = true;
-					System.out.println("The " + player.getEnemy().getName() + "tripped when trying to chase you. you manage to get away.");
-					break;
-				case 0:
-					escape = false;
-					System.out.println("You tripped while trying to escape. it easily caught up.");
-					break;
-				default:
-					int run = player.getLvl() + player.getSpd() + escapeDie;
-					if (run >= player.getEnemy().getChase()){
-						escape = true;
-						System.out.println("You manage to get away.");
-					}else{
-						escape = false;
-						System.out.println("You fail to get away.");
-					}
-				}
+					escape = decideEscape(player);
+				
+				
 				if (escape){
 					player.setCombat(false);
 					creatureTurn = false;
@@ -140,23 +95,7 @@ public class Combat {
 				player.setCombat(false);
 						}
 			if (creatureTurn){
-				Attack currentAttack = player.getEnemy().getAttack().get(Input.dice(1,player.getEnemy().getAttack().size()));
-				System.out.println(currentAttack.getDescription());
-				if (currentAttack.getAttack() + player.getEnemy().getHit() >= player.getSpd()){
-					if (currentAttack.getDamage() + player.getEnemy().getDamage() > player.getShield()){
-						int damage = currentAttack.getDamage() + player.getEnemy().getDamage() - player.getShield();
-						int playerHP = player.getHP() - damage;
-						player.setHP(playerHP);
-						System.out.println("It hit you for " + damage + "damage");
-					}
-					else{
-						System.out.println("It hit you but failed to do any damage");
-					}
-				}
-				else {
-					System.out.println("It missed");
-		
-				}
+				player = creatureTurn(player);
 				if (player.getHP() <= 0){
 					lose = true;
 					player.setCombat(false);
@@ -198,6 +137,86 @@ public class Combat {
 			System.out.println("You can LOOK or TALK");
 			}
 	return player;	
+	}
+	private static Character creatureTurn(Character player) {
+		Attack currentAttack = player.getEnemy().getAttack().get(Input.dice(1,player.getEnemy().getAttack().size()));
+		System.out.println(currentAttack.getDescription());
+		if (currentAttack.getAttack() + player.getEnemy().getHit() >= player.getSpd()){
+			if (currentAttack.getDamage() + player.getEnemy().getDamage() > player.getShield()){
+				int damage = currentAttack.getDamage() + player.getEnemy().getDamage() - player.getShield();
+				int playerHP = player.getHP() - damage;
+				player.setHP(playerHP);
+				System.out.println("It hit you for " + damage + "damage");
+			}
+			else{
+				System.out.println("It hit you but failed to do any damage");
+			}
+		}
+		else {
+			System.out.println("It missed");
+
+		}
+		return player;
+	}
+	private static boolean decideEscape(Character player) {
+		boolean escape;
+		int escapeDie = Input.dice(1,6);
+		switch (escapeDie){
+		case 6:
+			escape = true;
+			System.out.println("The " + player.getEnemy().getName() + "tripped when trying to chase you. you manage to get away.");
+			break;
+		case 0:
+			escape = false;
+			System.out.println("You tripped while trying to escape. it easily caught up.");
+			break;
+		default:
+			int run = player.getLvl() + player.getSpd() + escapeDie;
+			if (run >= player.getEnemy().getChase()){
+				escape = true;
+				System.out.println("You manage to get away.");
+			}else{
+				escape = false;
+				System.out.println("You fail to get away.");
+			}
+		}
+		return escape;
+	}
+
+	private static boolean decideHit(Character player) {
+		boolean hit;
+		int attackDie = Input.dice(1,6);
+		switch (attackDie){
+		case 6:
+			hit = true;
+			break;
+		case 0:
+			hit = false;
+			break;
+		default:
+			int attack = player.getAttack() + attackDie;
+			if (attack>=player.getEnemy().getDodge()){
+				hit = true;
+			}
+			else{
+				hit = false;
+			}
+		}
+		return hit;
+	}
+
+	private static Character dealDamage(Character player) {
+		System.out.println("You hit the " + player.getEnemy().getName());
+		int playerDamage = player.getWeapon().getDamage();
+		if (playerDamage >= player.getEnemy().getShield()){
+			int damage = playerDamage - player.getEnemy().getShield();
+			int HP = player.getEnemy().getHP() - damage;
+			player.getEnemy().setHP(HP);
+			System.out.println("for " + damage + " damage");
+		} else{
+			System.out.println("but it did no damage.");
+		}
+		return player;
 	}
 }
 	
