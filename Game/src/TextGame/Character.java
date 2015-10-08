@@ -143,12 +143,11 @@ public class Character implements Serializable{
 		}
 		}
 	}
-	public Item removeItem(Item item){
+	public void removeItem(Item item){
 		item.setCount(item.getCount() - 1);
 		if (item.getCount() == 0){
 			playerInventory.removeElement(item);
 		}
-		return item;
 	}
 	public void setWin(boolean fightWin) {
 		win = fightWin;

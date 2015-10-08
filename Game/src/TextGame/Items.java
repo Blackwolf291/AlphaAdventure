@@ -98,7 +98,8 @@ public class Items {
 		if (item != oldItem){
 		switch (item.getName()){
 		case "copper sword":
-			player.getEquipment().set(4,player.removeItem(copperSword));
+			player.removeItem(copperSword);
+			player.getEquipment().set(4, copperSword);
 			
 			System.out.println("You equipped a copper sword.");
 			break;
