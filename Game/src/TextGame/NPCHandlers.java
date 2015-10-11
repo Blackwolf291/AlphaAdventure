@@ -1,5 +1,7 @@
 package TextGame;
 
+import java.util.Vector;
+
 public class NPCHandlers {
 	static int IceCounter = 0;
 	static int IceSpellCounter = 0;
@@ -16,17 +18,7 @@ public class NPCHandlers {
 			System.out.println("Set the village home as your base?");
 			boolean confirm = Input.yesNo(player);
 			if (confirm){
-				System.out.println("Changed Base to Village Home. Inhabiting NPCs Migrated to your new base.");
-				player.setBase(Locations.livingRoom);
-				Locations.vacantHome.setLocName("Your front yard.");
-				Locations.vacantHome.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
-				Locations.vacantHome.addExit(new Exit(Exit.in, Locations.livingRoom));
-				
-				if (Locations.beach.getNPCs().contains(Locations.Ice)){
-					Locations.beach.getNPCs().remove(Locations.Ice);
-					Locations.IceRoom.getNPCs().add(Locations.Ice);
-					Locations.livingRoom.addExit(new Exit(Exit.north, Locations.IceRoom));
-				}
+				setVacantHomeBase(player);
 			}else{
 				System.out.println("The vacant home remains vacant.");
 				Locations.vacantHome.setLocDescription("It looks cozy and not very big, but I'll be a lot warmer than the beach, and a lot more comfortable too. \n There is a small pond in the front yard. You can MOVE in.");
@@ -35,6 +27,18 @@ public class NPCHandlers {
 			System.out.println("Maybe some other time then.");
 		}
 		return player;
+	}
+	public static void setVacantHomeBase(Character player){
+		System.out.println("Changed Base to Village Home. Inhabiting NPCs Migrated to your new base.");
+		Location oldBase = player.getBase();
+		player.setBase(Locations.livingRoom);
+		Locations.vacantHome.setLocName("Your front yard.");
+		Locations.vacantHome.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
+		Locations.vacantHome.addExit(new Exit(Exit.in, Locations.livingRoom));
+		if (oldBase.getNPCs().contains(Locations.Ice)){
+			oldBase.getNPCs().remove(Locations.Ice);
+			player.getBase().addExit(new Exit(Exit.north, Locations.IceRoom));
+		}
 	}
 	public static Character talkToBlacksmith(Character player, Items items){
 		System.out.println("Blacksmith: " + player.getCurrentLocation().getNPCs().get(0).getTalkTo());
@@ -74,34 +78,8 @@ public class NPCHandlers {
 			player = LocHandlers.buyShop(player, shopList);
 		case "sell":
 		case "s":
-			if (player.getInventory().size() > 0){
-			System.out.println("Coon: What will it be?");
-			System.out.println("Count	Item	Goldvalue.");
-			for (int i = 0;i < player.getInventory().size();i++){
-				if (!player.getInventory().get(i).getKeyItem()){
-				System.out.println(player.getInventory().get(i).getCount() + "  " + player.getInventory().get(i).getName() + "  " + player.getInventory().get(i).getValue()/2);
-				}
-			}
-			String Sale = Input.getInput();
-			for (int i = 0;i < player.getInventory().size();i++){
-			if (Sale.equals(player.getInventory().get(i).getName())){
-				System.out.println("You have " + player.getInventory().get(i).getCount() + ".\nHow many will you sell?");
-				int number = -1;
-				while (number == -1){
-					number = Input.getInteger();
-					if (number >= 0 && number <= player.getInventory().get(i).getCount()){
-						System.out.println("Sold for " + player.getInventory().get(i).getValue()/2 + " Gold");
-						player.setGold(player.getInventory().get(i).getValue()/2);
-					} else{
-						System.out.println("Coon: You don\'t have that many!");
-						number = -1;
-					}
-					}
-			} else {
-				System.out.println("Coon: You don\'t have one of those and you know it.");
-			}
-				}
-			}
+			String npcName = "Coon";
+			player = sell(player, npcName);
 			break;
 		case "talk":
 		case "t":
@@ -111,8 +89,55 @@ public class NPCHandlers {
 			System.out.println("Coon: What are you saying?");
 			shop = "";
 		}
-			
 		return player;
+	}
+	private static Character sell(Character player, String npcName) {
+		if (player.getInventory().size() > 0){
+			printSellable(player, npcName);
+			Item itemToSell = stringToItem(player.getInventory());
+			if (itemToSell != null){
+				player = sellItem(itemToSell, player);
+			} else {
+				System.out.println("You don't have any of those.");
+			}
+		} else {
+			System.out.println("Coon: You don\'t have one of those and you know it.");
+		}
+		return player;
+	}
+	private static Character sellItem(Item itemToSell, Character player){
+		System.out.println("You have " + itemToSell.getCount() + ".\nHow many will you sell?");	
+		int number = -1;
+		while (number == -1){
+			number = Input.getInteger();
+			if (number >= 0 && number <= itemToSell.getCount()){
+				System.out.println("Sold for " + itemToSell.getValue()/2 + " Gold");
+				player.setGold(itemToSell.getValue()/2);
+			} else{
+				System.out.println("Coon: You don\'t have that many!");
+				number = -1;
+			}
+		}
+		return player;
+		
+	}
+	private static Item stringToItem(Vector<Item> vector){
+		String Sale = Input.getInput();
+		for (int i = 0;i < vector.size();i++){
+			if (Sale.equals(vector.get(i).getName())){
+				return vector.get(i);
+			}
+		}
+		return null;
+	}
+	private static void printSellable(Character player, String npcName) {
+		System.out.println(npcName + ": What have you got for me?");
+		System.out.println("Count\tItem\tGoldvalue.");
+		for (int i = 0;i < player.getInventory().size();i++){
+			if (!player.getInventory().get(i).getKeyItem()){
+			System.out.println(player.getInventory().get(i).getCount() + "  " + player.getInventory().get(i).getName() + "  " + player.getInventory().get(i).getValue()/2);
+			}
+		}
 	}
 	public static Character talkToGuardDog(Character player, Items items) {
 		if (LocHandlers.getBrotherQuest() == 2) {

@@ -203,6 +203,7 @@ public class Locations{
 	livingRoom.addExit(new Exit(Exit.out, vacantHome));
 	
 	IceRoom.addExit(new Exit(Exit.south, livingRoom));
+	IceRoom.addNPC(Ice);
 	
 	forestTempleMain.addExit(new Exit(Exit.out, forestTempleEntrance));
 	forestTempleMain.addExit(new Exit(Exit.down, forestTempleBasement));
