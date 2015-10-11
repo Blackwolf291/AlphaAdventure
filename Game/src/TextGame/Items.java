@@ -35,15 +35,15 @@ public class Items {
 		items.add(ether);
 		elixer = new Item ("elixer", 1, true, true, false, 400, 0);
 		items.add(elixer);
-		copperSword = new Weapon ("copper sword", Input.dice(6,10) + 6 , 0, "You slash it with your copper sword.", 0, 1, false, false, false, 500, 4);
+		copperSword = new Weapon ("copper sword", Input.dice(6,10) + 6 , 0, "You slash it with your copper sword.", 0, 1, false, false, false, 500);
 		items.add(copperSword);
-		copperHelmet = new Item ("copper helmet", 1, false, false, false, 200, 1);
+		copperHelmet = new Helmet ("copper helmet", 1, false, false, false, 200, 5);
 		items.add(copperHelmet);
-		copperArmor = new Item ("copper armor", 1, false, false, false, 750, 3);
+		copperArmor = new Armor ("copper armor", 1, false, false, false, 750, 2, 10);
 		items.add(copperArmor);
-		copperShield = new Item ("copper shield", 1, false, false, false, 300, 5);
+		copperShield = new Shield ("copper shield", 1, false, false, false, 300, 5, 5);
 		items.add(copperShield);
-		leatherArmor = new Item ("leather armor", 1, false, false, false, 250, 3);
+		leatherArmor = new Armor ("leather armor", 1, false, false, false, 250, 1, 5);
 		items.add(leatherArmor);
 		hide = new Item ("hide", 1, false, false, false, 20, 0);
 		items.add(hide);
@@ -56,94 +56,59 @@ public class Items {
 		cheese = new Item ("cheese", 1, true, true, false, 40, 0);
 		items.add(cheese);
 	}
-	public Character addCopperShield (Character player){
-		player.setShield(player.getShield() + 5);
+	private Character weaponSwap (Character player, Item weapon){
+		player.removeItem(weapon);
+		Item spare = player.setWeapon((Weapon) weapon);
+		System.out.println("You equipped a " + weapon.getName() + ".");
+		player.addItem(spare);
 		return player;
 	}
-	public Character removeCopperShield(Character player){
-		player.setShield(player.getShield() - 5);
-		return player;
-		
-	}
-	public Character addCopperHelmet (Character player){
-		player.setShield(player.getShield() + 5);
+	private Character shieldSwap (Character player, Item shield){
+		player.removeItem(shield);
+		Item spare = player.setShield((Shield) shield);
+		System.out.println("You equipped a " + shield.getName() + ".");
+		player.addItem(spare);
 		return player;
 	}
-	public Character removeCopperHelmet(Character player){
-		player.setShield(player.getShield() - 5);
+	private Character armorSwap (Character player, Item armor){
+		player.removeItem(armor);
+		Item spare = player.setArmor((Armor) armor);
+		System.out.println("You equipped a " + armor.getName() + ".");
+		player.addItem(spare);
 		return player;
 	}
-	public Character addCopperArmor (Character player){
-		player.setShield(player.getShield() + 10);
-		player.setSpeed(player.getSpd() - 4);
-		return player;
-	}
-	public Character removeCopperArmor (Character player){
-		player.setShield(player.getShield() - 10);
-		player.setSpeed(player.getSpd() + 4);
-		return player;
-	}
-	public Character addLeatherArmor (Character player){
-		player.setShield(player.getShield() + 5);
-		player.setSpeed(player.getSpd() - 2);
-		return player;
-	}
-	public Character removeLeatherArmor (Character player){
-		player.setShield(player.getShield() - 5);
-		player.setSpeed(player.getSpd() + 2);
+	private Character helmetSwap (Character player, Item helmet){
+		player.removeItem(helmet);
+		Item spare = player.setHelmet((Helmet) helmet);
+		System.out.println("You equipped a " + helmet.getName() + ".");
+		player.addItem(spare);
 		return player;
 	}
 	public Character setEquipment (Item item, Character player){
 		Item oldItem = player.getEquipment().set(item.getEquipment(), item);
 		if (item != oldItem){
-		switch (item.getName()){
-		case "copper sword":
-			player.removeItem(copperSword);
-			player.getEquipment().set(4, copperSword);
-			System.out.println("You equipped a copper sword.");
-			break;
-		case "copper shield":
-			player.removeItem(copperShield);
-			addCopperShield(player);
-			System.out.println("You equipped a copper shield.");
-			break;
-		case "copper helmet":
-			player.removeItem(copperHelmet);
-			addCopperHelmet(player);
-			System.out.println("You equipped a copper helmet.");
-			break;
-		case "copper armor":
-			switch (oldItem.getName()){
-			case "none":
-				player.removeItem(copperArmor);
-				addCopperArmor(player);
-				System.out.println("You equipped a copper armor.");
+			switch (item.getName()){
+			case "copper sword":
+				player = weaponSwap(player, copperSword);
+				break;
+			case "copper shield":
+				player = shieldSwap(player, copperShield);
+				break;
+			case "copper helmet":
+				player = helmetSwap(player, copperHelmet);
+				break;
+			case "copper armor":
+				player = armorSwap(player, copperArmor);
+				break;
 			case "leather armor":
-				player.removeItem(copperArmor);
-				player.addItem(leatherArmor);
-				addCopperArmor(player);
-				removeLeatherArmor(player);
-				System.out.println("You equipped a copper armor. \nYour leather armor was added to your inventory.");
+				player = armorSwap(player, leatherArmor);
+				break;
+				default:
+					System.out.println("Sorry, you cannot equip that.");
 			}
-			break;
-		case "leather armor":
-					switch (oldItem.getName()){
-					case "none":
-						player.removeItem(leatherArmor);
-						addLeatherArmor(player);
-						System.out.println("You equipped a leather armor.");
-					case "leather armor":
-						player.removeItem(leatherArmor);
-						player.addItem(copperArmor);
-						addLeatherArmor(player);
-						removeCopperArmor(player);
-						System.out.println("You equipped a leather armor. \nYour copper armor was added to your inventory.");
-					}
-					break;
-		}
 		}
 		return player;
-		}
+	}
 	public Character useItem(String command, Character player){
 		switch (command){
 		case "use vine juice": 

@@ -8,61 +8,64 @@ public class Character implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private PlayerRace species;
-	private int strength;
-	private int speed;
-	private int toughness;
-	private int intelligence;
-	private int charisma;
+	private int strength = 10;
+	private int speed = 10;
+	private int toughness = 10;
+	private int intelligence = 10;
+	private int charisma = 10;
 	private int maxHP;
 	private int hp;
-	private int xp;
-	private int level;
-	private int gold;
+	private int xp = 0;
+	private int level = 1;
+	private int gold = 0;
 	private int shield;
 	private int attack;
 	private int mana;
 	private int maxMana;
+	private int dodge;
 	private Vector<Spell> spells;
 	private Location currentLocation;
 	static private Vector<Item> playerInventory; 
 	static private Vector<Item> equipment; 
 	private Location base;
-	private boolean combat;
-	private boolean win;
-	private boolean itemUsed;
-	private Weapon currentWeapon;
+	private boolean combat = false;
+	private boolean win = true;
+	private boolean itemUsed = false;
+	private Weapon currentWeapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
+	private Shield currentShield = new Shield ();
+	private Armor currentArmor = new Armor();
+	private Helmet currentHelmet = new Helmet();
 	private Creature enemy;
 	
 	public Character (Items inventory){
-		name = setName();
+		setName();
 		species = setRace();
-		byte boon = boonChoice();
-		if (boon == 1) strength = 15;
-		else strength = 10;
-		if (boon == 2) speed = 15;
-		else speed = 10;
-		if (boon == 3) toughness = 15;
-		else toughness = 10;
-		if (boon == 4) intelligence = 15;
-		else intelligence = 10;
-		if (boon == 5) charisma = 15;
-		else charisma = 10;
-		xp = 0;
-		level = 1;
-		maxHP = toughness*(9+level);
+		pickABoon(5);
+		calcMaxHP();
 		hp = maxHP;
-		gold = 0;
-		shield = 10 + level;
-		attack = strength + level;
-		maxMana = intelligence + level;
+		calcAttack();
+		calcMaxMana();
 		mana = maxMana;
 		playerInventory = new Vector<Item>();
 		equipment = new Vector<Item>();
-		combat = false;
-		win = true;
-		itemUsed = false;
-		currentWeapon = new Weapon (species.getAttack(), Input.dice(5,10) + 5, 1, species.getUnarmedStrike(), 1, 1, false, false, false, 0, 4);
 		enemy = new Creature();
+		calcShield();
+		calcDodge();
+	}
+	public void calcMaxMana(){
+		maxMana = intelligence + level;
+	}
+	public void calcAttack(){
+		attack = strength + level;
+	}
+	public int getDodge(){
+		return dodge;
+	}
+	public void calcShield(){
+		shield = 10 + currentShield.getShieldBonus() + level + currentArmor.getShielding() + currentHelmet.getShieldBonus();
+	}
+	public void calcMaxHP(){
+		maxHP = toughness*(9+level);
 	}
 	public void setEnemy(Creature newCreature){
 		enemy = newCreature;
@@ -79,20 +82,26 @@ public class Character implements Serializable{
 	public Vector<Spell> getSpells(){
 		return spells;
 	}
-	public void spellList(){
+	public void printSpellList(){
 		if(spells.size() > 0){
-			for (int i = 0; i == spells.size(); i++){
-			System.out.println(spells.get(i).getName());
-			}
+			printSpells();
 		} else{
 			System.out.println("You don\'t have any spells.");
 		}
+	}
+	public void printSpells(){
+		for (int i = 0; i == spells.size(); i++){
+			System.out.println(spells.get(i).getName());
+			}
 	}
 	public boolean getItemUsed(){
 		return itemUsed;
 	}
 	public int getMaxMana(){
 		return maxMana;
+	}
+	public void applyManaCost(int cost){
+		setMana(getMana() - cost);
 	}
 	public void setMana(int value){
 		mana = value;
@@ -103,11 +112,35 @@ public class Character implements Serializable{
 	public int getMana(){
 		return mana;
 	}
+	public Weapon setWeapon (Weapon weapon){
+		Weapon spare = currentWeapon;
+		currentWeapon = weapon;
+		return spare;
+	}
 	public void setSpeed(int value){
 		speed = value;
 	}
-	public void setShield(int value){
-		shield = value;
+	public Shield setShield(Shield shield){
+		Shield spare = currentShield;
+		currentShield = shield;
+		calcShield();
+		return spare;
+	}
+	public Helmet setHelmet(Helmet helmet){
+		Helmet spare = currentHelmet;
+		currentHelmet = helmet;
+		calcShield();
+		return spare;
+	}
+	public void calcDodge(){
+		dodge = speed - currentArmor.getSpeedPenalty();
+	}
+	public Armor setArmor(Armor armor){
+		Armor spare = currentArmor;
+		currentArmor = armor;
+		calcShield();
+		calcDodge();
+		return spare;
 	}
 	public void setAttack(int value){
 		attack = value;
@@ -138,16 +171,17 @@ public class Character implements Serializable{
 			item.setCount(item.getCount() + 1);
 		} else {
 			playerInventory.addElement(item);
+		}
+		itemCleanup(item);
+	}
+	public void itemCleanup(Item item){
 		if (item.getCount() == 0){
 			playerInventory.removeElement(item);
-		}
 		}
 	}
 	public void removeItem(Item item){
 		item.setCount(item.getCount() - 1);
-		if (item.getCount() == 0){
-			playerInventory.removeElement(item);
-		}
+		itemCleanup(item);
 	}
 	public void setWin(boolean fightWin) {
 		win = fightWin;
@@ -199,44 +233,61 @@ public class Character implements Serializable{
 		}
 	}
 	public void setGainedXP(int gainedXP){
-	xp = xp + gainedXP;
-	while (xp > level*100) {
-		xp = xp - 100*level;
-		++level;
-		hp = maxHP;
-		mana = maxMana;
+		xp = xp + gainedXP;
+		while (xp > level*100) {
+			lvlUp();
+		}
+		return;
+	}
+	public int gainStat(int stat, int boostValue, String description){
+		System.out.println(description);
+		stat += boostValue;
+		return stat;
+	}
+	public String applyBoon(String boonChoice, int x){
+		switch (boonChoice) {
+		case "strength":
+			strength = gainStat(strength, x, "You have gotten stronger.");
+			break;
+		case "speed":
+			speed = gainStat(speed, x, "You have gotten faster.");
+			break;
+		case "toughness":
+			toughness = gainStat(toughness, x, "You have gotten tougher.");
+			break;
+		case "intelligence":
+			intelligence = gainStat(intelligence, x, "You have gotten faster.");
+			break;
+		case "charisma":
+			charisma = gainStat(charisma, x, "You have gotten more convincing.");
+			break;
+			default:
+				System.out.println("please pick one");
+				boonChoice = "";
+		}
+		return boonChoice;
+	}
+	public void pickABoon(int x){
 		System.out.println("Gain a bonus to a stat.");
 		System.out.println("Strength, Speed, Toughness, Intelligence, Charisma.");
-		String boonchoice = Input.getInput();
-		switch (boonchoice) {
-			case "strength":
-				System.out.println("You have gotten stronger");
-				strength++;
-				break;
-			case "speed":
-				System.out.println("You have gotten faster.");
-				speed++;
-				break;
-			case "toughness":
-				System.out.println("You have gotten tougher.");
-				toughness++;
-				break;
-			case "intelligence":
-				System.out.println("You have gotten smarter.");
-				intelligence++;
-				break;
-			case "charisma":
-				System.out.println("You have gotten more persuasive.");
-				charisma++;
-				break;
-				default:
-					System.out.println("please pick one");
+		String boonChoice = Input.getInput();
+		while (boonChoice.length() > 0){
+			boonChoice = applyBoon(boonChoice, x);
+		}
+	}
+	private void lvlUp() {
+		xp = xp - 100*level;
+		++level;
+		pickABoon(1);
+		calcMaxHP();
+		calcMaxMana();
+		calcAttack();
+		calcShield();
+		hp = maxHP;
+		mana = maxMana;			
 		System.out.println("Congratulations, you are now level " + level);
 		System.out.println("Your max HP is now " + hp);
 		System.out.println("Your max mana is now " + mana);
-		}
-	}
-	return;
 	}
 	public int getLvl(){
 		return level;
@@ -268,34 +319,41 @@ public class Character implements Serializable{
 	public String getName(){
 		return name;
 	}
-	private String setName (){
-		String playerName = "";
+	private String askName(){
+		while (name.length() < 1) {
+			System.out.println("Please enter your name");
+			name = Input.getCapInput();
+		}
+		return name;
+	}
+	private boolean nameAccept(boolean nameChoice){
+		name = askName();
+		System.out.println("Your name is " + name);
+		nameChoice = Input.okay();
+		return nameChoice;
+	}
+	private void setName(){
 		boolean nameChoice = false;
     	while (!nameChoice) {
-    		while (playerName.length() < 1) {
-    			System.out.println("Please enter your name");
-    			playerName = Input.getCapInput();
-    		}	
-    		System.out.println("Your name is " + playerName);
-    		nameChoice = Input.okay();
-    		if (nameChoice == false){
-    			playerName = "";
-        	
-    		}
-    		}	
-		return playerName;
+    		name = "";
+    		nameChoice = nameAccept(nameChoice);
+    	}	
 	}
-	
+	private String getPlayerSpecies(){
+		String playerSpecies = "";
+		while (playerSpecies.length() < 1) {
+			System.out.println("Please enter your species");
+			System.out.println("option species so far:");
+			System.out.println("Wolf, Lion, Bear, Eagle, Fox and Crocodile");
+			playerSpecies = Input.getInput();
+		}
+		return playerSpecies;
+	}
 	private PlayerRace setRace (){
 		boolean speciesChoice = false;
 		PlayerRace race = new PlayerRace("", "", "", "", "", "", "", false, "");
-		String playerSpecies = "";
 		while (!speciesChoice) {
-    		while (playerSpecies.length() < 1) {
-    			System.out.println("Please enter your species");
-    			System.out.println("option species so far:");
-    			System.out.println("Wolf, Lion, Bear, Eagle, Fox and Crocodile");
-    			playerSpecies = Input.getInput();
+			String playerSpecies = getPlayerSpecies();
     		switch (playerSpecies){
         	case "wolf":
         		race = new PlayerRace("wolf", "lupine", "You have a stretched muzzle, \npointy ears standing proud on your head. \nYour eyes are golden, and your nose is prominent \nand sharp on top of your muzzle.", "Your gray fur is short and well kept, but a little sandy. \nIt accentuates your lean, slim build and gives you a flat belly.", "Your paws start well below the wrist. \nThey mostly consist of your fingers, but you are blessed with opposable thumbs. \nThey end in sharp claws, but they are not long enough to do real damage.", "bite","You lunge at your opponent, mouth wide open \nand fangs bared, ready to tear your enemy to shreds.", true, "Your tail is sleek with a slight bit of fur hanging underneath. \nIt's hanging loosely behind you, moving in a slight wag.");
@@ -319,7 +377,6 @@ public class Character implements Serializable{
         		System.out.println("Sorry, that animal is not available at this time.");
         		playerSpecies = "";
     		}
-    		}
     		System.out.println("Your a " + playerSpecies);
     		speciesChoice = Input.okay();
     		if (speciesChoice == false){
@@ -327,43 +384,5 @@ public class Character implements Serializable{
         		}		 
     	}
 	return race;
-	}
-	private byte boonChoice(){
-		byte boon = 0;
-		while (boon == 0){
-		while (boon == 0){
-			System.out.println("Please select your boon.");
-		System.out.println("Strength, Speed, Toughness, Intelligence, Charisma.");
-		String boonchoice = Input.getInput();
-		switch (boonchoice) {
-			case "strength":
-				System.out.println("You are blessed with strength");
-				boon = 1;
-				break;
-			case "speed":
-				System.out.println("You are blessed with speed");
-				boon = 2;
-				break;
-			case "toughness":
-				System.out.println("You are blessed with toughness");
-				boon = 3;
-				break;
-			case "intelligence":
-				System.out.println("You are blessed with intelligence");
-				boon = 4;
-				break;
-			case "charisma":
-				System.out.println("You are blessed with charisma");
-				boon = 5;
-				break;
-				default:
-					System.out.println("please pick one");
-			}
-		}
-		if (!Input.okay()){
-			boon = 0;
-		}
-		}
-		return boon;
 	}
 }

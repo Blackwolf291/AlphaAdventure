@@ -3,38 +3,38 @@ package TextGame;
 import java.util.Enumeration;
 
 public class Locations{
-	static Location l0;
-	static Location l1;
-	static Location l2;
-	static Location l3;
-	static Location l4;
-	static Location l5;
-	static Location l6;
-	static Location l7;
-	static Location l8;
-	static Location l9;
-	static Location l10;
-	static Location l11;
-	static Location l12;
-	static Location l13;
-	static Location l14;
-	static Location l15;
-	static Location l16;
-	static Location l17;
-	static Location l18;
-	static Location l19;
-	static Location l20;
-	static Location l21;
-	static Location l22;
-	static Location l23;
-	static Location l24;
-	static Location l25;
-	static Location l26;
-	static Location l27;
-	static Location l28;
-	static Location l29;
-	static Location l30;
-	static Location l31;
+	static Location extraLocation;
+	static Location beach;
+	static Location wreck;
+	static Location forest;
+	static Location forestWestGate;
+	static Location forestAscent;
+	static Location forestVillage;
+	static Location forestTempleEntrance;
+	static Location forestBlacksmith;
+	static Location forestGeneralStore;
+	static Location vacantHome;
+	static Location livingRoom;
+	static Location IceRoom;
+	static Location forestTempleMain;
+	static Location forestTempleBasement;
+	static Location abandonedShelter;
+	static Location lukasPlace;
+	static Location forestEastGate;
+	static Location greatPlainsWest;
+	static Location greatPlainsNorth;
+	static Location greatPlainsEast;
+	static Location greatPlainsSouth;
+	static Location farm;
+	static Location barn;
+	static Location farmHouse;
+	static Location stalls;
+	static Location farmHouseInside;
+	static Location mountainSlopes;
+	static Location mountainPass;
+	static Location mountainCaves;
+	static Location oldRoad;
+	static Location cityGate;
 	static NPC IceUnknown;
 	static NPC Ice;
 	static NPC guardDog;
@@ -54,39 +54,39 @@ public class Locations{
 	
 	public Locations(Items items, Character player) {
 	//set up locations
-	l0 = new Location ("Extra Location", "Here I keep all special encounters. If you came here you found a bug.");	
-	l1 = new Location ("Beach", "you are on the pearly white sands of an unknown beach.\nYou see the wreck of the ship to the East, \nand a dense forest to the North.");
-	l2 = new Location ("Wreck", "You have reached the shipwreck.\nIt looks stable now but there seems to be no way through. \nA dazed white fox sits among the wreckage.");
-	l3 = new Location ("Forest", "It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails.");
-	l4 = new Location ("Forest Village West Gate", "In a section of the forest, surrounded by wooden poles, \nyou hear the sounds of children laughing, and adults working. \n A grim looking guard blocks the entrance.");
-	l5 = new Location ("Forest Ascent", "As you follow the trail, it slopes up a hill, \nto where the woods start to thin out. On the top of the hill you can see a temple of sorts.");
-	l6 = new Location ("Forest Village", "Two roads, two shops and a few homes. That's it, \nbut children are playing happily in this little sanctuary.");
-	l7 = new Location ("Forest Temple Entrance", "A row of statues lines the front of a large marble structure at the top of the hill. \nAll around, the forest stretches almost entirely to the coast in the east, \nand to the mountains in the far west. You can see smoke trailing up from a nearby village.\nThe doors into the temple are wide open, and the place looks well kept.");
-	l8 = new Location ("Blacksmith's", "Roaring fires fill the melting oven in the back of the only stone building in town,\n a puts a piece of metal into a cooling bath before walking up to the counter.");
-	l9 = new Location ("Coons General Store", "In this old fashioned store, there are lines of shelves behind the counter. \nA young raccoon smiles");
-	l10 = new Location ("Vacant Home", "It looks cozy and not very big, but I'll be a lot warmer than the beach, and a lot more comfortable too. In a small pond in the front yard lays a literal Real-Estate Shark.");
-	l11 = new Location ("Living Room","It seems a bit bare but the couch seems comfy and the table is just the right height. It could use a rug or two. There are stairways up and down.");
-	l12 = new Location ("Ice's Room","He's put a bed in the corner that's always made with white sheets. There is a desk with never a thing on it, an scattered tools for healing spells.");
-	l13 = new Location ("Forest Temple Main", "Marble columns rise around you, the aisle leading up a large living three in the middle of the room. \nThere is a staircase leading down in an alcove to the east. By the tree stands an offer block.");
-	l14 = new Location ("Forest Temple Basement", "It's dark and gloomy and you hear chanting in the distance. Do you wish to SEARCH the location?");
-	l15 = new Location ("Abandoned Shelter", "There's a small stone shelter at the edge of the clearing, it looks to be a home. \nPawprints are burned into the grass of the plains everywhere.");
-	l16 = new Location ("Luka's Place", "Luka's door is always open to you after what you did for him and his family. \nJake sits on a fireproofed couch, playing with the flames in his fur.");
-	l17 = new Location ("Forest Village East Gate", "Beyond the gates, the forest starts thinning out. An old paved road leads east out of the forest.");
-	l18 = new Location ("Great Plains West", "Wide open fields on a landcape of hills go as far as the eye can see, in the west flanked by forest, and in the east you see a farm.");
-	l19 = new Location ("Great Plains North", "Wide open fields on a landcape of hills go as far as the eye can see, \n gradually sloping up into the mountains up north, \nand in the south you see a farm.");
-	l20 = new Location ("Great Plains East", "Wide open fields on a landcape of hills go as far as the eye can see, \nbut it slowly flattens into large wastes of sand, a desert. \nin the west you see a farm.");
-	l21 = new Location ("Great Plains South", "Wide open fields on a landcape of hills go as far as the eye can see. \nIn the distance you see tall structures and the ever lit sky of a city, \nand in the north you see a farm.");
-	l22 = new Location ("Lon-Cow Farm", "A quaint farm in a valley between the grassy hills. \nTo the South East, you see a barn. To the North East is the farmhouse, and to the northwest is a simple stall selling farm goods.");
-	l23 = new Location ("Barn", "As you walk up to a barn you see the door is open. \nA quick peek inside reveals loads of hay and not much else yet.");
-	l24 = new Location ("Farmhouse", "The building is beautiful, straw roofs over stone, small windows with shutters, \nand the front door is locked.");
-	l25 = new Location ("Farm Stall", "The stall is made of simple wood, and has bottles of milk and small cheeses sitting ready. \nBehind the stand stands a cow, trying to decide if you wanna buy.");
-	l26 = new Location ("Farmhouse Inside", "You're not supposed to get here yet as the key is currently unobtainalbe.");
+	extraLocation = new Location ("Extra Location", "Here I keep all special encounters. If you came here you found a bug.");	
+	beach = new Location ("Beach", "you are on the pearly white sands of an unknown beach.\nYou see the wreck of the ship to the East, \nand a dense forest to the North.");
+	wreck = new Location ("Wreck", "You have reached the shipwreck.\nIt looks stable now but there seems to be no way through. \nA dazed white fox sits among the wreckage.");
+	forest = new Location ("Forest", "It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails.");
+	forestWestGate = new Location ("Forest Village West Gate", "In a section of the forest, surrounded by wooden poles, \nyou hear the sounds of children laughing, and adults working. \n A grim looking guard blocks the entrance.");
+	forestAscent = new Location ("Forest Ascent", "As you follow the trail, it slopes up a hill, \nto where the woods start to thin out. On the top of the hill you can see a temple of sorts.");
+	forestVillage = new Location ("Forest Village", "Two roads, two shops and a few homes. That's it, \nbut children are playing happily in this little sanctuary.");
+	forestTempleEntrance = new Location ("Forest Temple Entrance", "A row of statues lines the front of a large marble structure at the top of the hill. \nAll around, the forest stretches almost entirely to the coast in the east, \nand to the mountains in the far west. You can see smoke trailing up from a nearby village.\nThe doors into the temple are wide open, and the place looks well kept.");
+	forestBlacksmith = new Location ("Blacksmith's", "Roaring fires fill the melting oven in the back of the only stone building in town,\n a puts a piece of metal into a cooling bath before walking up to the counter.");
+	forestGeneralStore = new Location ("Coons General Store", "In this old fashioned store, there are lines of shelves behind the counter. \nA young raccoon smiles");
+	vacantHome = new Location ("Vacant Home", "It looks cozy and not very big, but I'll be a lot warmer than the beach, and a lot more comfortable too. In a small pond in the front yard lays a literal Real-Estate Shark.");
+	livingRoom = new Location ("Living Room","It seems a bit bare but the couch seems comfy and the table is just the right height. It could use a rug or two. There are stairways up and down.");
+	IceRoom = new Location ("Ice's Room","He's put a bed in the corner that's always made with white sheets. There is a desk with never a thing on it, an scattered tools for healing spells.");
+	forestTempleMain = new Location ("Forest Temple Main", "Marble columns rise around you, the aisle leading up a large living three in the middle of the room. \nThere is a staircase leading down in an alcove to the east. By the tree stands an offer block.");
+	forestTempleBasement = new Location ("Forest Temple Basement", "It's dark and gloomy and you hear chanting in the distance. Do you wish to SEARCH the location?");
+	abandonedShelter = new Location ("Abandoned Shelter", "There's a small stone shelter at the edge of the clearing, it looks to be a home. \nPawprints are burned into the grass of the plains everywhere.");
+	lukasPlace = new Location ("Luka's Place", "Luka's door is always open to you after what you did for him and his family. \nJake sits on a fireproofed couch, playing with the flames in his fur.");
+	forestEastGate = new Location ("Forest Village East Gate", "Beyond the gates, the forest starts thinning out. An old paved road leads east out of the forest.");
+	greatPlainsWest = new Location ("Great Plains West", "Wide open fields on a landcape of hills go as far as the eye can see, in the west flanked by forest, and in the east you see a farm.");
+	greatPlainsNorth = new Location ("Great Plains North", "Wide open fields on a landcape of hills go as far as the eye can see, \n gradually sloping up into the mountains up north, \nand in the south you see a farm.");
+	greatPlainsEast = new Location ("Great Plains East", "Wide open fields on a landcape of hills go as far as the eye can see, \nbut it slowly flattens into large wastes of sand, a desert. \nin the west you see a farm.");
+	greatPlainsSouth = new Location ("Great Plains South", "Wide open fields on a landcape of hills go as far as the eye can see. \nIn the distance you see tall structures and the ever lit sky of a city, \nand in the north you see a farm.");
+	farm = new Location ("Lon-Cow Farm", "A quaint farm in a valley between the grassy hills. \nTo the South East, you see a barn. To the North East is the farmhouse, and to the northwest is a simple stall selling farm goods.");
+	barn = new Location ("Barn", "As you walk up to a barn you see the door is open. \nA quick peek inside reveals loads of hay and not much else yet.");
+	farmHouse = new Location ("Farmhouse", "The building is beautiful, straw roofs over stone, small windows with shutters, \nand the front door is locked.");
+	stalls = new Location ("Farm Stall", "The stall is made of simple wood, and has bottles of milk and small cheeses sitting ready. \nBehind the stand stands a cow, trying to decide if you wanna buy.");
+	farmHouseInside = new Location ("Farmhouse Inside", "You're not supposed to get here yet as the key is currently unobtainalbe.");
 	//TODO create a farmhouse interior
-	l27 = new Location ("Mountain Slopes", "The hills grow steeper and the vegitation scarse as they turn into mountains. \nIt gets too steap to just roam \nbut you can either take a pass between the mountains, \nor a cave underneath the mountain.");
-	l28 = new Location ("Mountain Pass", "A thick blanket of snow is blocking the pass. You cannot proceed");
-	l29 = new Location ("Mountain Caves", "It\'s damp and dark. You\'ll need a light to proceed.");
-	l30 = new Location ("Old Road", "Trails of an old highway lead from the city \ninto the hills where they vanish. \nYou see a concrete wall topped with a barb wire fence.");
-	l31 = new Location ("City Gate", "As you walk up to an abandoned gatehouse. The gate is shut tight. \nYou'll need a Key Card to open it.");
+	mountainSlopes = new Location ("Mountain Slopes", "The hills grow steeper and the vegitation scarse as they turn into mountains. \nIt gets too steap to just roam \nbut you can either take a pass between the mountains, \nor a cave underneath the mountain.");
+	mountainPass = new Location ("Mountain Pass", "A thick blanket of snow is blocking the pass. You cannot proceed");
+	mountainCaves = new Location ("Mountain Caves", "It\'s damp and dark. You\'ll need a light to proceed.");
+	oldRoad = new Location ("Old Road", "Trails of an old highway lead from the city \ninto the hills where they vanish. \nYou see a concrete wall topped with a barb wire fence.");
+	cityGate = new Location ("City Gate", "As you walk up to an abandoned gatehouse. The gate is shut tight. \nYou'll need a Key Card to open it.");
 	
 	Creature feralWolf = new Creature("Feral Wolf", "He leaps out of the bushes with a loud snarl", "He circles around, waiting to strike", 100, 14, 0, 25, "The wolf tries to lunge at you one last time,\n but his paws can no longer hold him and he collapses.", "You pass out as his's teeth close around your neck.", 10, 10, 5, items.items.get(0), 0, true, 0, Input.dice(1, 10) + 1);
 	Creature vines = new Creature("Vines", "You feel a tug around your ankle. \nYou rip loose, turning around to see a mass of tentacles.", "The tentacles weave and wither around.", 140, 17, 0, 15, "The vines dry up and wither away.", "You feel the vines wrap around your body, \nbefore one whaps around your throat and squeezes tight.", 25, 15, 7, items.items.get(2), 50, true, 0, 0);
@@ -150,137 +150,137 @@ public class Locations{
 	littleBlackFox.addAttack(scratch);
 	littleBlackFox.addAttack(pounce);
 	
-	l0.addCreature(Hellhound);
-	l0.addCreature(GuardDog);
-	l0.addCreature(alphaWolf);
-	l0.addCreature(GuardCat);
-	l0.addExit(new Exit(Exit.special, l1));
+	extraLocation.addCreature(Hellhound);
+	extraLocation.addCreature(GuardDog);
+	extraLocation.addCreature(alphaWolf);
+	extraLocation.addCreature(GuardCat);
+	extraLocation.addExit(new Exit(Exit.special, beach));
 	
-	l1.addExit (new Exit(Exit.north, l2));
-	l1.addExit (new Exit(Exit.east, l3));
+	beach.addExit (new Exit(Exit.north, wreck));
+	beach.addExit (new Exit(Exit.east, forest));
 
-	l2.addExit (new Exit(Exit.south, l1));
-	l2.addNPC(IceUnknown);
+	wreck.addExit (new Exit(Exit.south, beach));
+	wreck.addNPC(IceUnknown);
 	
-	l3.addExit (new Exit(Exit.west, l1));
-	l3.addExit (new Exit(Exit.southeast, l4));
-	l3.addExit (new Exit(Exit.northeast, l5));	
-	l3.addCreature(feralWolf);
-	l3.addCreature(vines);
-	l3.addCreature(mentalSquirrel);
-	l3.addCreature(littleBlackFox);
+	forest.addExit (new Exit(Exit.west, beach));
+	forest.addExit (new Exit(Exit.southeast, forestWestGate));
+	forest.addExit (new Exit(Exit.northeast, forestAscent));	
+	forest.addCreature(feralWolf);
+	forest.addCreature(vines);
+	forest.addCreature(mentalSquirrel);
+	forest.addCreature(littleBlackFox);
 	
-	l4.addExit(new Exit(Exit.northwest, l3));
-	l4.addNPC(guardDog);
+	forestWestGate.addExit(new Exit(Exit.northwest, forest));
+	forestWestGate.addNPC(guardDog);
 	
-	l5.addExit(new Exit(Exit.southwest, l3));
-	l5.addCreature(feralWolf);
-	l5.addCreature(giantPrayingManthis);
-	l5.addExit(new Exit(Exit.north, l7));
-	l5.addCreature(vines);
+	forestAscent.addExit(new Exit(Exit.southwest, forest));
+	forestAscent.addCreature(feralWolf);
+	forestAscent.addCreature(giantPrayingManthis);
+	forestAscent.addExit(new Exit(Exit.north, forestTempleEntrance));
+	forestAscent.addCreature(vines);
 	
-	l6.addExit(new Exit(Exit.west, l4));
-	l6.addExit(new Exit(Exit.northeast, l8));
-	l6.addExit(new Exit(Exit.southwest, l9));
-	l6.addExit(new Exit(Exit.northwest, l10));
-	l6.addExit(new Exit(Exit.east, l17));
+	forestVillage.addExit(new Exit(Exit.west, forestWestGate));
+	forestVillage.addExit(new Exit(Exit.northeast, forestBlacksmith));
+	forestVillage.addExit(new Exit(Exit.southwest, forestGeneralStore));
+	forestVillage.addExit(new Exit(Exit.northwest, vacantHome));
+	forestVillage.addExit(new Exit(Exit.east, forestEastGate));
 	
-	l7.addExit(new Exit(Exit.south, l5));
-	l7.addCreature(giantPrayingManthis);
-	l7.addExit(new Exit(Exit.in, l13));
-	l7.addCreature(alphaWolf);
-	l7.addCreature(feralWolf);
+	forestTempleEntrance.addExit(new Exit(Exit.south, forestAscent));
+	forestTempleEntrance.addCreature(giantPrayingManthis);
+	forestTempleEntrance.addExit(new Exit(Exit.in, forestTempleMain));
+	forestTempleEntrance.addCreature(alphaWolf);
+	forestTempleEntrance.addCreature(feralWolf);
 	
-	l8.addExit(new Exit(Exit.southwest, l6));
-	l8.addNPC(blacksmith);
+	forestBlacksmith.addExit(new Exit(Exit.southwest, forestVillage));
+	forestBlacksmith.addNPC(blacksmith);
 	
-	l9.addExit(new Exit(Exit.northeast, l6));
-	l9.addNPC(Coon);
+	forestGeneralStore.addExit(new Exit(Exit.northeast, forestVillage));
+	forestGeneralStore.addNPC(Coon);
 	
-	l10.addExit(new Exit(Exit.southeast, l6));
-	l10.addNPC(realestateShark);
+	vacantHome.addExit(new Exit(Exit.southeast, forestVillage));
+	vacantHome.addNPC(realestateShark);
 	
-	l11.addExit(new Exit(Exit.out, l10));
+	livingRoom.addExit(new Exit(Exit.out, vacantHome));
 	
-	l12.addExit(new Exit(Exit.south, l11));
+	IceRoom.addExit(new Exit(Exit.south, livingRoom));
 	
-	l13.addExit(new Exit(Exit.out, l7));
-	l13.addExit(new Exit(Exit.down, l14));
+	forestTempleMain.addExit(new Exit(Exit.out, forestTempleEntrance));
+	forestTempleMain.addExit(new Exit(Exit.down, forestTempleBasement));
 	
-	l14.addExit(new Exit(Exit.up, l13));
+	forestTempleBasement.addExit(new Exit(Exit.up, forestTempleMain));
 	
-	l15.addExit(new Exit(Exit.north, l3));
-	l15.addNPC(kindHellhound);
+	abandonedShelter.addExit(new Exit(Exit.north, forest));
+	abandonedShelter.addNPC(kindHellhound);
 	
-	l16.addExit(new Exit(Exit.out, l6));
-	l16.addNPC(Jake);
+	lukasPlace.addExit(new Exit(Exit.out, forestVillage));
+	lukasPlace.addNPC(Jake);
 	
-	l17.addExit(new Exit(Exit.west, l6));
-	l17.addExit(new Exit(Exit.east, l18));
-	l17.addNPC(guardCat);
+	forestEastGate.addExit(new Exit(Exit.west, forestVillage));
+	forestEastGate.addExit(new Exit(Exit.east, greatPlainsWest));
+	forestEastGate.addNPC(guardCat);
 	
-	l18.addExit(new Exit(Exit.west, l17));
-	l18.addExit(new Exit (Exit.northeast, l18));
-	l18.addExit(new Exit (Exit.east, l22));
-	l18.addExit(new Exit (Exit.southeast, l21));
-	l18.addCreature(alphaWolf);
-	l18.addCreature(feralWolf);
-	l18.addCreature(ragingBull);
-	l18.addCreature(bigHorse);
+	greatPlainsWest.addExit(new Exit(Exit.west, forestEastGate));
+	greatPlainsWest.addExit(new Exit (Exit.northeast, greatPlainsWest));
+	greatPlainsWest.addExit(new Exit (Exit.east, farm));
+	greatPlainsWest.addExit(new Exit (Exit.southeast, greatPlainsSouth));
+	greatPlainsWest.addCreature(alphaWolf);
+	greatPlainsWest.addCreature(feralWolf);
+	greatPlainsWest.addCreature(ragingBull);
+	greatPlainsWest.addCreature(bigHorse);
 	
-	l19.addExit(new Exit (Exit.north, l27));
-	l19.addExit(new Exit (Exit.southwest, l18));
-	l19.addExit(new Exit (Exit.south, l22));
-	l19.addExit(new Exit (Exit.southeast, l20));
-	l19.addCreature(ragingBull);
-	l19.addCreature(bigHorse);
+	greatPlainsNorth.addExit(new Exit (Exit.north, mountainSlopes));
+	greatPlainsNorth.addExit(new Exit (Exit.southwest, greatPlainsWest));
+	greatPlainsNorth.addExit(new Exit (Exit.south, farm));
+	greatPlainsNorth.addExit(new Exit (Exit.southeast, greatPlainsEast));
+	greatPlainsNorth.addCreature(ragingBull);
+	greatPlainsNorth.addCreature(bigHorse);
 	
-	l20.addExit(new Exit (Exit.northwest, l18));
-	l20.addExit(new Exit (Exit.west, l22));
-	l20.addExit(new Exit (Exit.southwest, l21));
-	l20.addCreature(ragingBull);
-	l20.addCreature(bigHorse);
+	greatPlainsEast.addExit(new Exit (Exit.northwest, greatPlainsWest));
+	greatPlainsEast.addExit(new Exit (Exit.west, farm));
+	greatPlainsEast.addExit(new Exit (Exit.southwest, greatPlainsSouth));
+	greatPlainsEast.addCreature(ragingBull);
+	greatPlainsEast.addCreature(bigHorse);
 	
-	l21.addExit(new Exit (Exit.south, l30));
-	l21.addExit(new Exit (Exit.northwest, l18));
-	l21.addExit(new Exit (Exit.north, l22));
-	l21.addExit(new Exit (Exit.northeast, l20));
-	l21.addCreature(ragingBull);
-	l21.addCreature(bigHorse);
+	greatPlainsSouth.addExit(new Exit (Exit.south, oldRoad));
+	greatPlainsSouth.addExit(new Exit (Exit.northwest, greatPlainsWest));
+	greatPlainsSouth.addExit(new Exit (Exit.north, farm));
+	greatPlainsSouth.addExit(new Exit (Exit.northeast, greatPlainsEast));
+	greatPlainsSouth.addCreature(ragingBull);
+	greatPlainsSouth.addCreature(bigHorse);
 	
-	l22.addExit(new Exit (Exit.north, l19));
-	l22.addExit(new Exit (Exit.west, l18));
-	l22.addExit(new Exit (Exit.east, l20));
-	l22.addExit(new Exit (Exit.south, l21));
-	l22.addExit(new Exit (Exit.southwest, l23));
-	l22.addExit(new Exit (Exit.northwest, l24));
-	l22.addExit(new Exit (Exit.northeast, l25));
+	farm.addExit(new Exit (Exit.north, greatPlainsNorth));
+	farm.addExit(new Exit (Exit.west, greatPlainsWest));
+	farm.addExit(new Exit (Exit.east, greatPlainsEast));
+	farm.addExit(new Exit (Exit.south, greatPlainsSouth));
+	farm.addExit(new Exit (Exit.southwest, barn));
+	farm.addExit(new Exit (Exit.northwest, farmHouse));
+	farm.addExit(new Exit (Exit.northeast, stalls));
 	
-	l23.addExit(new Exit (Exit.northeast, l22));
+	barn.addExit(new Exit (Exit.northeast, farm));
 	
-	l24.addExit(new Exit (Exit.southeast, l22));
-	l24.addNPC(farmer);
+	farmHouse.addExit(new Exit (Exit.southeast, farm));
+	farmHouse.addNPC(farmer);
 	
-	l25.addExit(new Exit (Exit.southwest, l22));
-	l25.addNPC(salesCow);
+	stalls.addExit(new Exit (Exit.southwest, farm));
+	stalls.addNPC(salesCow);
 	
-	l26.addExit(new Exit (Exit.out, l24));
+	farmHouseInside.addExit(new Exit (Exit.out, farmHouse));
 	
-	l27.addExit(new Exit (Exit.south, l19));
-	l27.addExit(new Exit (Exit.north, l28));
-	l27.addExit(new Exit (Exit.in, l29));
+	mountainSlopes.addExit(new Exit (Exit.south, greatPlainsNorth));
+	mountainSlopes.addExit(new Exit (Exit.north, mountainPass));
+	mountainSlopes.addExit(new Exit (Exit.in, mountainCaves));
 	
-	l28.addExit(new Exit (Exit.south, l27));
+	mountainPass.addExit(new Exit (Exit.south, mountainSlopes));
 	
-	l29.addExit(new Exit (Exit.out, l27));
+	mountainCaves.addExit(new Exit (Exit.out, mountainSlopes));
 	
-	l30.addExit(new Exit (Exit.north, l21));
-	l30.addExit(new Exit (Exit.south, l31));
+	oldRoad.addExit(new Exit (Exit.north, greatPlainsSouth));
+	oldRoad.addExit(new Exit (Exit.south, cityGate));
 	
-	l31.addExit(new Exit (Exit.north, l30));
+	cityGate.addExit(new Exit (Exit.north, oldRoad));
 	
-	player.setCurrentLocation(l1);
-	player.setBase(l1);
+	player.setCurrentLocation(beach);
+	player.setBase(beach);
 	}
 	
 	public Location getLocation(Exit an_exit) {

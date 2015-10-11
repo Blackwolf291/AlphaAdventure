@@ -52,7 +52,7 @@ public class Main {
 				}
 				break;
 			case "spells":
-				player.spellList();
+				player.printSpellList();
 				break;
 			case "talk":
 				LocHandlers.talk(player, items);

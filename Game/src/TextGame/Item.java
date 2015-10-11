@@ -2,13 +2,13 @@ package TextGame;
 
 public class Item {
 
-	protected String name;
-	protected int count;
-	protected boolean useInCombat;
-	protected boolean useOutsideCombat;
-	protected boolean keyItem;
-	protected int value;
-	protected int equipmentSlot;
+	private String name;
+	private int count;
+	private boolean useInCombat;
+	private boolean useOutsideCombat;
+	private boolean keyItem;
+	private int value;
+	private int equipmentSlot;
 	public Item(String name, int count, boolean combatUse, boolean use, boolean keyItem, int value, int equipment) {
 		this.name = name;
 		this.count = count;
@@ -18,7 +18,6 @@ public class Item {
 		this.value = value;
 		this.equipmentSlot = equipment;
 	}
-	public Item(){}
 	public String getName(){
 		return name;
 	}

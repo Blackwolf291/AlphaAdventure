@@ -6,20 +6,19 @@ public class Weapon extends Item{
 	private String description;
 	private int damageType;
 	
-	public Weapon(String name, int damage, int attackType, String description, int damageType,int count, boolean combatUse, boolean use, boolean keyItem, int value, int equipment){
-		this.name = name;
-		this.count = count;
-		this.useInCombat = combatUse;
-		this.useOutsideCombat = use;
-		this.keyItem = keyItem;
-		this.value = value;
-		this.equipmentSlot = equipment;
+	public Weapon(String name, int damage, int attackType, String description, int damageType,int count, boolean combatUse, boolean use, boolean keyItem, int value){
+		super(name, count, combatUse, use, keyItem, value, 4);
 		this.damage = damage;
 		this.attackType = attackType;
 		this.description = description;
 		this.damageType = damageType;
-		
-	return ;
+	}
+	public Weapon(String name, String attackDescription){
+		super(name, 0, false, false, false, 0, 4);
+		damage = Input.dice(5,10) + 5;
+		attackType = 1;
+		description = attackDescription;
+		damageType = 1;
 	}
 	public int getDmgType(){
 		return damageType;
@@ -32,8 +31,5 @@ public class Weapon extends Item{
 	}
 	public int getDamage(){
 		return damage;
-	}
-	public String getName(){
-		return name;
 	}
 }

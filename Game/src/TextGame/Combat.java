@@ -120,7 +120,7 @@ public class Combat {
 			int hp = player.getMaxHP()/2;
 			player.setHP(hp);
 			player.setCurrentLocation(player.getBase());
-			if (player.getBase() == Locations.l1);
+			if (player.getBase() == Locations.beach);
 			System.out.println("You wake up the next day. sagged into the sand. feeling refreshed.");
 		}
 		System.out.println( player.getCurrentLocation().getDescription());

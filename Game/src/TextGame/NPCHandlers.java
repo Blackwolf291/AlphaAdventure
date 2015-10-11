@@ -12,24 +12,24 @@ public class NPCHandlers {
 		if (choice){
 			if (player.getGold() >= 10000)
 			System.out.println("Shark: She's all yours pall.");
-			Locations.l10.removeNPC(Locations.realestateShark);
+			Locations.vacantHome.removeNPC(Locations.realestateShark);
 			System.out.println("Set the village home as your base?");
 			boolean confirm = Input.yesNo(player);
 			if (confirm){
 				System.out.println("Changed Base to Village Home. Inhabiting NPCs Migrated to your new base.");
-				player.setBase(Locations.l11);
-				Locations.l10.setLocName("Your front yard.");
-				Locations.l10.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
-				Locations.l10.addExit(new Exit(Exit.in, Locations.l11));
+				player.setBase(Locations.livingRoom);
+				Locations.vacantHome.setLocName("Your front yard.");
+				Locations.vacantHome.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
+				Locations.vacantHome.addExit(new Exit(Exit.in, Locations.livingRoom));
 				
-				if (Locations.l1.getNPCs().contains(Locations.Ice)){
-					Locations.l1.getNPCs().remove(Locations.Ice);
-					Locations.l12.getNPCs().add(Locations.Ice);
-					Locations.l11.addExit(new Exit(Exit.north, Locations.l12));
+				if (Locations.beach.getNPCs().contains(Locations.Ice)){
+					Locations.beach.getNPCs().remove(Locations.Ice);
+					Locations.IceRoom.getNPCs().add(Locations.Ice);
+					Locations.livingRoom.addExit(new Exit(Exit.north, Locations.IceRoom));
 				}
 			}else{
 				System.out.println("The vacant home remains vacant.");
-				Locations.l10.setLocDescription("It looks cozy and not very big, but I'll be a lot warmer than the beach, and a lot more comfortable too. \n There is a small pond in the front yard. You can MOVE in.");
+				Locations.vacantHome.setLocDescription("It looks cozy and not very big, but I'll be a lot warmer than the beach, and a lot more comfortable too. \n There is a small pond in the front yard. You can MOVE in.");
 			}
 		}else{
 			System.out.println("Maybe some other time then.");
@@ -46,73 +46,8 @@ public class NPCHandlers {
 		case "buy": 
 		case "b": 
 			System.out.println("Blacksmith: What will it be?");
-			System.out.println("You have " + player.getGold() + "gold.");
-			System.out.println("Item	Price.");
-			System.out.println(items.getItems().get(6).getName() + items.getItems().get(6).getValue());
-			System.out.println(items.getItems().get(7).getName() + items.getItems().get(7).getValue());
-			System.out.println(items.getItems().get(8).getName() + items.getItems().get(8).getValue());
-			System.out.println(items.getItems().get(9).getName() + items.getItems().get(9).getValue());
-			String buy = Input.getInput();
-			switch (buy){
-			case "copper sword":
-				if (player.getGold() > items.getItems().get(6).getValue()){
-					System.out.println("Blacksmith: Will that be all?");
-					player.addItem(items.getItems().get(6));
-					player.setGold(-items.getItems().get(6).getValue());
-					boolean choice = Input.yesNo(player);
-					if (choice){
-						shop = "";
-						} else{
-						System.out.println("Blacksmith: Go chop some heads for me with that.");
-					}
-				}
-				break;
-			case "copper shield":
-				if (player.getGold() > items.getItems().get(7).getValue()){
-					System.out.println("Blacksmith: Will that be all?");
-					player.addItem(items.getItems().get(7));
-					player.setGold(-items.getItems().get(7).getValue());
-					boolean choice = Input.yesNo(player);
-					if (choice){
-						shop = "";
-					} else{
-						System.out.println("Blacksmith: May it serve you well.");
-					}
-				}
-				break;
-			case "copper helmet":
-				if (player.getGold() > items.getItems().get(8).getValue()){
-					System.out.println("Blacksmith: Will that be all?");
-					player.addItem(items.getItems().get(8));
-					player.setGold(-items.getItems().get(8).getValue());
-					boolean choice = Input.yesNo(player);
-					if (choice){
-						shop = "";
-						} else{
-						System.out.println("Blacksmith: Your hair looks much better this way.");
-					}
-				}
-				break;
-			case "copper armor":
-				if (player.getGold() > items.getItems().get(9).getValue()){
-					System.out.println("Blacksmith: Will that be all?");
-					player.addItem(items.getItems().get(9));
-					player.setGold(-items.getItems().get(9).getValue());
-					boolean choice = Input.yesNo(player);
-					if (choice){
-						shop = "";
-						} else{
-						System.out.println("Blacksmith: That should catch a few blows for you.");
-					}
-				}
-				break;
-			case "back":
-			case "exit":
-				System.out.println("Blacksmith: Nothing you like? i would make better stuff if i had better material in this place.");
-				break;
-				default:
-					System.out.println("Blacksmith: You think you're funny? You're wasting my time, and i don't like losing time.");
-			}
+			Item[] shopList = new Item[]{items.getItems().get(6),items.getItems().get(7),items.getItems().get(8),items.getItems().get(9),items.getItems().get(0)};
+			player = LocHandlers.buyShop(player, shopList);
 		case "craft":
 		case "c":
 			System.out.println("Blacksmith: Ah, right. I can make you special armors if you bring me the right materials.\n If you get me five hides, I can make you a leather armor. \nIt's much lighter than the copper armor, but takes nearly as much damage."); 
@@ -123,7 +58,6 @@ public class NPCHandlers {
 			System.out.println("Blacksmith: Speak up, kid, I got no idea what you're saying?");
 			shop = "";
 		}
-			
 		return player;
 	}
 	public static Character talkToCoon(Character player, Items items){
@@ -136,60 +70,8 @@ public class NPCHandlers {
 		case "buy": 
 		case "b": 
 			System.out.println("Coon: What will it be?");
-			System.out.println("You have " + player.getGold() + "gold.");
-			System.out.println("Item	Price.");
-			System.out.println(items.getItems().get(3).getName() + items.getItems().get(3).getValue());
-			System.out.println(items.getItems().get(4).getName() + items.getItems().get(4).getValue());
-			System.out.println(items.getItems().get(5).getName() + items.getItems().get(5).getValue());
-			String buy = Input.getInput();
-			switch (buy){
-			case "potion":
-				if (player.getGold() > items.getItems().get(3).getValue()){
-					System.out.println("Coon: sure. anything else?");
-					player.addItem(items.getItems().get(3));
-					player.setGold(-items.getItems().get(3).getValue());
-					boolean choice = Input.yesNo(player);
-					if (choice){
-						shop = "";
-						} else{
-						System.out.println("Coon: Thanks for visiting.");
-					}
-				}
-				break;
-			case "ether":
-				if (player.getGold() > items.getItems().get(4).getValue()){
-					System.out.println("Coon: sure. anything else?");
-					player.addItem(items.getItems().get(4));
-					player.setGold(-items.getItems().get(4).getValue());
-					boolean choice = Input.yesNo(player);
-					if (choice){
-						shop = "";
-						}else{
-						System.out.println("Coon: Thanks for visiting.");
-					}
-				}
-				break;
-			case "elixer":
-				if (player.getGold() > items.getItems().get(5).getValue()){
-					System.out.println("Coon: sure. anything else?");
-					player.addItem(items.getItems().get(5));
-					player.setGold(-items.getItems().get(5).getValue());
-					boolean choice = Input.yesNo(player);
-					if (choice){
-						shop = "";
-						}else{
-						System.out.println("Coon: Thanks for visiting.");
-					}
-				}
-				break;
-			case "back":
-			case "exit":
-				System.out.println("Coon: Changed your mind, eh? well, fine by me.");
-				break;
-				default:
-					System.out.println("Coon: Sorry, I don\'t have one of those.");
-			}
-			break;
+			Item[] shopList = new Item[]{items.getItems().get(3),items.getItems().get(4),items.getItems().get(5),items.getItems().get(0)};
+			player = LocHandlers.buyShop(player, shopList);
 		case "sell":
 		case "s":
 			if (player.getInventory().size() > 0){
@@ -234,10 +116,10 @@ public class NPCHandlers {
 	}
 	public static Character talkToGuardDog(Character player, Items items) {
 		if (LocHandlers.getBrotherQuest() == 2) {
-			Locations.l4.addExit(new Exit(Exit.east, Locations.l6));
-			Locations.l4.removeNPC(Locations.guardDog);
+			Locations.forestWestGate.addExit(new Exit(Exit.east, Locations.forestVillage));
+			Locations.forestWestGate.removeNPC(Locations.guardDog);
 			System.out.println("So you found my brother, how is he? \nThat's good to hear. \nMy name is Luka, welcome to the village.");
-			Locations.l4.addNPC(Locations.Luka);
+			Locations.forestWestGate.addNPC(Locations.Luka);
 		} else if (helpQuest){
 			System.out.println("The guard seems lonely. \n Guard: Did you find him? \n Oh... maybe next time?");
 		} else {
@@ -246,14 +128,14 @@ public class NPCHandlers {
 		String plan = Input.getInput();
 		switch (plan) {
 		case "fight":
-			player.setEnemy(Locations.l0.getCreatures().get(1));
+			player.setEnemy(Locations.extraLocation.getCreatures().get(1));
 			Combat.combat(player, items);
 			if (player.getWin()){
-				Locations.l4.addExit(new Exit(Exit.east, Locations.l6));
-				Locations.l4.removeNPC(Locations.guardDog);
+				Locations.forestWestGate.addExit(new Exit(Exit.east, Locations.forestVillage));
+				Locations.forestWestGate.removeNPC(Locations.guardDog);
 				System.out.println("Guard: You fight well for an outsider. Please be welcome in our village.");
 				System.out.println("Guard; My name is Luka, nice to meet you.");
-				Locations.l4.addNPC(Locations.Luka);
+				Locations.forestWestGate.addNPC(Locations.Luka);
 			}
 			break;
 		case "trick":
@@ -261,7 +143,7 @@ public class NPCHandlers {
 			if (player.getInt() + player.getLvl() + Input.dice(1,10) > 25 + 5 * trickcounter){
 			System.out.println("The guard looks at you unbelievingly, but you manage to distract him long enough to sneak past him.");
 			trickcounter++;
-			player.setCurrentLocation(Locations.l6);
+			player.setCurrentLocation(Locations.forestVillage);
 			} else {
 				System.out.println("He looks at you incredulously as you try convincing him to leave his post. \nGuard: Are you done yet?");
 			}
@@ -287,7 +169,7 @@ public class NPCHandlers {
 	}
 	public static Character talkToIce(Character player) {
 		System.out.println("Ice: " + Locations.Ice.getTalkTo());
-		if(player.getCurrentLocation().equals(Locations.l2)||player.getCurrentLocation().equals(Locations.l1)){
+		if(player.getCurrentLocation().equals(Locations.wreck)||player.getCurrentLocation().equals(Locations.beach)){
 		if(player.getHP() < player.getMaxHP()){
 			System.out.println("No, Heal, Ship");
 		} else {
@@ -310,12 +192,12 @@ public class NPCHandlers {
 					System.out.println("Move Ice into your base?");
 					boolean moveIn = Input.yesNo(player);
 					if (moveIn){
-						Locations.l2.removeNPC(Locations.Ice);
-						if (player.getBase() == Locations.l1) {
-							Locations.l1.addNPC(Locations.Ice);
-						} else if (player.getBase() == Locations.l11){
-							Locations.l12.getNPCs().add(Locations.Ice);
-							Locations.l11.addExit(new Exit(Exit.north, Locations.l12));
+						Locations.wreck.removeNPC(Locations.Ice);
+						if (player.getBase() == Locations.beach) {
+							Locations.beach.addNPC(Locations.Ice);
+						} else if (player.getBase() == Locations.livingRoom){
+							Locations.IceRoom.getNPCs().add(Locations.Ice);
+							Locations.livingRoom.addExit(new Exit(Exit.north, Locations.IceRoom));
 						}
 					} else {
 						System.out.println("Ice: Maybe some other time");
@@ -331,7 +213,7 @@ public class NPCHandlers {
 		default: 
 			System.out.println("Ice: Sorry, I can't help you with that.");
 		}
-		} else if (player.getCurrentLocation().equals(Locations.l12)){
+		} else if (player.getCurrentLocation().equals(Locations.IceRoom)){
 			if(player.getHP() < player.getMaxHP()){
 				System.out.println("No, Heal, Magic");
 			} else {
@@ -377,8 +259,8 @@ public class NPCHandlers {
 	public static void talkToIceUnknown() {
 		System.out.println("Stranger: " + Locations.IceUnknown.getTalkTo());
 		System.out.println("Stranger: I was a medic aboard the ship before the disaster. If you need it, I can heal you.");
-		Locations.l2.removeNPC(Locations.IceUnknown);
-		Locations.l2.addNPC(Locations.Ice);
+		Locations.wreck.removeNPC(Locations.IceUnknown);
+		Locations.wreck.addNPC(Locations.Ice);
 	}
 	public static Character talkToLuka(Character player, Items items){
 		System.out.println(Locations.Luka.getTalkTo());
@@ -394,19 +276,19 @@ public class NPCHandlers {
 				case "yes":
 				case "y":
 					System.out.println("Luka: You will? Thank you so much. \n The big Shepherd \nLuka: I know the cabin. I\'ll be right back.");
-					player.setEnemy(Locations.l0.getCreatures().get(2));
+					player.setEnemy(Locations.extraLocation.getCreatures().get(2));
 					player = Combat.combat(player, items);
 					if (player.getWin()){
 						System.out.println("Only a few minutes later, Luka walks back down the path, holding the paw of a hellhound. \nHe\'s not really looking anywhere but at the panicked looking hellhound.\nLuka: Easy Jake, it\'s not so bad. You're still my brother.\nLuka: I\'ll convince the village you\'re still you. And look " + player.getName() + " is here too. \nLuca: " + player.getName() + ", please, take him to my home." );
-					Locations.l6.addExit(new Exit(Exit.north, Locations.l16));
-					if (player.getBase() == Locations.l11){
+					Locations.forestVillage.addExit(new Exit(Exit.north, Locations.lukasPlace));
+					if (player.getBase() == Locations.livingRoom){
 						System.out.println("Luka: It\'s right next to yours.");
 					}else{
 						System.out.println("Luka: It\'s right next to the vacant house.");
 					}
-					player.setCurrentLocation(Locations.l16);
+					player.setCurrentLocation(Locations.lukasPlace);
 					}
-					Locations.l3.addCreature(Locations.l0.getCreatures().get(2));
+					Locations.forest.addCreature(Locations.extraLocation.getCreatures().get(2));
 					break;
 				case "sorry...":
 				case "sorry":
@@ -425,7 +307,7 @@ public class NPCHandlers {
 			System.out.println("Luka: hey, welcome back. Wanna go for a fight? \n YES, NO.");
 			boolean choice = Input.yesNo(player);
 			if (choice){
-				player.setEnemy(Locations.l0.getCreatures().get(1));
+				player.setEnemy(Locations.extraLocation.getCreatures().get(1));
 				player = Combat.combat(player, items);
 				if (player.getWin()){
 					System.out.println("It seems you are still the better warrior.");
@@ -435,7 +317,7 @@ public class NPCHandlers {
 		return player;
 	}
 	public static Character talkToHellhound(Character player){
-		if (player.getCurrentLocation() == Locations.l15){
+		if (player.getCurrentLocation() == Locations.abandonedShelter){
 		if (LocHandlers.getBrotherQuest() == 4){
 			System.out.println("Hellhound: You spoke to my brother? What did he say?");
 			System.out.println("Tell him his brother wants him HOME, or that he should STAY away");
@@ -446,8 +328,8 @@ public class NPCHandlers {
 			case "home":
 			case "h":
 				System.out.println("Hellhound: Really? Luka said that? Well then, Luka, Jake is coming home!");
-				Locations.l15.removeNPC(Locations.kindHellhound);
-				Locations.l6.addExit(new Exit(Exit.north, Locations.l16));
+				Locations.abandonedShelter.removeNPC(Locations.kindHellhound);
+				Locations.forestVillage.addExit(new Exit(Exit.north, Locations.lukasPlace));
 				break;
 			case "stay":
 			case "s":
@@ -546,36 +428,8 @@ public class NPCHandlers {
 	}
 	public static Character talkToSalesCow(Character player, Items items) {
 		System.out.println(Locations.salesCow.getTalkTo());
-		System.out.println("You have " + player.getGold() + "gold.");
-		System.out.println("Item \tPrice.");
-		System.out.println(items.getItems().get(14).getName() + "\t" + items.getItems().get(14).getValue());
-		System.out.println(items.getItems().get(15).getName() + "\t" + items.getItems().get(15).getValue());
-		System.out.println("nothing");
-		String buy = Input.getInput();
-		switch (buy){
-		case "milk":
-			if (player.getGold() >= items.getItems().get(14).getValue()){
-				player.setGold(player.getGold() - items.getItems().get(14).getValue());
-				player.addItem(items.getItems().get(14));
-				System.out.println("You got a bottle of " + items.getItems().get(14).getName());
-			} else {
-				System.out.println("I\'m sorry hun, you don\'t have that kind of money");
-			}
-			break;
-		case "cheese":
-			if (player.getGold() >= items.getItems().get(15).getValue()){
-				player.setGold(player.getGold() - items.getItems().get(15).getValue());
-				player.addItem(items.getItems().get(15));
-				System.out.println("You got a block of " + items.getItems().get(15).getName());
-			} else {
-				System.out.println("I\'m sorry hun, you don\'t have that kind of money");
-			}
-			break;
-		case "nothing":
-		case "n":
-			break;
-			default:
-		}
+		Item[] shopList = new Item[]{items.getItems().get(14),items.getItems().get(15),items.getItems().get(0)};
+		player = LocHandlers.buyShop(player, shopList);
 		return player;
 	}
 	public static Character talkToFarmer(Character player, Items items) {

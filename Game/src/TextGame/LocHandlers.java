@@ -8,7 +8,7 @@ public class LocHandlers {
 	private static int ftRewards = 0;
 	private static int brotherQuest = 0;
 	public static Character search(Character player, Items items){
-		if (brotherQuest == 0 && player.getCurrentLocation().equals(Locations.l14)){
+		if (brotherQuest == 0 && player.getCurrentLocation().equals(Locations.forestTempleBasement)){
 			System.out.println("Five people in black robes, stand equally spaced in a circle. \nIn the middle sits a teenage German shepherd chained to the ground.\nThe boy looks at you in panic, as the hooded men start chanting.");
 			System.out.println("Do you move to HELP him, or LEAVE?");
 			String choice = "";
@@ -19,7 +19,7 @@ public class LocHandlers {
 			case "help":
 				System.out.println("As you approach the circle, smoke starts rising from it.\nWhen it clears, the five hooded men lay crumpled on the floor. \nIn the middle of the circle, stands a canine, sure, but this one is no longer chained. \nHe is nude now, twice as tall as the teen was, his hair flaming, in a trail down his back all the way to the tail. \nIt's a hellhound, and he seems angry. \nHellhound: Time for you to die!");
 				brotherQuest = 1;
-				player.setEnemy(Locations.l1.getCreatures().get(0));
+				player.setEnemy(Locations.extraLocation.getCreatures().get(0));
 				player = Combat.combat(player, items);
 				if (player.getWin()){
 					brotherQuest = 2;
@@ -34,16 +34,16 @@ public class LocHandlers {
 				choice = "";
 			}
 			}
-		} else if (brotherQuest == 1 && player.getCurrentLocation().equals(Locations.l14)){
+		} else if (brotherQuest == 1 && player.getCurrentLocation().equals(Locations.forestTempleBasement)){
 			System.out.println("The hellhound charges you with a roar. A flame rushing at you from the darkness.");
-			player.setEnemy(Locations.l1.getCreatures().get(0));
+			player.setEnemy(Locations.extraLocation.getCreatures().get(0));
 			player = Combat.combat(player, items);
 			if (player.getWin()){
 				brotherQuest = 2;
 				System.out.println("As he crawls to his feet, all menace is gone from his appearance. \nYes, he is still the hellhound, but he's cute and cuddly, not menacing. \nHellhound: You saved me. Let's get out of here.\nThe hellhound leads you out of the temple. Hellhound: you really saved me back there. I wish I could repay you, but I don't have anything.");
-				player.setCurrentLocation(Locations.l7);
-				Locations.l3.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
-				Locations.l3.addExit(new Exit(Exit.south, Locations.l15));
+				player.setCurrentLocation(Locations.forestTempleEntrance);
+				Locations.forest.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
+				Locations.forest.addExit(new Exit(Exit.south, Locations.abandonedShelter));
 				System.out.println( player.getCurrentLocation().getDescription());
 
 				// Show available exits
@@ -65,9 +65,9 @@ public class LocHandlers {
 	}
 	private static void brotherQuest2RoundUp(Character player) {
 		System.out.println("As he crawls to his feet, all menace is gone from his appearance. \nYes, he is still the hellhound, but he's cute and cuddly, not menacing. \nHellhound: You saved me. Let's get out of here.\nThe hellhound leads you out of the temple. Hellhound: you really saved me back there. I wish I could repay you, but I don't have anything.");
-		player.setCurrentLocation(Locations.l7);
-		Locations.l3.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
-		Locations.l3.addExit(new Exit(Exit.south, Locations.l15));
+		player.setCurrentLocation(Locations.forestTempleEntrance);
+		Locations.forest.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
+		Locations.forest.addExit(new Exit(Exit.south, Locations.abandonedShelter));
 		System.out.println( player.getCurrentLocation().getDescription());
 
 		// Show available exits
@@ -164,24 +164,24 @@ public class LocHandlers {
 			System.out.println(Locations.salesCow.getDescription());
 		} else if (player.getCurrentLocation().getNPCs().contains(Locations.farmer)){
 			System.out.println(Locations.farmer.getDescription());
-		} else if (player.getCurrentLocation() == Locations.l13){
+		} else if (player.getCurrentLocation() == Locations.forestTempleMain){
 			player = LocHandlers.setFTDonations(player);
 		}
 		return player;
 	}
 	public static Character make(Character player){
 	
-		if(player.getCurrentLocation().equals(Locations.l10)){
+		if(player.getCurrentLocation().equals(Locations.vacantHome)){
 		System.out.println("Changed Base to Village Home. Inhabiting NPCs Migrated to your new base.");
-	player.setBase(Locations.l11);
-	Locations.l10.setLocName("Your front yard.");
-	Locations.l10.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
-	Locations.l10.addExit(new Exit(Exit.in, Locations.l11));
+	player.setBase(Locations.livingRoom);
+	Locations.vacantHome.setLocName("Your front yard.");
+	Locations.vacantHome.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
+	Locations.vacantHome.addExit(new Exit(Exit.in, Locations.livingRoom));
 	
-	if (Locations.l1.getNPCs().contains(Locations.Ice)){
-		Locations.l1.getNPCs().remove(Locations.Ice);
-		Locations.l12.getNPCs().add(Locations.Ice);
-		Locations.l11.addExit(new Exit(Exit.north, Locations.l12));
+	if (Locations.beach.getNPCs().contains(Locations.Ice)){
+		Locations.beach.getNPCs().remove(Locations.Ice);
+		Locations.IceRoom.getNPCs().add(Locations.Ice);
+		Locations.livingRoom.addExit(new Exit(Exit.north, Locations.IceRoom));
 	}
 	}else{ 
 		System.out.println("You cannot make a base of this location.");
@@ -189,11 +189,11 @@ public class LocHandlers {
 	return player;
 	}
 	public static Character open(Character player, Items items){
-		if (player.getCurrentLocation().equals(Locations.l24)){
+		if (player.getCurrentLocation().equals(Locations.farmHouse)){
 			if (player.getInventory().contains(items.items.get(14))){
 				System.out.println("You used the key. the door opened.");
 				player.getInventory().remove(items.items.get(14));
-				Locations.l24.addExit(new Exit (Exit.in, Locations.l26));
+				Locations.farmHouse.addExit(new Exit (Exit.in, Locations.farmHouseInside));
 			}else{
 				System.out.println("the door remains locked, and you don\'t wanna kick it in \nright next to the farmer. Better luck with the key.");
 			}
@@ -202,24 +202,48 @@ public class LocHandlers {
 		}
 		return player;
 	}
-	public static Character buyShop (Character player, Item[] forSale){
+	private static Character buyItem(Character player, Item item){
+		player.setGold(player.getGold()-item.getValue());
+		player.addItem(item);
+		System.out.println("You bought the " + item.getName());
+		return player;
+	}
+	private static Character canBuyItem(Character player, Item item){
+		if (player.getGold() >= item.getValue()){
+			player = buyItem(player, item);
+		} else {
+			System.out.println("You don\'t have that kind of money.");
+		}
+		return player;
+	}
+	private static void printItemList(Item[] forSale){
+		System.out.println("Item \tPrice.");
 		for (int i = 0; i< forSale.length; i++){
 			System.out.println(forSale[i].getName() + "\t" + forSale[i].getValue());
 		}
-		String choice = Input.getInput();
-		for (int i = 0; i< forSale.length; i++){
-			if (choice == forSale[i].getName()){
-				if (player.getGold() >= forSale[i].getValue()){
-					player.setGold(player.getGold()-forSale[i].getValue());
-					player.addItem(forSale[i]);
-					System.out.println("You bought the " + forSale[i].getName());
-				} else {
-					System.out.println("You don\'t have that kind of money.");
-				}
-			} else { 
-				System.out.println("Sorry, I don\'t have that.");
+	}
+	public static Item findItem(Item[] options, String choice){
+		for (int i = 0; i< options.length; i++){
+			if (choice == options[i].getName()){
+				return options[i];
 			}
 		}
+		System.out.println("Sorry, I don\'t have that.");
+		return null;
+	}
+	public static Item chooseItem (Item[] options){
+		Item itemChoice = null;
+		while (itemChoice == null){
+			String choice = Input.getInput();
+			itemChoice = findItem(options, choice);
+		}
+		return itemChoice;
+	}
+	public static Character buyShop (Character player, Item[] forSale){
+		printItemList(forSale);
+		System.out.println("You have " + player.getGold() + "gold.");
+		Item itemChoice = chooseItem(forSale);
+		player = canBuyItem(player, itemChoice);
 		return player;
 	}
 }
