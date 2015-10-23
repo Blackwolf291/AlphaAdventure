@@ -113,9 +113,9 @@ public class Locations{
 	Attack scratch = new Attack ("scratch", "He scratches you with his claws.", 15, Input.dice(2, 10) + 2);
 	Attack throwNut = new Attack ("throw nut", "He throws an acorn, hitting you in the head.", 25, Input.dice(2, 6) + 2);
 	
-	minorHeal = new Spell ("minor heal");
-	fireball = new Spell ("fireball");
-	light = new Spell ("light");
+	minorHeal = new HealSpell ("minor heal", 75, "A white light washes over you.",100);
+	fireball = new DamageSpell ("fireball", 100, "You throw a ball of fire.", Input.dice(10, 10));
+	light = new UtilitySpell ("light", 35, "You glow brightly.");
 	
 	IceUnknown = new NPC ("White Arctic Fox", "You see him looking dazed, sitting among the wreckage.", "Hey, glad to see I'm not the only survivor. my name is Ice.");
 	Ice = new NPC("Ice", "He's a white arctic fox. the badge on the strap of his backpack says he's a medic.", "Can I help you with anything?");

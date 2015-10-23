@@ -23,37 +23,37 @@ public class Items {
 	private Item milk;
 	private Item cheese;
 	public Items(){		
-		None = new Item ("none", 0, false, false, false, 0, 0);
+		None = new Item ("none", 0, false, false, false, 0);
 		items.add(None);
-		brothersScarf = new Item ("brother\'s scarf", 1, false, false, true, 0, 2);
+		brothersScarf = new Item ("brother\'s scarf", 1, false, false, true, 0);
 		items.add(brothersScarf);
-		vineJuice = new Item ("vine juice", 1, true, true, false, 5, 0);
+		vineJuice = new HPItem ("vine juice", 1, true, true, false, 5, 50, "It\'s sweet and invigorating.");
 		items.add(vineJuice);
-		potion = new Item ("potion", 1, true, true, false, 100, 0);
+		potion = new HPItem ("potion", 1, true, true, false, 100, 100, "It\'s bitter, and tastes medicinal.");
 		items.add(potion);
-		ether = new Item ("ether", 1, true, true, false, 100, 0);
+		ether = new MPItem ("ether", 1, true, true, false, 100, 100, "It\'s bitter, and tastes medicinal.");
 		items.add(ether);
-		elixer = new Item ("elixer", 1, true, true, false, 400, 0);
+		elixer = new HPAndMPItem ("elixer", 1, true, true, false, 400, 100, 100, "It\'s bitter, and tastes medicinal.");
 		items.add(elixer);
 		copperSword = new Weapon ("copper sword", Input.dice(6,10) + 6 , 0, "You slash it with your copper sword.", 0, 1, false, false, false, 500);
 		items.add(copperSword);
 		copperHelmet = new Helmet ("copper helmet", 1, false, false, false, 200, 5);
 		items.add(copperHelmet);
-		copperArmor = new Armor ("copper armor", 1, false, false, false, 750, 2, 10);
+		copperArmor = new Armor ("copper armor", 1, false, false, false, 750, 10, 0);
 		items.add(copperArmor);
-		copperShield = new Shield ("copper shield", 1, false, false, false, 300, 5, 5);
+		copperShield = new Shield ("copper shield", 1, false, false, false, 300, 5, 0);
 		items.add(copperShield);
 		leatherArmor = new Armor ("leather armor", 1, false, false, false, 250, 1, 5);
 		items.add(leatherArmor);
-		hide = new Item ("hide", 1, false, false, false, 20, 0);
+		hide = new Material ("hide", 1, false, false, false, 20);
 		items.add(hide);
-		goldenChestnut = new Item ("golden chestnut", 1, true, true, false, 15, 0);
+		goldenChestnut = new HPItem ("golden chestnut", 1, true, true, false, 15, 0, "It\'s crunchy, but does feel great.");
 		items.add(goldenChestnut);
-		farmKey = new Item ("farm key", 1, false, false, true, 0, 0);
+		farmKey = new Item ("farm key", 1, false, false, true, 0);
 		items.add(farmKey);
-		milk = new Item ("milk", 1, true, true, false, 20, 0);
+		milk = new HPItem ("milk", 1, true, true, false, 20, 100, "It\'s creamy.");
 		items.add(milk);
-		cheese = new Item ("cheese", 1, true, true, false, 40, 0);
+		cheese = new HPAndMPItem ("cheese", 1, true, true, false, 40, 50, 50, "");
 		items.add(cheese);
 	}
 	private Character weaponSwap (Character player, Item weapon){
@@ -85,8 +85,6 @@ public class Items {
 		return player;
 	}
 	public Character setEquipment (Item item, Character player){
-		Item oldItem = player.getEquipment().set(item.getEquipment(), item);
-		if (item != oldItem){
 			switch (item.getName()){
 			case "copper sword":
 				player = weaponSwap(player, copperSword);
@@ -106,7 +104,6 @@ public class Items {
 				default:
 					System.out.println("Sorry, you cannot equip that.");
 			}
-		}
 		return player;
 	}
 	public Character useItem(String command, Character player){
@@ -117,36 +114,36 @@ public class Items {
 		case "drink vine juice":
 		case "vinejuice":
 		case "vine juice":
-		player = useVineJuice(player);
+		player = ((Consumable) vineJuice).use(player);
 		player.setItemUsed(true);
 		break;
 		case "use potion":
 		case "drink potion":
 		case "potion":
-			player = usePotion(player);
+			player = ((Consumable) potion).use(player);
 			player.setItemUsed(true);
 			break;
 		case "use ether":
 		case "drink ether":
 		case "ether":
-			player = useEther(player);
+			player = ((Consumable) ether).use(player);
 			player.setItemUsed(true);
 			break;
 		case "use elixer":
 		case "drink elixer":
 		case "elixer":
-			player = useElixer(player);
+			player = ((Consumable) elixer).use(player);
 			player.setItemUsed(true);
 		break;
 		case "drink milk":
 		case "use milk":
 		case "milk":
-			player = useMilk(player);
+			player = ((Consumable) milk).use(player);
 			break;
 		case "use cheese":
 		case "eat cheese":
 		case "cheese":
-			player = useCheese(player);
+			player = ((Consumable) cheese).use(player);
 			break;
 		case "return":
 			player.setItemUsed(false);
@@ -181,79 +178,6 @@ public class Items {
 		break;
 		default:
 			System.out.println("You don't own such a thing.");
-		}
-		return player;
-	}
-	public Character useEther(Character player){
-		if (player.getInventory().contains(ether)){
-			player.removeItem(ether);
-			player.setMana(player.getMana() + 100);
-			System.out.println("It tastes bitter but it is strongly healing.");
-			System.out.println("You gained 100 hp.");
-			player.setItemUsed(true);
-		} else {
-			System.out.println("You don\'t have any Ethers.");
-		}
-		return player;
-	}
-	public Character useElixer(Character player){
-		if (player.getInventory().contains(elixer)){
-			player.removeItem(ether);
-			player.setHP(player.getHP() + 100);
-			player.setMana(player.getMana() + 100);
-			System.out.println("It tastes bitter but it is strongly healing.");
-			System.out.println("You gained 100 hp.");
-			player.setItemUsed(true);
-		} else {
-			System.out.println("You don\'t have any Ethers.");
-		}
-		return player;
-	}
-	public Character usePotion(Character player){
-		if (player.getInventory().contains(potion)){
-			player.removeItem(potion);
-			player.setHP(player.getHP() + 100);
-			System.out.println("It tastes bitter but it is strongly healing.");
-			System.out.println("You gained 100 hp.");
-			player.setItemUsed(true);
-		} else {
-			System.out.println("You don\'t have any potions.");
-		}
-		return player;
-	}
-	public Character useMilk(Character player){
-		if (player.getInventory().contains(milk)){
-			player.removeItem(milk);
-			player.setHP(player.getHP() + 50);
-			System.out.println("It tastes pleasant and creamy.");
-			System.out.println("You gained 50 hp.");
-			player.setItemUsed(true);
-		} else {
-			System.out.println("You don\'t have any milk.");
-		}
-		return player;
-	}
-	public Character useCheese(Character player){
-		if (player.getInventory().contains(cheese)){
-			player.removeItem(cheese);
-			player.setMana(player.getMana() + 50);
-			System.out.println("It tastes rich and salty.");
-			System.out.println("You gained 50 mana.");
-			player.setItemUsed(true);
-		} else {
-			System.out.println("You don\'t have any cheese.");
-		}
-		return player;
-	}
-	public Character useVineJuice(Character player){
-		if (player.getInventory().contains(vineJuice)){
-			player.removeItem(vineJuice);
-			player.setHP(player.getHP() + 25);
-			System.out.println("It tastes like honey syrup, and refuels you for the journey.");
-			System.out.println("You gained 25 hp.");
-			player.setItemUsed(true);
-		} else {
-			System.out.println("You don\'t have any vine juice.");
 		}
 		return player;
 	}

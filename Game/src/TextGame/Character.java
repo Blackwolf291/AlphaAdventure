@@ -36,6 +36,7 @@ public class Character implements Serializable{
 	private Armor currentArmor = new Armor();
 	private Helmet currentHelmet = new Helmet();
 	private Creature enemy;
+	private Character player;
 	
 	public Character (Items inventory){
 		setName();
@@ -226,6 +227,9 @@ public class Character implements Serializable{
 	public int getShield(){
 		return shield;
 	}
+	public void setHPWithBonus(int HP){
+		hp = HP;
+	}
 	public void setHP(int HP){
 		hp = HP;
 		if (HP > maxHP){
@@ -384,5 +388,126 @@ public class Character implements Serializable{
         		}		 
     	}
 	return race;
+	}
+	void printSituation() {
+		System.out.println(getEnemy().getDescription());
+		System.out.println("You have " + hp + "HP");
+		System.out.println("You may try to ATTACK, FLEE, use an ITEM.");
+		if (spells.size() > 0){
+			System.out.println("Or you may cast a spell.");
+		}
+		
+	}
+	void playerLose() {
+		System.out.println(getEnemy().getLoss());
+		hp = getMaxHP()/2;
+		setCurrentLocation(getBase());
+		if (base == Locations.beach){
+			System.out.println("You wake up the next day. sagged into the sand. feeling refreshed.");
+		}
+	}
+	void dealDamage() {
+		System.out.println("You hit the " + getEnemy().getName());
+		int playerDamage = currentWeapon.getDamage();
+		if (playerDamage >= enemy.getShield()){
+			int damage = playerDamage - enemy.getShield();
+			int HP = enemy.getHP() - damage;
+			enemy.setHP(HP);
+			System.out.println("for " + damage + " damage");
+		} else{
+			System.out.println("but it did no damage.");
+		}
+	}
+	boolean decideHit() {
+		boolean hit;
+		int attackDie = Input.dice(1,6);
+		switch (attackDie){
+		case 6:
+			hit = true;
+			break;
+		case 0:
+			hit = false;
+			break;
+		default:
+			int attack = this.attack + attackDie;
+			if (attack>=enemy.getDodge()){
+				hit = true;
+			}
+			else{
+				hit = false;
+			}
+		}
+		return hit;
+	}
+	void creatureTurn() {
+		Attack currentAttack = enemy.getAttack().get(Input.dice(1,enemy.getAttack().size()));
+		System.out.println(currentAttack.getDescription());
+		if (currentAttack.getAttack() + enemy.getHit() >= dodge){
+			if (currentAttack.getDamage() + enemy.getDamage() > shield){
+				int damage = currentAttack.getDamage() + enemy.getDamage() - shield;
+				hp = hp - damage;
+				System.out.println("It hit you for " + damage + "damage");
+			}
+			else{
+				System.out.println("It hit you but failed to do any damage");
+			}
+		}
+		else {
+			System.out.println("It missed");
+		}
+	}
+	public void playerWin() {
+		System.out.println(enemy.getVictory());
+		System.out.println("You gained " + enemy.getXP() + " experience.");
+		setGainedXP(enemy.getXP());
+		setGold(enemy.getGold());
+		win = true;
+		System.out.println("You gained " + enemy.getGold() + " gold.");
+		if (Input.dice(1,100) >= enemy.getDropChance()){
+			System.out.println("You gained 1" + enemy.getItemDrop());
+			playerInventory.add(enemy.getItemDrop());
+		}
+	}
+	public void printCombatInventory(){
+		System.out.println("You got " + gold + " gold.");
+		for (int i = 0; i < playerInventory.size(); i++){
+			if (playerInventory.get(i).getCombatUse()){
+				System.out.println(playerInventory.get(i).getCount() + playerInventory.get(i).getName() + ", ");
+			}
+		}
+		System.out.println("or you can RETURN.");
+		}
+	public boolean decideEscape() {
+		boolean escape;
+		int escapeDie = Input.dice(1,6);
+		switch (escapeDie){
+		case 6:
+			escape = true;
+			System.out.println("The " + enemy.getName() + "tripped when trying to chase you. you manage to get away.");
+			break;
+		case 0:
+			escape = false;
+			System.out.println("You tripped while trying to escape. it easily caught up.");
+			break;
+		default:
+			int run = level + dodge + escapeDie;
+			if (run >= enemy.getChase()){
+				escape = true;
+				System.out.println("You manage to get away.");
+			}else{
+				escape = false;
+				System.out.println("You fail to get away.");
+			}
+		}
+		return escape;
+	}
+	Character hunt(Character player, Items items){
+		if (currentLocation.getCreatures().size() > 0){
+			enemy = currentLocation.getCreatures().get(Input.dice(1,currentLocation.getCreatures().size())); 
+			player = Combat.combat(player, items);
+		}else{
+			System.out.println("There's nothing to hunt here.");
+		}
+		return player;
 	}
 }

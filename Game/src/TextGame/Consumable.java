@@ -1,8 +1,9 @@
 package TextGame;
 
-public class Consumable extends Item{
-
-	public Consumable(String name, int count, boolean combatUse, boolean use, boolean keyItem, int value, int equipment) {
-		super(name, count, combatUse, use, keyItem, value, 0);
+public abstract class Consumable extends Item{
+	String useDescription;
+	public Consumable(String name, int count, boolean combatUse, boolean use, boolean keyItem, int value, String useDescription) {
+		super(name, count, combatUse, use, keyItem, value);
 	}
+	abstract Character use (Character player);
 }

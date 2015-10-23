@@ -1,6 +1,10 @@
 package TextGame;
 
 public class Main {
+	static int turnCounter = 0;
+	static int hourCounter = 0;
+	static boolean pm = true;
+	static int dayCounter = 0;
 	public static void main(String[] args) {
 		
 		
@@ -17,12 +21,10 @@ public class Main {
     	}
 		System.out.println( "You wake up on the beach.\nThe sand feels warm, and you can't remember how you got here.\nYou see the wreck of a ship to the North, \nand a dense forest to the East.");
 		//start of main game
-		@SuppressWarnings("unused")
-		int turnCounter = 0;
 		boolean running = true;
 		while (running == true){
+			turn();
 			player.setMana(player.getMana() + player.getInt());
-			turnCounter++;
 			System.out.println("Other commands: Inventory, Stats, Save");
 			String Command = Input.getInput();
 			switch (Command){
@@ -44,12 +46,7 @@ public class Main {
 				player.stats();
 				break;
 			case "hunt":
-				if (player.getCurrentLocation().getCreatures().size() > 0){
-					player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
-					player = Combat.combat(player, items);
-				}else{
-					System.out.println("There's nothing to hunt here.");
-				}
+				player = player.hunt(player, items);
 				break;
 			case "spells":
 				player.printSpellList();
@@ -71,7 +68,7 @@ public class Main {
 			case "minor heal":
 			case "heal":
 				if (player.getSpells().contains(Locations.minorHeal)){
-				Spells.minorHeal(player);
+				player = Locations.minorHeal.cast(player);
 				}else{
 					System.out.println("No such move");
 				}
@@ -79,7 +76,7 @@ public class Main {
 			case "fireball":
 			case "fire":
 				if (player.getSpells().contains(Locations.fireball)){
-				Spells.fireball(player);
+				player = Locations.fireball.cast(player);
 				}else{
 					System.out.println("No such move");
 				}
@@ -125,6 +122,20 @@ public class Main {
 			}
 					
 			}
+	}
+	private static void turn() {
+		turnCounter++;
+		if (turnCounter > 12){
+			turnCounter -= 12;
+			hourCounter++;
+		}
+		if (hourCounter > 12){
+			hourCounter -= 12;
+			if (pm){
+				dayCounter++;
+			}
+			pm = !pm;
+		}
 	}
 }
 				

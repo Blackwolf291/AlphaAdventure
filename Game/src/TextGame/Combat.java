@@ -3,75 +3,45 @@ package TextGame;
 import java.util.Enumeration;
 
 public class Combat {
-
+	static boolean creatureTurn;
+	static boolean playerTurn;
+	static boolean hit;
+	static boolean win;
+	static boolean lose;
+	static boolean escape;
 	public static Character combat(Character player, Items items){
 		player.setCombat(true);
 		player.setWin(false);
-		boolean win = false;
-		boolean lose = false;
+		win = false;
+		lose = false;
+		creatureTurn = true;
+		playerTurn = true;
 		System.out.println("You face a " + player.getEnemy().getName());
 		System.out.println(player.getEnemy().getInitialDescription());
 		while (player.getCombat()){
-			boolean creatureTurn = true;
-			boolean playerTurn = true;
 			while (playerTurn){
-				System.out.println(player.getEnemy().getDescription());
-				System.out.println("You have " + player.getHP() + "HP");
-				System.out.println("You may try to ATTACK, FLEE, use an ITEM.");
-				if (player.getSpells().size() > 0){
-					System.out.println("Or you may cast a spell.");
-				}
+				player.printSituation();
 				String action = Input.getInput();
-			switch (action){
-			case "attack":
-			case "a":
-				boolean hit;
-				playerTurn = false;
-				hit = decideHit(player);
-				if (hit){
-					player = dealDamage(player);
-				}
-				if (player.getEnemy().getHP() <= 0){
-				win = true;
-				}
-				break;
-				
+				switch (action){
+				case "attack":
+				case "a":
+					player = attack(player);
+					break;
 			case "flee":
 			case "f":
-				boolean escape;
-				if (player.getEnemy().getCanFlee()){
-					playerTurn = false;
-					escape = decideEscape(player);
-				
-				
-				if (escape){
-					player.setCombat(false);
-					creatureTurn = false;
-				}
-				}else{
-					System.out.println("There's no escaping this foe.");
-				}
+				player = flee(player);
 				break;
 			case "item":
 			case "i":
 			case "use item":
 			case "u":
 			case "inventory":
-					System.out.println("You got " + player.getGold() + " gold.");
-					for (int i = 0; i < player.getInventory().size(); i++){
-						if (player.getInventory().get(i).getCombatUse()){
-						System.out.println(player.getInventory().get(i).getCount() + player.getInventory().get(i).getName() + ", ");
-						}
-					}
-					System.out.println("or you can RETURN.");
-					String item = Input.getInput();
-					player = items.useItem(item, player);
-					playerTurn = !player.getItemUsed();
+					player = combatInventory(player, items);
 				break;
 			case "minor heal":
 			case "heal":
 				if (player.getSpells().contains(Locations.minorHeal)){
-				Spells.minorHeal(player);
+				Locations.minorHeal.cast(player);
 				playerTurn = false;
 				}else{
 					System.out.println("No such move");
@@ -80,7 +50,7 @@ public class Combat {
 			case "fireball":
 			case "fire":
 				if (player.getSpells().contains(Locations.fireball)){
-				Spells.fireball(player);
+				Locations.fireball.cast(player);
 				playerTurn = false;
 				}else{
 					System.out.println("No such move");
@@ -95,33 +65,20 @@ public class Combat {
 				player.setCombat(false);
 						}
 			if (creatureTurn){
-				player = creatureTurn(player);
+				player.creatureTurn();
 				if (player.getHP() <= 0){
 					lose = true;
 					player.setCombat(false);
+				}else{ 
+					playerTurn = true;
 				}
-				
 			}
 }
 		if (win){
-			System.out.println(player.getEnemy().getVictory());
-			System.out.println("You gained " + player.getEnemy().getXP() + " experience.");
-			player.setGainedXP(player.getEnemy().getXP());
-			player.setGold(player.getEnemy().getGold());
-			player.setWin(true);
-			System.out.println("You gained " + player.getEnemy().getGold() + " gold.");
-			if (Input.dice(1,100) >= player.getEnemy().getDropChance()){
-			System.out.println("You gained 1" + player.getEnemy().getItemDrop());
-			player.getInventory().add(player.getEnemy().getItemDrop());
-			}
+			player.playerWin();
 		}
 		else if (lose){
-			System.out.println(player.getEnemy().getLoss());
-			int hp = player.getMaxHP()/2;
-			player.setHP(hp);
-			player.setCurrentLocation(player.getBase());
-			if (player.getBase() == Locations.beach);
-			System.out.println("You wake up the next day. sagged into the sand. feeling refreshed.");
+			player.playerLose();
 		}
 		System.out.println( player.getCurrentLocation().getDescription());
 
@@ -138,83 +95,38 @@ public class Combat {
 			}
 	return player;	
 	}
-	private static Character creatureTurn(Character player) {
-		Attack currentAttack = player.getEnemy().getAttack().get(Input.dice(1,player.getEnemy().getAttack().size()));
-		System.out.println(currentAttack.getDescription());
-		if (currentAttack.getAttack() + player.getEnemy().getHit() >= player.getSpd()){
-			if (currentAttack.getDamage() + player.getEnemy().getDamage() > player.getShield()){
-				int damage = currentAttack.getDamage() + player.getEnemy().getDamage() - player.getShield();
-				int playerHP = player.getHP() - damage;
-				player.setHP(playerHP);
-				System.out.println("It hit you for " + damage + "damage");
-			}
-			else{
-				System.out.println("It hit you but failed to do any damage");
-			}
+	private static Character flee(Character player) {
+		if (player.getEnemy().getCanFlee()){
+			playerTurn = false;
+			escape = player.decideEscape();
+		
+		
+		if (escape){
+			player.setCombat(false);
+			creatureTurn = false;
 		}
-		else {
-			System.out.println("It missed");
-
+		}else{
+			System.out.println("There's no escaping this foe.");
 		}
 		return player;
 	}
-	private static boolean decideEscape(Character player) {
-		boolean escape;
-		int escapeDie = Input.dice(1,6);
-		switch (escapeDie){
-		case 6:
-			escape = true;
-			System.out.println("The " + player.getEnemy().getName() + "tripped when trying to chase you. you manage to get away.");
-			break;
-		case 0:
-			escape = false;
-			System.out.println("You tripped while trying to escape. it easily caught up.");
-			break;
-		default:
-			int run = player.getLvl() + player.getSpd() + escapeDie;
-			if (run >= player.getEnemy().getChase()){
-				escape = true;
-				System.out.println("You manage to get away.");
-			}else{
-				escape = false;
-				System.out.println("You fail to get away.");
-			}
+	private static Character attack(Character player) {
+		playerTurn = false;
+		hit = player.decideHit();
+		if (hit){
+			player.dealDamage();
 		}
-		return escape;
-	}
-
-	private static boolean decideHit(Character player) {
-		boolean hit;
-		int attackDie = Input.dice(1,6);
-		switch (attackDie){
-		case 6:
-			hit = true;
-			break;
-		case 0:
-			hit = false;
-			break;
-		default:
-			int attack = player.getAttack() + attackDie;
-			if (attack>=player.getEnemy().getDodge()){
-				hit = true;
-			}
-			else{
-				hit = false;
-			}
+		if (player.getEnemy().getHP() <= 0){
+			win = true;
 		}
-		return hit;
+		return player;
 	}
-
-	private static Character dealDamage(Character player) {
-		System.out.println("You hit the " + player.getEnemy().getName());
-		int playerDamage = player.getWeapon().getDamage();
-		if (playerDamage >= player.getEnemy().getShield()){
-			int damage = playerDamage - player.getEnemy().getShield();
-			int HP = player.getEnemy().getHP() - damage;
-			player.getEnemy().setHP(HP);
-			System.out.println("for " + damage + " damage");
-		} else{
-			System.out.println("but it did no damage.");
+	private static Character combatInventory(Character player, Items items) {
+		player.printCombatInventory();
+		String item = Input.getInput();
+		if (item.equals("return")){ 
+			player = items.useItem(item, player);
+			playerTurn = !player.getItemUsed();
 		}
 		return player;
 	}
