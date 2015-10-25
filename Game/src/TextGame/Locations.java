@@ -261,6 +261,7 @@ public class Locations{
 	
 	farmHouse.addExit(new Exit (Exit.southeast, farm));
 	farmHouse.addNPC(farmer);
+	farmHouse.setLock(true);
 	
 	stalls.addExit(new Exit (Exit.southwest, farm));
 	stalls.addNPC(salesCow);

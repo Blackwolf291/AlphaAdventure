@@ -65,7 +65,7 @@ public class Combat {
 				player.setCombat(false);
 						}
 			if (creatureTurn){
-				player.creatureTurn();
+				player = player.getEnemy().turn(player);
 				if (player.getHP() <= 0){
 					lose = true;
 					player.setCombat(false);

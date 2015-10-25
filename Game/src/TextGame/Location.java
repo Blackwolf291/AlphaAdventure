@@ -10,7 +10,7 @@ public class Location {
 	private Vector<Creature> creatures;
 	private Vector<NPC> npcs;
 	private Vector<Exit> exits;
-	
+	private boolean lock = false;
 	public Location(){
 		locName = new String ();
 		locDescription = new String();
@@ -27,7 +27,7 @@ public class Location {
 		exits = new Vector<Exit>();
 		}	
 
-	public Location( String loc, String description ){
+	public Location( String loc, String description){
 		locName = loc;
 		locDescription = description;
 		npcs = new Vector<NPC>();
@@ -101,5 +101,11 @@ public class Location {
 	public void setLocDescription( String lDescription )
 	{
 		locDescription = lDescription;
+	}
+	public boolean hasLock() {
+		return lock;
+	}
+	public void setLock(boolean lock) {
+		this.lock = lock;
 	}
 }

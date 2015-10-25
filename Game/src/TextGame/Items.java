@@ -49,7 +49,7 @@ public class Items {
 		items.add(hide);
 		goldenChestnut = new HPItem ("golden chestnut", 1, true, true, false, 15, 0, "It\'s crunchy, but does feel great.");
 		items.add(goldenChestnut);
-		farmKey = new Item ("farm key", 1, false, false, true, 0);
+		farmKey = new Key ("farm key", 1, Locations.farmHouse, Locations.farmHouseInside);
 		items.add(farmKey);
 		milk = new HPItem ("milk", 1, true, true, false, 20, 100, "It\'s creamy.");
 		items.add(milk);
@@ -82,28 +82,6 @@ public class Items {
 		Item spare = player.setHelmet((Helmet) helmet);
 		System.out.println("You equipped a " + helmet.getName() + ".");
 		player.addItem(spare);
-		return player;
-	}
-	public Character setEquipment (Item item, Character player){
-			switch (item.getName()){
-			case "copper sword":
-				player = weaponSwap(player, copperSword);
-				break;
-			case "copper shield":
-				player = shieldSwap(player, copperShield);
-				break;
-			case "copper helmet":
-				player = helmetSwap(player, copperHelmet);
-				break;
-			case "copper armor":
-				player = armorSwap(player, copperArmor);
-				break;
-			case "leather armor":
-				player = armorSwap(player, leatherArmor);
-				break;
-				default:
-					System.out.println("Sorry, you cannot equip that.");
-			}
 		return player;
 	}
 	public Character useItem(String command, Character player){
@@ -158,26 +136,27 @@ public class Items {
 		switch (command){
 		case "equip copper armor": 
 		case "equip copperarmor": 
-		player = setEquipment(copperArmor, player);
+			player = armorSwap(player, copperArmor);
 		break;
 		case "equip copper helmet":
 		case "equip copperhelmet":
-			player = setEquipment(copperHelmet, player);
+			player = helmetSwap(player, copperHelmet);
 		break;
 		case "equip copper shield":
 		case "equip coppershield":
-			player = setEquipment(copperShield, player);
+			player = shieldSwap(player, copperShield);
 		break;
 		case "equip copper sword":
 		case "equip coppersword":
-			player = setEquipment(copperSword, player);
+			player = weaponSwap(player, copperSword);
 		break;
 		case "equip leather armor": 
 		case "equip leatherarmor": 
-		player = setEquipment(leatherArmor, player);
+			player = armorSwap(player, leatherArmor);
 		break;
 		default:
-			System.out.println("You don't own such a thing.");
+			System.out.println("Sorry, you cannot equip that or");
+			System.out.println("you don\'t own such a thing.");
 		}
 		return player;
 	}

@@ -2,9 +2,10 @@ package TextGame;
 
 public class Main {
 	static int turnCounter = 0;
-	static int hourCounter = 0;
+	static int hourCounter = 1;
 	static boolean pm = true;
-	static int dayCounter = 0;
+	static String ampm = "PM";
+	static int dayCounter = 1;
 	public static void main(String[] args) {
 		
 		
@@ -55,7 +56,7 @@ public class Main {
 				LocHandlers.talk(player, items);
 				break;
 			case "open":
-				LocHandlers.open(player, items);
+				LocHandlers.open(player);
 			case "save":
 				SaveAndLoad.saveGame(player);
 				break;
@@ -98,7 +99,7 @@ public class Main {
 						LocHandlers.look(player);
 						break;
 					case "open":
-						LocHandlers.open(player, items);
+						LocHandlers.open(player);
 					case "hunt":
 						if (player.getCurrentLocation().getCreatures().size() > 0){
 							player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
@@ -125,16 +126,20 @@ public class Main {
 	}
 	private static void turn() {
 		turnCounter++;
-		if (turnCounter > 12){
+		if (turnCounter >= 12){
 			turnCounter -= 12;
 			hourCounter++;
 		}
 		if (hourCounter > 12){
 			hourCounter -= 12;
 			if (pm){
+				ampm = "AM";
 				dayCounter++;
+			}else{
+				ampm = "PM";
 			}
 			pm = !pm;
+			
 		}
 	}
 }

@@ -27,11 +27,12 @@ public class Character implements Serializable{
 	private Location currentLocation;
 	static private Vector<Item> playerInventory; 
 	static private Vector<Item> equipment; 
+	static private Vector<Key> keychain; 
 	private Location base;
 	private boolean combat = false;
 	private boolean win = true;
 	private boolean itemUsed = false;
-	private Weapon currentWeapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
+	private Weapon currentWeapon;
 	private Shield currentShield = new Shield ();
 	private Armor currentArmor = new Armor();
 	private Helmet currentHelmet = new Helmet();
@@ -52,6 +53,7 @@ public class Character implements Serializable{
 		enemy = new Creature();
 		calcShield();
 		calcDodge();
+		currentWeapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
 	}
 	public void calcMaxMana(){
 		maxMana = intelligence + level;
@@ -170,10 +172,16 @@ public class Character implements Serializable{
 	public void addItem(Item item){
 		if (playerInventory.contains(item)){
 			item.setCount(item.getCount() + 1);
+			if (item instanceof Key){
+				keychain.add((Key) item);
+			}
 		} else {
 			playerInventory.addElement(item);
 		}
 		itemCleanup(item);
+	}
+	public Vector<Key> getKeychain(){
+		return keychain;
 	}
 	public void itemCleanup(Item item){
 		if (item.getCount() == 0){
@@ -438,23 +446,6 @@ public class Character implements Serializable{
 			}
 		}
 		return hit;
-	}
-	void creatureTurn() {
-		Attack currentAttack = enemy.getAttack().get(Input.dice(1,enemy.getAttack().size()));
-		System.out.println(currentAttack.getDescription());
-		if (currentAttack.getAttack() + enemy.getHit() >= dodge){
-			if (currentAttack.getDamage() + enemy.getDamage() > shield){
-				int damage = currentAttack.getDamage() + enemy.getDamage() - shield;
-				hp = hp - damage;
-				System.out.println("It hit you for " + damage + "damage");
-			}
-			else{
-				System.out.println("It hit you but failed to do any damage");
-			}
-		}
-		else {
-			System.out.println("It missed");
-		}
 	}
 	public void playerWin() {
 		System.out.println(enemy.getVictory());

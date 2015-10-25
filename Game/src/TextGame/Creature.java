@@ -4,110 +4,130 @@ import java.util.Vector;
 
 public class Creature {
 
-	private String creatureName;
-	private String creatureInitialDescription;
-	private String creatureDescription;
-	private int creatureHP;
-	private int creatureDodge;
-	private int creatureShield;
-	private Vector<Attack> creatureAttacks;
-	private int creatureChase;
-	private String creatureVictory;
-	private String creatureLoss;
-	private int creatureXP;
-	private int creatureGold;
-	private int creatureGoldLoss;
-	private Item creatureItemDrop;
-	private int creatureDropChance;
-	private boolean creatureCanFlee;
-	private int creatureAttack;
-	private int creatureDamage;
+	private String name;
+	private String initialDescription;
+	private String description;
+	private int hp;
+	private int dodge;
+	private int shield;
+	private Vector<AttackWithSideEffect> attacks;
+	private int chase;
+	private String victory;
+	private String loss;
+	private int xp;
+	private int gold;
+	private int goldLoss;
+	private Item itemDrop;
+	private int dropChance;
+	private boolean canFlee;
+	private int attack;
+	private int damage;
 	
 	public Creature (){
-		
 	}
 	
 	public Creature (String name, String initialDescription, String description, int hp, int dodge, int shield, int chase, String victory, String loss, int xp, int gold, int goldLoss, Item itemDrop, int dropChance, boolean canFlee, int attack, int damage) {
-		creatureName = name;
-		creatureInitialDescription = initialDescription;
-		creatureDescription = description;
-		creatureHP = hp;
-		creatureDodge = dodge;
-		creatureShield = shield;
-		creatureChase = chase;
-		creatureAttacks = new Vector<Attack>();
-		creatureVictory = victory;
-		creatureLoss = loss;
-		creatureXP = xp;
-		creatureGold = gold;
-		creatureItemDrop = itemDrop;
-		creatureDropChance = dropChance;
-		creatureCanFlee = canFlee;
-		creatureAttack = attack;
-		creatureDamage = damage;
+		this.name = name;
+		this.initialDescription = initialDescription;
+		this.description = description;
+		this.hp = hp;
+		this.dodge = dodge;
+		this.shield = shield;
+		this.chase = chase;
+		this.attacks = new Vector<>();
+		this.victory = victory;
+		this.loss = loss;
+		this.xp = xp;
+		this.gold = gold;
+		this.goldLoss = goldLoss;
+		this.itemDrop = itemDrop;
+		this.dropChance = dropChance;
+		this.canFlee = canFlee;
+		this.attack = attack;
+		this.damage = damage;
 	}
 	public int getDamage(){
-		return creatureDamage;
+		return damage;
 	}
 	public int getHit(){
-		return creatureAttack;
+		return attack;
 	}
 	public boolean getCanFlee(){
-		return creatureCanFlee;
+		return canFlee;
 	}
 	public void setDodge(int value){
-		creatureDodge = value;
+		dodge = value;
 	}
 	public void setHP(int HP){
-	creatureHP = HP;
+	hp = HP;
 	}
 	public void addAttack (Attack attack){
-		creatureAttacks.add(attack);
+		attacks.add(attack);
 	}
 	public String getDescription(){
-		return creatureDescription;
+		return description;
 	}
 	public int getDropChance(){
-		return creatureDropChance;
+		return dropChance;
 	}
 	public Item getItemDrop(){
-		return creatureItemDrop;
+		return itemDrop;
 	}
 	public int getGoldLoss(){
-		return creatureGoldLoss;
+		return goldLoss;
 	}
 	public int getGold(){
-		return creatureGold;
+		return gold;
 	}
 	public int getXP(){
-		return creatureXP;
+		return xp;
 	}
 	public String getLoss(){
-		return creatureLoss;
+		return loss;
 	}
 	public String getVictory(){
-		return creatureVictory;
+		return victory;
 	}
 	public int getChase(){
-		return creatureChase;
+		return chase;
 	}
-	public Vector<Attack> getAttack(){
-		return creatureAttacks;
+	public Vector<AttackWithSideEffect> getAttack(){
+		return attacks;
 	}
 	public int getShield(){
-		return creatureShield;
+		return shield;
 	}
 	public int getDodge(){
-		return creatureDodge;
+		return dodge;
 	}
  	public int getHP(){
-		return creatureHP;
+		return hp;
 	}
 	public String getName(){
-		return creatureName;
+		return name;
 		
 	}
 	public String getInitialDescription() {
-		return creatureInitialDescription;
+		return initialDescription;
+	}
+	public Character turn(Character player) {
+		AttackWithSideEffect currentAttack = getAttack().get(Input.dice(1,getAttack().size()));
+		System.out.println(currentAttack.getDescription());
+		if (currentAttack.getAttack() + getHit() >= dodge){
+			if (currentAttack.dealsDamage()){
+				if (currentAttack.getDamage() + getDamage() > shield){
+					int damage = currentAttack.getDamage() + getDamage() - shield;
+					player.setHP(player.getHP() - damage);
+					System.out.println("It hit you for " + damage + "damage");
+				}
+				else{
+					System.out.println("It hit you but failed to do any damage");
+				}
+			}
+		}
+		else {
+			System.out.println("It missed");
+		}
+		return player;
 	}
 }

@@ -29,16 +29,19 @@ public class Input{
  		return confirm;
 	}
 	public static String getInput() {
+		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
 		String input = scan.nextLine();
         input.toLowerCase();
         return input;
     }
 	
 	public static String getCapInput() {
+		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
 		String capInput = scan.nextLine();
         return capInput;
 	}
 	public static int getInteger() {
+		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
 		int number = scan.nextInt();
         return number;
 	}

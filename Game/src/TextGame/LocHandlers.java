@@ -140,30 +140,8 @@ public class LocHandlers {
 		return player;
 	}
 	public static Character look(Character player){
-		if (player.getCurrentLocation().getNPCs().contains(Locations.Ice)){
-		System.out.println(Locations.Ice.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.guardDog)){
-			System.out.println(Locations.guardDog.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.Coon)){
-			System.out.println(Locations.Coon.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.IceUnknown)){
-			System.out.println(Locations.IceUnknown.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.blacksmith)){
-			System.out.println(Locations.blacksmith.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.realestateShark)){
-			System.out.println(Locations.realestateShark.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.Luka)){
-			System.out.println(Locations.Luka.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.kindHellhound)){
-			System.out.println(Locations.kindHellhound.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.Jake)){
-			System.out.println(Locations.Jake.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.guardCat)){
-			System.out.println(Locations.guardCat.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.salesCow)){
-			System.out.println(Locations.salesCow.getDescription());
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.farmer)){
-			System.out.println(Locations.farmer.getDescription());
+		if (player.getCurrentLocation().getNPCs().size()>0){
+		System.out.println(player.getCurrentLocation().getNPCs().get(0).getDescription());
 		} else if (player.getCurrentLocation() == Locations.forestTempleMain){
 			player = LocHandlers.setFTDonations(player);
 		}
@@ -188,18 +166,19 @@ public class LocHandlers {
 	}
 	return player;
 	}
-	public static Character open(Character player, Items items){
-		if (player.getCurrentLocation().equals(Locations.farmHouse)){
-			if (player.getInventory().contains(items.items.get(14))){
-				System.out.println("You used the key. the door opened.");
-				player.getInventory().remove(items.items.get(14));
-				Locations.farmHouse.addExit(new Exit (Exit.in, Locations.farmHouseInside));
-			}else{
-				System.out.println("the door remains locked, and you don\'t wanna kick it in \nright next to the farmer. Better luck with the key.");
+	public static Character open(Character player){
+		for (Key key : player.getKeychain()){
+			if (player.getCurrentLocation().equals(key.getLocation())){
+				if (player.getInventory().contains(key)){
+					System.out.println("You used the key. the door opened.");
+					player.getInventory().remove(key);
+					player.getKeychain().remove(key);
+					key.getLocation().addExit(new Exit (Exit.in, key.getDestination()));
+					return player;
+				}
 			}
-		} else {
-			System.out.println("Nothing to open here.");
-		}
+		} 
+		System.out.println("The lock won't budge.");
 		return player;
 	}
 	private static Character buyItem(Character player, Item item){
