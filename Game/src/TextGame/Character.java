@@ -37,7 +37,6 @@ public class Character implements Serializable{
 	private Armor currentArmor = new Armor();
 	private Helmet currentHelmet = new Helmet();
 	private Creature enemy;
-	private Character player;
 	
 	public Character (Items inventory){
 		setName();
@@ -499,6 +498,20 @@ public class Character implements Serializable{
 		}else{
 			System.out.println("There's nothing to hunt here.");
 		}
+		return player;
+	}
+	public Character checkInventory(Character player, Items items) {
+		System.out.println("You got " + gold + " gold.");
+		if (playerInventory.size() > 0){
+			for (int i = 0; i < playerInventory.size(); i++){
+				System.out.println(playerInventory.get(i).getCount() + playerInventory.get(i).getName() + ", ");
+			}
+			System.out.println("or you can RETURN.");
+		}else{
+			System.out.println("Your pockets and bags are empty.");
+		}
+		String item = Input.getInput();
+		player = items.useItem(item, player);
 		return player;
 	}
 }

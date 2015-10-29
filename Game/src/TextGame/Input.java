@@ -1,11 +1,10 @@
 package TextGame;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class Input{
-	public static Scanner scan = new Scanner(System.in);
 	public static Random randomGenerator = new Random();
+	public static InputHolder holder = new InputHolder();
 	public static boolean yesNo(Character player){
 		boolean confirm = false;
  		String Choice = "";
@@ -30,19 +29,19 @@ public class Input{
 	}
 	public static String getInput() {
 		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
-		String input = scan.nextLine();
+		String input = holder.getNewInput();
         input.toLowerCase();
         return input;
     }
 	
 	public static String getCapInput() {
 		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
-		String capInput = scan.nextLine();
+		String capInput = holder.getNewInput();
         return capInput;
 	}
 	public static int getInteger() {
 		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
-		int number = scan.nextInt();
+		int number = Integer.parseInt(holder.getNewInput());
         return number;
 	}
 	 public static boolean okay() {

@@ -1,15 +1,16 @@
 package TextGame;
 
-public class Main {
+public class Main{
 	static int turnCounter = 0;
 	static int hourCounter = 1;
 	static boolean pm = true;
 	static String ampm = "PM";
 	static int dayCounter = 1;
-	public static void main(String[] args) {
-		
+	public static void main (String[] args) {
 		
 		//gamestart
+		Runnable frame = new GameScreen();
+		frame.run();
 		Items items = new Items();
 		Character player = new Character(items);
 		@SuppressWarnings("unused")
@@ -30,18 +31,10 @@ public class Main {
 			String Command = Input.getInput();
 			switch (Command){
 			case "inventory":
-				System.out.println("You got " + player.getGold() + " gold.");
-				if (player.getInventory().size() > 0){
-				for (int i = 0; i < player.getInventory().size(); i++){
-					System.out.println(player.getInventory().get(i).getCount() + player.getInventory().get(i).getName() + ", ");
-				}
-				System.out.println("or you can RETURN.");
-				String item = Input.getInput();
-				player = items.useItem(item, player);
+				player = player.checkInventory(player, items);
 				if (!player.getItemUsed()){
 					Command = "";
 				}
-					}
 				break;
 			case "stats":
 				player.stats();
