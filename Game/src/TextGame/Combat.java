@@ -11,6 +11,7 @@ public class Combat {
 	static boolean escape;
 	public static Character combat(Character player, Items items){
 		player.setCombat(true);
+		GameScreen.textArea.setText("");
 		player.setWin(false);
 		win = false;
 		lose = false;

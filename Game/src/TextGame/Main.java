@@ -25,6 +25,7 @@ public class Main{
 		//start of main game
 		boolean running = true;
 		while (running == true){
+			GameScreen.textArea.setText("");
 			turn();
 			player.setMana(player.getMana() + player.getInt());
 			System.out.println("Other commands: Inventory, Stats, Save");
@@ -35,9 +36,6 @@ public class Main{
 				if (!player.getItemUsed()){
 					Command = "";
 				}
-				break;
-			case "stats":
-				player.stats();
 				break;
 			case "hunt":
 				player = player.hunt(player, items);

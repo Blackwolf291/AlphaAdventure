@@ -112,22 +112,7 @@ public class Creature {
 	}
 	public Character turn(Character player) {
 		AttackWithSideEffect currentAttack = getAttack().get(Input.dice(1,getAttack().size()));
-		System.out.println(currentAttack.getDescription());
-		if (currentAttack.getAttack() + getHit() >= dodge){
-			if (currentAttack.dealsDamage()){
-				if (currentAttack.getDamage() + getDamage() > shield){
-					int damage = currentAttack.getDamage() + getDamage() - shield;
-					player.setHP(player.getHP() - damage);
-					System.out.println("It hit you for " + damage + "damage");
-				}
-				else{
-					System.out.println("It hit you but failed to do any damage");
-				}
-			}
-		}
-		else {
-			System.out.println("It missed");
-		}
+		currentAttack.attack(player, this);
 		return player;
 	}
 }

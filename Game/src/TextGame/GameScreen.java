@@ -1,6 +1,5 @@
 package TextGame;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
@@ -11,8 +10,8 @@ public class GameScreen extends JFrame implements Runnable{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextArea textArea;
-	private JTextArea textArea2;
+	public static JTextArea textArea;
+	public static JTextArea statsScreen;
 	public void run(){
 		textField.addKeyListener(new KeyListener(){
 			public void keyPressed(KeyEvent k) {
@@ -53,10 +52,10 @@ public class GameScreen extends JFrame implements Runnable{
 		System.setErr(printStream);
 		textArea.setEnabled(false);
 		
-		textArea2 = new JTextArea();
-		textArea2.setBounds(10, 5, 192, 546);
-		contentPane.add(textArea2);
-		textArea2.setEnabled(false);
+		statsScreen = new JTextArea();
+		statsScreen.setBounds(10, 5, 192, 546);
+		contentPane.add(statsScreen);
+		statsScreen.setEnabled(false);
 		this.setVisible(true);
 	}
 }

@@ -53,6 +53,7 @@ public class Character implements Serializable{
 		calcShield();
 		calcDodge();
 		currentWeapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
+		updateStatsScreen();
 	}
 	public void calcMaxMana(){
 		maxMana = intelligence + level;
@@ -147,18 +148,6 @@ public class Character implements Serializable{
 	public void setAttack(int value){
 		attack = value;
 	}
-	public void stats(){
-		System.out.println("Level = " + level);
-		System.out.println("XP = " + xp);
-		System.out.println("HP = " + hp + "/" + maxHP);
-		System.out.println("Mana = " + mana + "/" + maxMana);
-		System.out.println("Strength = " + strength);
-		System.out.println("Speed = " + speed);
-		System.out.println("Toughness = " + toughness);
-		System.out.println("Intelligance = " + intelligence);
-		System.out.println("Charisma = " + charisma);
-		System.out.println("Your current home base is the " + base.getLocName());
-	}
 	public Vector<Item> getEquipment(){
 		return equipment;
 	}
@@ -242,12 +231,14 @@ public class Character implements Serializable{
 		if (HP > maxHP){
 			HP = maxHP;
 		}
+		updateStatsScreen();
 	}
 	public void setGainedXP(int gainedXP){
 		xp = xp + gainedXP;
 		while (xp > level*100) {
 			lvlUp();
 		}
+		updateStatsScreen();
 		return;
 	}
 	public int gainStat(int stat, int boostValue, String description){
@@ -282,9 +273,9 @@ public class Character implements Serializable{
 		System.out.println("Gain a bonus to a stat.");
 		System.out.println("Strength, Speed, Toughness, Intelligence, Charisma.");
 		String boonChoice = Input.getInput();
-		while (boonChoice.length() > 0){
+		do {
 			boonChoice = applyBoon(boonChoice, x);
-		}
+		} while (boonChoice.length() == 0);
 	}
 	private void lvlUp() {
 		xp = xp - 100*level;
@@ -406,8 +397,9 @@ public class Character implements Serializable{
 		
 	}
 	void playerLose() {
+		GameScreen.textArea.setText("");
 		System.out.println(getEnemy().getLoss());
-		hp = getMaxHP()/2;
+		setHP(getMaxHP()/2);
 		setCurrentLocation(getBase());
 		if (base == Locations.beach){
 			System.out.println("You wake up the next day. sagged into the sand. feeling refreshed.");
@@ -447,6 +439,7 @@ public class Character implements Serializable{
 		return hit;
 	}
 	public void playerWin() {
+		GameScreen.textArea.setText("");
 		System.out.println(enemy.getVictory());
 		System.out.println("You gained " + enemy.getXP() + " experience.");
 		setGainedXP(enemy.getXP());
@@ -513,5 +506,11 @@ public class Character implements Serializable{
 		String item = Input.getInput();
 		player = items.useItem(item, player);
 		return player;
+	}
+	private void updateStatsScreen(){
+		GameScreen.statsScreen.setText(name + "\n");
+		GameScreen.statsScreen.append("level" + level);
+		GameScreen.statsScreen.append("XP: " + xp + "/" + (level*100));
+		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP);
 	}
 }

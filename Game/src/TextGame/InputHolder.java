@@ -1,7 +1,5 @@
 package TextGame;
 
-import java.util.Vector;
-
 public class InputHolder {
 	private String storage;
 	public void addNewInput(String input){
