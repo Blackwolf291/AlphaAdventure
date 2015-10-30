@@ -21,11 +21,11 @@ public class Main{
     	if (load){
     	  		player = SaveAndLoad.loadGame(player);
     	}
+    	GameScreen.textArea.setText("");
 		System.out.println( "You wake up on the beach.\nThe sand feels warm, and you can't remember how you got here.\nYou see the wreck of a ship to the North, \nand a dense forest to the East.");
 		//start of main game
 		boolean running = true;
 		while (running == true){
-			GameScreen.textArea.setText("");
 			turn();
 			player.setMana(player.getMana() + player.getInt());
 			System.out.println("Other commands: Inventory, Stats, Save");
@@ -94,7 +94,7 @@ public class Main{
 					case "hunt":
 						if (player.getCurrentLocation().getCreatures().size() > 0){
 							player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
-							player = Combat.combat(player, items);
+							player = player.combat(items);
 						}else{
 							System.out.println("There's nothing to hunt here.");
 						}
@@ -111,8 +111,7 @@ public class Main{
 			} else {
 				player = Locations.action(Command, player, items);
 			}
-			}
-					
+			}		
 			}
 	}
 	private static void turn() {

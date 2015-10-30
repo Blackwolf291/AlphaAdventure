@@ -1,6 +1,7 @@
 package TextGame;
 
 import java.io.Serializable;
+import java.util.Enumeration;
 import java.util.Vector;
 
 public class Character implements Serializable{
@@ -37,6 +38,11 @@ public class Character implements Serializable{
 	private Armor currentArmor = new Armor();
 	private Helmet currentHelmet = new Helmet();
 	private Creature enemy;
+	private boolean playerTurn;
+	private boolean hit;
+	private boolean escape;
+	private boolean creatureTurn;
+	private boolean lose;
 	
 	public Character (Items inventory){
 		setName();
@@ -487,7 +493,7 @@ public class Character implements Serializable{
 	Character hunt(Character player, Items items){
 		if (currentLocation.getCreatures().size() > 0){
 			enemy = currentLocation.getCreatures().get(Input.dice(1,currentLocation.getCreatures().size())); 
-			player = Combat.combat(player, items);
+			player = combat(items);
 		}else{
 			System.out.println("There's nothing to hunt here.");
 		}
@@ -512,5 +518,137 @@ public class Character implements Serializable{
 		GameScreen.statsScreen.append("level" + level);
 		GameScreen.statsScreen.append("XP: " + xp + "/" + (level*100));
 		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP);
+	}
+	private Character combatInventory(Items items) {
+		printCombatInventory();
+		String item = Input.getInput();
+		if (item.equals("return")){ 
+			items.useItem(item, this);
+			playerTurn = !getItemUsed();
+		}
+		return this;
+	}
+	private void attack() {
+		playerTurn = false;
+		hit = decideHit();
+		if (hit){
+			dealDamage();
+		}
+		if (getEnemy().getHP() <= 0){
+			win = true;
+		}
+		return;
+	}
+	private void flee() {
+		if (getEnemy().getCanFlee()){
+			playerTurn = false;
+			escape = decideEscape();
+		
+		
+		if (escape){
+			setCombat(false);
+			creatureTurn = false;
+		}
+		}else{
+			System.out.println("There's no escaping this foe.");
+		}
+		return;
+	}
+	private void combatRoundUp() {
+		System.out.println(getCurrentLocation().getDescription());
+		
+		// Show available exits
+		System.out.println( "\nAvailable exits :" );
+		for (Enumeration<Exit> e = getCurrentLocation().getExits().elements(); e.hasMoreElements();)
+		{
+			Exit an_exit = (Exit) e.nextElement();
+			System.out.println(an_exit);
+		}
+			if (getCurrentLocation().getNPCs().size() != 0){
+			System.out.println("You see " + getCurrentLocation().getNPCs().get(0).getName());
+			System.out.println("You can LOOK or TALK");
+			}
+	}
+	public Character combat(Items items){
+		setCombat(true);
+		GameScreen.textArea.setText("");
+		setWin(false);
+		win = false;
+		lose = false;
+		creatureTurn = true;
+		playerTurn = true;
+		System.out.println("You face a " + getEnemy().getName());
+		System.out.println(getEnemy().getInitialDescription());
+		while (getCombat()){
+			while (playerTurn){
+				printSituation();
+				String action = Input.getInput();
+				switch (action){
+				case "attack":
+				case "a":
+					attack();
+					break;
+			case "flee":
+			case "f":
+				flee();
+				break;
+			case "item":
+			case "i":
+			case "use item":
+			case "u":
+			case "inventory":
+					combatInventory(items);
+				break;
+			case "minor heal":
+			case "heal":
+				if (getSpells().contains(Locations.minorHeal)){
+				Locations.minorHeal.cast(this);
+				playerTurn = false;
+				}else{
+					System.out.println("No such move");
+				}
+				break;
+			case "fireball":
+			case "fire":
+				if (getSpells().contains(Locations.fireball)){
+				Locations.fireball.cast(this);
+				playerTurn = false;
+				}else{
+					System.out.println("No such move");
+				}
+				break;
+			default:
+					System.out.println("No such move");
+					}
+			}
+			if (win) {
+				creatureTurn = false;
+				setCombat(false);
+						}
+			if (creatureTurn){
+				getEnemy().turn(this);
+				if (getHP() <= 0){
+					lose = true;
+					setCombat(false);
+				}else{ 
+					playerTurn = true;
+				}
+			}
+		}
+		if (!combat){
+			endCombat();
+		}
+		
+	return this;	
+	}
+	private void endCombat() {
+		if (win){
+			playerWin();
+		}
+		else if (lose){
+			playerLose();
+		}
+		combatRoundUp();
+		
 	}
 }

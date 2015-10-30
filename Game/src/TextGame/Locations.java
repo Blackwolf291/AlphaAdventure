@@ -302,7 +302,7 @@ public static Character action (String Command, Character player, Items items){
 			if (Input.coin()){
 				if (player.getCurrentLocation().getCreatures().size() > 0){
 					player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
-					player = Combat.combat(player, items);
+					player = player.combat(items);
 				}
 			} else{
 			

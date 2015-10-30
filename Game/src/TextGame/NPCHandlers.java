@@ -154,7 +154,7 @@ public class NPCHandlers {
 		switch (plan) {
 		case "fight":
 			player.setEnemy(Locations.extraLocation.getCreatures().get(1));
-			Combat.combat(player, items);
+			player.combat(items);
 			if (player.getWin()){
 				Locations.forestWestGate.addExit(new Exit(Exit.east, Locations.forestVillage));
 				Locations.forestWestGate.removeNPC(Locations.guardDog);
@@ -302,7 +302,7 @@ public class NPCHandlers {
 				case "y":
 					System.out.println("Luka: You will? Thank you so much. \n The big Shepherd \nLuka: I know the cabin. I\'ll be right back.");
 					player.setEnemy(Locations.extraLocation.getCreatures().get(2));
-					player = Combat.combat(player, items);
+					player = player.combat(items);
 					if (player.getWin()){
 						System.out.println("Only a few minutes later, Luka walks back down the path, holding the paw of a hellhound. \nHe\'s not really looking anywhere but at the panicked looking hellhound.\nLuka: Easy Jake, it\'s not so bad. You're still my brother.\nLuka: I\'ll convince the village you\'re still you. And look " + player.getName() + " is here too. \nLuca: " + player.getName() + ", please, take him to my home." );
 					Locations.forestVillage.addExit(new Exit(Exit.north, Locations.lukasPlace));
@@ -333,7 +333,7 @@ public class NPCHandlers {
 			boolean choice = Input.yesNo(player);
 			if (choice){
 				player.setEnemy(Locations.extraLocation.getCreatures().get(1));
-				player = Combat.combat(player, items);
+				player.combat(items);
 				if (player.getWin()){
 					System.out.println("It seems you are still the better warrior.");
 				}
@@ -444,7 +444,7 @@ public class NPCHandlers {
 		case "sun":
 		case "s":
 			System.out.println("Guard cat: You really wanna pick a fight with me? okay then.");
-			player = Combat.combat(player, items);
+			player.combat(items);
 			break;
 			default:
 				System.out.println("Guard cat: not surrrre who of us is drrreaming, \nGuard cat: but you\'rrrr not making sense.");

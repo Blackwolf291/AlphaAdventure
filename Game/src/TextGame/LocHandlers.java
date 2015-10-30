@@ -20,7 +20,7 @@ public class LocHandlers {
 				System.out.println("As you approach the circle, smoke starts rising from it.\nWhen it clears, the five hooded men lay crumpled on the floor. \nIn the middle of the circle, stands a canine, sure, but this one is no longer chained. \nHe is nude now, twice as tall as the teen was, his hair flaming, in a trail down his back all the way to the tail. \nIt's a hellhound, and he seems angry. \nHellhound: Time for you to die!");
 				brotherQuest = 1;
 				player.setEnemy(Locations.extraLocation.getCreatures().get(0));
-				player = Combat.combat(player, items);
+				player = player.combat(items);
 				if (player.getWin()){
 					brotherQuest = 2;
 					brotherQuest2RoundUp(player);
@@ -37,7 +37,7 @@ public class LocHandlers {
 		} else if (brotherQuest == 1 && player.getCurrentLocation().equals(Locations.forestTempleBasement)){
 			System.out.println("The hellhound charges you with a roar. A flame rushing at you from the darkness.");
 			player.setEnemy(Locations.extraLocation.getCreatures().get(0));
-			player = Combat.combat(player, items);
+			player = player.combat(items);
 			if (player.getWin()){
 				brotherQuest = 2;
 				System.out.println("As he crawls to his feet, all menace is gone from his appearance. \nYes, he is still the hellhound, but he's cute and cuddly, not menacing. \nHellhound: You saved me. Let's get out of here.\nThe hellhound leads you out of the temple. Hellhound: you really saved me back there. I wish I could repay you, but I don't have anything.");
