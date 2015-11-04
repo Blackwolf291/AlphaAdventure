@@ -30,68 +30,65 @@ public class Main{
 			player.setMana(player.getMana() + player.getInt());
 			System.out.println("Other commands: Inventory, Stats, Save");
 			String Command = Input.getInput();
-			switch (Command){
-			case "inventory":
+			switch (CommandList.valueOf(Command)){
+			case inventory:
 				player = player.checkInventory(player, items);
 				if (!player.getItemUsed()){
 					Command = "";
 				}
 				break;
-			case "hunt":
+			case hunt:
 				player = player.hunt(player, items);
 				break;
-			case "spells":
+			case spells:
 				player.printSpellList();
 				break;
-			case "talk":
+			case talk:
 				LocHandlers.talk(player, items);
 				break;
-			case "open":
+			case open:
 				LocHandlers.open(player);
-			case "save":
+			case save:
 				SaveAndLoad.saveGame(player);
 				break;
-			case "make":
+			case make:
 				LocHandlers.make(player);
 				break;
-			case "look":
+			case look:
 				LocHandlers.look(player);
 				break;
-			case "minor heal":
-			case "heal":
+			case heal:
 				if (player.getSpells().contains(Locations.minorHeal)){
 				player = Locations.minorHeal.cast(player);
 				}else{
 					System.out.println("No such move");
 				}
 				break;
-			case "fireball":
-			case "fire":
+			case fire:
 				if (player.getSpells().contains(Locations.fireball)){
 				player = Locations.fireball.cast(player);
 				}else{
 					System.out.println("No such move");
 				}
 				break;
-			case "search":
+			case search:
 				player = LocHandlers.search(player, items);
 				break;
 				default:
-					if (Command.length() >= 4){
-					String handle = Command.substring(0,3);
-					switch (handle){
-					case "use ":
+					switch (ShorthandCommands.valueOf(Command.split("")[0])){
+					case use:
 						items.useItem(Command, player);
 						break;
-					case "talk":
+					case talk:
 						LocHandlers.talk(player, items);
 						break;
-					case "look":
+					case look:
 						LocHandlers.look(player);
 						break;
-					case "open":
+					case open:
 						LocHandlers.open(player);
-					case "hunt":
+						break;
+					case hunt:
 						if (player.getCurrentLocation().getCreatures().size() > 0){
 							player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
 							player = player.combat(items);
@@ -99,18 +96,16 @@ public class Main{
 							System.out.println("There's nothing to hunt here.");
 						}
 						break;
-					case "make":
+					case make:
 						LocHandlers.make(player);
 						break;
-					case "equi":
+					case equip:
 						items.equipItem(Command, player);
 						break;
 						default:
 							player = Locations.action(Command, player, items);
 					}
-			} else {
-				player = Locations.action(Command, player, items);
-			}
+			
 			}		
 			}
 	}

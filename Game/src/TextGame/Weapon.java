@@ -32,4 +32,47 @@ public class Weapon extends Item{
 	public int getDamage(){
 		return damage;
 	}
+	public void attack(Character player, Creature enemy) {
+		player.setPlayerTurn(false);
+		boolean hit = decideHit(player, enemy);
+		if (hit){
+			dealDamage(player, enemy);
+		}
+		if (player.getEnemy().getHP() <= 0){
+			player.setWin(true);
+		}
+	}
+	private void dealDamage(Character player, Creature enemy) {
+		System.out.println("You hit the " + player.getEnemy().getName());
+		int playerDamage = getDamage();
+		if (playerDamage >= enemy.getShield()){
+			int damage = playerDamage - enemy.getShield();
+			int HP = enemy.getHP() - damage;
+			enemy.setHP(HP);
+			System.out.println("for " + damage + " damage");
+		} else{
+			System.out.println("but it did no damage.");
+		}
+	}
+	private boolean decideHit(Character player, Creature enemy) {
+		boolean hit;
+		int attackDie = Input.dice(1,6);
+		switch (attackDie){
+		case 6:
+			hit = true;
+			break;
+		case 0:
+			hit = false;
+			break;
+		default:
+			int attack = player.getAttack() + attackDie;
+			if (attack>=enemy.getDodge()){
+				hit = true;
+			}
+			else{
+				hit = false;
+			}
+		}
+		return hit;
+	}
 }

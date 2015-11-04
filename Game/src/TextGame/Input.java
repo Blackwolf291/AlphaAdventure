@@ -30,8 +30,7 @@ public class Input{
 	public static String getInput() {
 		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
 		String input = holder.getNewInput();
-        input.toLowerCase();
-        return input;
+        return input.toLowerCase();
     }
 	
 	public static String getCapInput() {

@@ -39,8 +39,6 @@ public class Character implements Serializable{
 	private Helmet currentHelmet = new Helmet();
 	private Creature enemy;
 	private boolean playerTurn;
-	private boolean hit;
-	private boolean escape;
 	private boolean creatureTurn;
 	private boolean lose;
 	
@@ -266,7 +264,7 @@ public class Character implements Serializable{
 		case "intelligence":
 			intelligence = gainStat(intelligence, x, "You have gotten faster.");
 			break;
-		case "charisma":
+		case "persuasion":
 			charisma = gainStat(charisma, x, "You have gotten more convincing.");
 			break;
 			default:
@@ -384,23 +382,19 @@ public class Character implements Serializable{
         	default:
         		System.out.println("Sorry, that animal is not available at this time.");
         		playerSpecies = "";
+        		continue;
     		}
     		System.out.println("Your a " + playerSpecies);
-    		speciesChoice = Input.okay();
-    		if (speciesChoice == false){
-    			playerSpecies = "";
-        		}		 
+    		speciesChoice = Input.okay();	 
     	}
 	return race;
 	}
 	void printSituation() {
 		System.out.println(getEnemy().getDescription());
-		System.out.println("You have " + hp + "HP");
 		System.out.println("You may try to ATTACK, FLEE, use an ITEM.");
 		if (spells.size() > 0){
 			System.out.println("Or you may cast a spell.");
 		}
-		
 	}
 	void playerLose() {
 		GameScreen.textArea.setText("");
@@ -410,39 +404,6 @@ public class Character implements Serializable{
 		if (base == Locations.beach){
 			System.out.println("You wake up the next day. sagged into the sand. feeling refreshed.");
 		}
-	}
-	void dealDamage() {
-		System.out.println("You hit the " + getEnemy().getName());
-		int playerDamage = currentWeapon.getDamage();
-		if (playerDamage >= enemy.getShield()){
-			int damage = playerDamage - enemy.getShield();
-			int HP = enemy.getHP() - damage;
-			enemy.setHP(HP);
-			System.out.println("for " + damage + " damage");
-		} else{
-			System.out.println("but it did no damage.");
-		}
-	}
-	boolean decideHit() {
-		boolean hit;
-		int attackDie = Input.dice(1,6);
-		switch (attackDie){
-		case 6:
-			hit = true;
-			break;
-		case 0:
-			hit = false;
-			break;
-		default:
-			int attack = this.attack + attackDie;
-			if (attack>=enemy.getDodge()){
-				hit = true;
-			}
-			else{
-				hit = false;
-			}
-		}
-		return hit;
 	}
 	public void playerWin() {
 		GameScreen.textArea.setText("");
@@ -515,9 +476,15 @@ public class Character implements Serializable{
 	}
 	private void updateStatsScreen(){
 		GameScreen.statsScreen.setText(name + "\n");
-		GameScreen.statsScreen.append("level" + level);
-		GameScreen.statsScreen.append("XP: " + xp + "/" + (level*100));
-		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP);
+		GameScreen.statsScreen.append("level" + level+ "\n");
+		GameScreen.statsScreen.append("XP: " + xp + "/" + (level*100)+ "\n");
+		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP+ "\n");
+		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP+ "\n");
+		GameScreen.statsScreen.append("Strength: " + strength+ "\n");
+		GameScreen.statsScreen.append("Speed: " + speed+ "\n");
+		GameScreen.statsScreen.append("Toughness: " + toughness+ "\n");
+		GameScreen.statsScreen.append("Intelligence: " + intelligence+ "\n");
+		GameScreen.statsScreen.append("Persuasion: " + charisma+ "\n");
 	}
 	private Character combatInventory(Items items) {
 		printCombatInventory();
@@ -528,23 +495,10 @@ public class Character implements Serializable{
 		}
 		return this;
 	}
-	private void attack() {
-		playerTurn = false;
-		hit = decideHit();
-		if (hit){
-			dealDamage();
-		}
-		if (getEnemy().getHP() <= 0){
-			win = true;
-		}
-		return;
-	}
 	private void flee() {
 		if (getEnemy().getCanFlee()){
 			playerTurn = false;
-			escape = decideEscape();
-		
-		
+			boolean escape = decideEscape();
 		if (escape){
 			setCombat(false);
 			creatureTurn = false;
@@ -586,7 +540,7 @@ public class Character implements Serializable{
 				switch (action){
 				case "attack":
 				case "a":
-					attack();
+					currentWeapon.attack(this, enemy);
 					break;
 			case "flee":
 			case "f":
@@ -650,5 +604,8 @@ public class Character implements Serializable{
 		}
 		combatRoundUp();
 		
+	}
+	public void setPlayerTurn(boolean b) {
+		playerTurn=b;
 	}
 }
