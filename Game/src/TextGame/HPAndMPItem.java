@@ -18,7 +18,7 @@ public class HPAndMPItem extends Consumable{
 	}
 	Character manaRec(Character player){
 		if (getCount()>0){
-			player.removeItem(this);
+			player.getInventory().removeItem(this);
 			player.setMana(player.getMana() + manaBoost);
 			System.out.println(useDescription);
 			System.out.println("You gained "+ manaBoost + " mana.");
@@ -30,7 +30,7 @@ public class HPAndMPItem extends Consumable{
 	}
 	Character heal(Character player){
 		if (getCount()>0){
-			player.removeItem(this);
+			player.getInventory().removeItem(this);
 			player.setHP(player.getHP() + hp);
 			System.out.println(useDescription);
 			System.out.println("You gained "+ hp + " hp.");
@@ -42,7 +42,7 @@ public class HPAndMPItem extends Consumable{
 	}
 	Character healWithBonusHP(Character player){
 		if (getCount()>0){
-			player.removeItem(this);
+			player.getInventory().removeItem(this);
 			player.setHPWithBonus(player.getHP() + hp);
 			System.out.println(useDescription);
 			System.out.println("You gained "+ hp + " hp.\nYou feel better than normal.");

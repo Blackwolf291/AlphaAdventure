@@ -27,6 +27,23 @@ public class Input{
  		}	
  		return confirm;
 	}
+	public static Item chooseItem (Item[] options){
+		Item itemChoice = null;
+		while (itemChoice == null){
+			String choice = Input.getInput();
+			itemChoice = findItem(options, choice);
+		}
+		return itemChoice;
+	}
+	public static Item findItem(Item[] options, String choice){
+		for (int i = 0; i< options.length; i++){
+			if (choice == options[i].getName()){
+				return options[i];
+			}
+		}
+		System.out.println("Sorry, that's not an option.");
+		return null;
+	}
 	public static String getInput() {
 		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
 		String input = holder.getNewInput();

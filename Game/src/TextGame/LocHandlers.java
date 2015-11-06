@@ -167,62 +167,16 @@ public class LocHandlers {
 	return player;
 	}
 	public static Character open(Character player){
-		for (Key key : player.getKeychain()){
+		for (Key key : player.getInventory().getKeychain()){
 			if (player.getCurrentLocation().equals(key.getLocation())){
-				if (player.getInventory().contains(key)){
 					System.out.println("You used the key. the door opened.");
-					player.getInventory().remove(key);
-					player.getKeychain().remove(key);
+					player.getInventory().items.remove(key);
+					player.getInventory().getKeychain().remove(key);
 					key.getLocation().addExit(new Exit (Exit.in, key.getDestination()));
 					return player;
-				}
 			}
 		} 
 		System.out.println("The lock won't budge.");
-		return player;
-	}
-	private static Character buyItem(Character player, Item item){
-		player.setGold(player.getGold()-item.getValue());
-		player.addItem(item);
-		System.out.println("You bought the " + item.getName());
-		return player;
-	}
-	private static Character canBuyItem(Character player, Item item){
-		if (player.getGold() >= item.getValue()){
-			player = buyItem(player, item);
-		} else {
-			System.out.println("You don\'t have that kind of money.");
-		}
-		return player;
-	}
-	private static void printItemList(Item[] forSale){
-		System.out.println("Item \tPrice.");
-		for (int i = 0; i< forSale.length; i++){
-			System.out.println(forSale[i].getName() + "\t" + forSale[i].getValue());
-		}
-	}
-	public static Item findItem(Item[] options, String choice){
-		for (int i = 0; i< options.length; i++){
-			if (choice == options[i].getName()){
-				return options[i];
-			}
-		}
-		System.out.println("Sorry, I don\'t have that.");
-		return null;
-	}
-	public static Item chooseItem (Item[] options){
-		Item itemChoice = null;
-		while (itemChoice == null){
-			String choice = Input.getInput();
-			itemChoice = findItem(options, choice);
-		}
-		return itemChoice;
-	}
-	public static Character buyShop (Character player, Item[] forSale){
-		printItemList(forSale);
-		System.out.println("You have " + player.getGold() + "gold.");
-		Item itemChoice = chooseItem(forSale);
-		player = canBuyItem(player, itemChoice);
 		return player;
 	}
 }

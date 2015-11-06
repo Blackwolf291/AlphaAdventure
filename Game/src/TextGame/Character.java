@@ -26,9 +26,7 @@ public class Character implements Serializable{
 	private int dodge;
 	private Vector<Spell> spells;
 	private Location currentLocation;
-	static private Vector<Item> playerInventory; 
-	static private Vector<Item> equipment; 
-	static private Vector<Key> keychain; 
+	private Inventory inventory = new Inventory(); 
 	private Location base;
 	private boolean combat = false;
 	private boolean win = true;
@@ -42,7 +40,7 @@ public class Character implements Serializable{
 	private boolean creatureTurn;
 	private boolean lose;
 	
-	public Character (Items inventory){
+	public Character (){
 		setName();
 		species = setRace();
 		pickABoon(5);
@@ -51,8 +49,6 @@ public class Character implements Serializable{
 		calcAttack();
 		calcMaxMana();
 		mana = maxMana;
-		playerInventory = new Vector<Item>();
-		equipment = new Vector<Item>();
 		enemy = new Creature();
 		calcShield();
 		calcDodge();
@@ -152,37 +148,11 @@ public class Character implements Serializable{
 	public void setAttack(int value){
 		attack = value;
 	}
-	public Vector<Item> getEquipment(){
-		return equipment;
-	}
 	public boolean getCombat(){
 		return combat;
 	}
 	public void setCombat(boolean fighting){
 		combat = fighting;
-	}
-	public void addItem(Item item){
-		if (playerInventory.contains(item)){
-			item.setCount(item.getCount() + 1);
-			if (item instanceof Key){
-				keychain.add((Key) item);
-			}
-		} else {
-			playerInventory.addElement(item);
-		}
-		itemCleanup(item);
-	}
-	public Vector<Key> getKeychain(){
-		return keychain;
-	}
-	public void itemCleanup(Item item){
-		if (item.getCount() == 0){
-			playerInventory.removeElement(item);
-		}
-	}
-	public void removeItem(Item item){
-		item.setCount(item.getCount() - 1);
-		itemCleanup(item);
 	}
 	public void setWin(boolean fightWin) {
 		win = fightWin;
@@ -197,8 +167,8 @@ public class Character implements Serializable{
 	public Location getBase(){
 		return base;
 	}
-	public Vector<Item> getInventory(){
-		return playerInventory;
+	public Inventory getInventory(){
+		return inventory;
 	}
 	public void setGold(int goldGained){
 		gold = gold + goldGained;
@@ -415,18 +385,10 @@ public class Character implements Serializable{
 		System.out.println("You gained " + enemy.getGold() + " gold.");
 		if (Input.dice(1,100) >= enemy.getDropChance()){
 			System.out.println("You gained 1" + enemy.getItemDrop());
-			playerInventory.add(enemy.getItemDrop());
+			inventory.addItem(enemy.getItemDrop());
 		}
 	}
-	public void printCombatInventory(){
-		System.out.println("You got " + gold + " gold.");
-		for (int i = 0; i < playerInventory.size(); i++){
-			if (playerInventory.get(i).getCombatUse()){
-				System.out.println(playerInventory.get(i).getCount() + playerInventory.get(i).getName() + ", ");
-			}
-		}
-		System.out.println("or you can RETURN.");
-		}
+	
 	public boolean decideEscape() {
 		boolean escape;
 		int escapeDie = Input.dice(1,6);
@@ -460,20 +422,7 @@ public class Character implements Serializable{
 		}
 		return player;
 	}
-	public Character checkInventory(Character player, Items items) {
-		System.out.println("You got " + gold + " gold.");
-		if (playerInventory.size() > 0){
-			for (int i = 0; i < playerInventory.size(); i++){
-				System.out.println(playerInventory.get(i).getCount() + playerInventory.get(i).getName() + ", ");
-			}
-			System.out.println("or you can RETURN.");
-		}else{
-			System.out.println("Your pockets and bags are empty.");
-		}
-		String item = Input.getInput();
-		player = items.useItem(item, player);
-		return player;
-	}
+	
 	private void updateStatsScreen(){
 		GameScreen.statsScreen.setText(name + "\n");
 		GameScreen.statsScreen.append("level" + level+ "\n");
@@ -485,9 +434,10 @@ public class Character implements Serializable{
 		GameScreen.statsScreen.append("Toughness: " + toughness+ "\n");
 		GameScreen.statsScreen.append("Intelligence: " + intelligence+ "\n");
 		GameScreen.statsScreen.append("Persuasion: " + charisma+ "\n");
+		GameScreen.statsScreen.append("Gold: " + gold + "\n");
 	}
 	private Character combatInventory(Items items) {
-		printCombatInventory();
+		inventory.printCombatInventory();
 		String item = Input.getInput();
 		if (item.equals("return")){ 
 			items.useItem(item, this);

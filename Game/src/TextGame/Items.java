@@ -5,7 +5,6 @@ import java.util.Vector;
 public class Items {
 
 	Vector<Item> items = new Vector<Item>();
-	Vector<Item> inventory = new Vector<Item>();
 	private Item None;
 	private Item brothersScarf;
 	private Item vineJuice;
@@ -55,34 +54,6 @@ public class Items {
 		items.add(milk);
 		cheese = new HPAndMPItem ("cheese", 1, true, true, false, 40, 50, 50, "");
 		items.add(cheese);
-	}
-	private Character weaponSwap (Character player, Item weapon){
-		player.removeItem(weapon);
-		Item spare = player.setWeapon((Weapon) weapon);
-		System.out.println("You equipped a " + weapon.getName() + ".");
-		player.addItem(spare);
-		return player;
-	}
-	private Character shieldSwap (Character player, Item shield){
-		player.removeItem(shield);
-		Item spare = player.setShield((Shield) shield);
-		System.out.println("You equipped a " + shield.getName() + ".");
-		player.addItem(spare);
-		return player;
-	}
-	private Character armorSwap (Character player, Item armor){
-		player.removeItem(armor);
-		Item spare = player.setArmor((Armor) armor);
-		System.out.println("You equipped a " + armor.getName() + ".");
-		player.addItem(spare);
-		return player;
-	}
-	private Character helmetSwap (Character player, Item helmet){
-		player.removeItem(helmet);
-		Item spare = player.setHelmet((Helmet) helmet);
-		System.out.println("You equipped a " + helmet.getName() + ".");
-		player.addItem(spare);
-		return player;
 	}
 	public Character useItem(String command, Character player){
 		switch (command){
@@ -136,23 +107,23 @@ public class Items {
 		switch (command){
 		case "equip copper armor": 
 		case "equip copperarmor": 
-			player = armorSwap(player, copperArmor);
+			player = player.getInventory().armorSwap(player, copperArmor);
 		break;
 		case "equip copper helmet":
 		case "equip copperhelmet":
-			player = helmetSwap(player, copperHelmet);
+			player = player.getInventory().helmetSwap(player, copperHelmet);
 		break;
 		case "equip copper shield":
 		case "equip coppershield":
-			player = shieldSwap(player, copperShield);
+			player = player.getInventory().shieldSwap(player, copperShield);
 		break;
 		case "equip copper sword":
 		case "equip coppersword":
-			player = weaponSwap(player, copperSword);
+			player = player.getInventory().weaponSwap(player, copperSword);
 		break;
 		case "equip leather armor": 
 		case "equip leatherarmor": 
-			player = armorSwap(player, leatherArmor);
+			player = player.getInventory().armorSwap(player, leatherArmor);
 		break;
 		default:
 			System.out.println("Sorry, you cannot equip that or");
@@ -163,10 +134,6 @@ public class Items {
 	public Vector<Item> getItems(){
 		return items;
 	}
-	public Vector<Item> getInventory(){
-	return inventory;
-	}
-	
 	public static boolean Item () {
 		boolean used = false;
 		return used;

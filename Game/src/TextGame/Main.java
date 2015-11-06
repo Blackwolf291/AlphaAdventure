@@ -6,13 +6,14 @@ public class Main{
 	static boolean pm = true;
 	static String ampm = "PM";
 	static int dayCounter = 1;
-	public static void main (String[] args) {
-		
-		//gamestart
+	static String command;
+	static Items items;
+	static Character player;
+	private static void initiateGame(){
 		Runnable frame = new GameScreen();
 		frame.run();
-		Items items = new Items();
-		Character player = new Character(items);
+		items = new Items();
+		player = new Character();
 		@SuppressWarnings("unused")
 		Locations worldMap = new Locations(items, player);
     	System.out.println("Alpha adventure");  
@@ -23,93 +24,26 @@ public class Main{
     	}
     	GameScreen.textArea.setText("");
 		System.out.println( "You wake up on the beach.\nThe sand feels warm, and you can't remember how you got here.\nYou see the wreck of a ship to the North, \nand a dense forest to the East.");
-		//start of main game
+		
+	}
+	private static void startTurn(){
+		increaseIngameTime();
+		player.setMana(player.getMana() + player.getInt());
+		System.out.println("Other commands: Inventory, Stats, Save");
+	}
+	private static void runGameLoop(){
 		boolean running = true;
 		while (running == true){
-			turn();
-			player.setMana(player.getMana() + player.getInt());
-			System.out.println("Other commands: Inventory, Stats, Save");
-			String Command = Input.getInput();
-			switch (CommandList.valueOf(Command)){
-			case inventory:
-				player = player.checkInventory(player, items);
-				if (!player.getItemUsed()){
-					Command = "";
-				}
-				break;
-			case hunt:
-				player = player.hunt(player, items);
-				break;
-			case spells:
-				player.printSpellList();
-				break;
-			case talk:
-				LocHandlers.talk(player, items);
-				break;
-			case open:
-				LocHandlers.open(player);
-			case save:
-				SaveAndLoad.saveGame(player);
-				break;
-			case make:
-				LocHandlers.make(player);
-				break;
-			case look:
-				LocHandlers.look(player);
-				break;
-			case heal:
-				if (player.getSpells().contains(Locations.minorHeal)){
-				player = Locations.minorHeal.cast(player);
-				}else{
-					System.out.println("No such move");
-				}
-				break;
-			case fire:
-				if (player.getSpells().contains(Locations.fireball)){
-				player = Locations.fireball.cast(player);
-				}else{
-					System.out.println("No such move");
-				}
-				break;
-			case search:
-				player = LocHandlers.search(player, items);
-				break;
-				default:
-					switch (ShorthandCommands.valueOf(Command.split("")[0])){
-					case use:
-						items.useItem(Command, player);
-						break;
-					case talk:
-						LocHandlers.talk(player, items);
-						break;
-					case look:
-						LocHandlers.look(player);
-						break;
-					case open:
-						LocHandlers.open(player);
-						break;
-					case hunt:
-						if (player.getCurrentLocation().getCreatures().size() > 0){
-							player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
-							player = player.combat(items);
-						}else{
-							System.out.println("There's nothing to hunt here.");
-						}
-						break;
-					case make:
-						LocHandlers.make(player);
-						break;
-					case equip:
-						items.equipItem(Command, player);
-						break;
-						default:
-							player = Locations.action(Command, player, items);
-					}
-			
-			}		
-			}
+			startTurn();
+			command = Input.getInput();
+			parseAndExecuteCommand();
+		}
 	}
-	private static void turn() {
+	public static void main (String[] args) {
+		initiateGame();
+		runGameLoop();
+	}
+	private static void increaseIngameTime() {
 		turnCounter++;
 		if (turnCounter >= 12){
 			turnCounter -= 12;
@@ -127,7 +61,82 @@ public class Main{
 			
 		}
 	}
+	private static void parseAndExecuteCommand(){
+		switch (CommandList.valueOf(command)){
+		case inventory:
+			player = player.getInventory().checkInventory(player, items);
+			if (!player.getItemUsed()){
+				command = "";
+			}
+			break;
+		case hunt:
+			player = player.hunt(player, items);
+			break;
+		case spells:
+			player.printSpellList();
+			break;
+		case talk:
+			LocHandlers.talk(player, items);
+			break;
+		case open:
+			LocHandlers.open(player);
+			break;
+		case save:
+			SaveAndLoad.saveGame(player);
+			break;
+		case make:
+			LocHandlers.make(player);
+			break;
+		case look:
+			LocHandlers.look(player);
+			break;
+		case heal:
+			if (player.getSpells().contains(Locations.minorHeal)){
+				player = Locations.minorHeal.cast(player);
+			}else{
+				System.out.println("No such move");
+			}
+			break;
+		case fire:
+			if (player.getSpells().contains(Locations.fireball)){
+				player = Locations.fireball.cast(player);
+			}else{
+				System.out.println("No such move");
+			}
+			break;
+		case search:
+			player = LocHandlers.search(player, items);
+			break;
+			default:
+				switch (ShorthandCommands.valueOf(command.split("")[0])){
+				case use:
+					items.useItem(command, player);
+					break;
+				case talk:
+					LocHandlers.talk(player, items);
+					break;
+				case look:
+					LocHandlers.look(player);
+					break;
+				case open:
+					LocHandlers.open(player);
+					break;
+				case hunt:
+					player.hunt(player, items);
+					break;
+				case make:
+					LocHandlers.make(player);
+					break;
+				case equip:
+					items.equipItem(command, player);
+					break;
+				default:
+					player = Locations.action(command, player, items);
+			}	
+		}		
+	}
 }
+
 				
 
 		

@@ -41,104 +41,21 @@ public class NPCHandlers {
 		}
 	}
 	public static Character talkToBlacksmith(Character player, Items items){
-		System.out.println("Blacksmith: " + player.getCurrentLocation().getNPCs().get(0).getTalkTo());
-		String shop = "";
-		while (shop == "");
-		System.out.println("Buy, Craft, Talk");
-		shop = Input.getInput();
-		switch (shop){
-		case "buy": 
-		case "b": 
-			System.out.println("Blacksmith: What will it be?");
-			Item[] shopList = new Item[]{items.getItems().get(6),items.getItems().get(7),items.getItems().get(8),items.getItems().get(9),items.getItems().get(0)};
-			player = LocHandlers.buyShop(player, shopList);
-		case "craft":
-		case "c":
-			System.out.println("Blacksmith: Ah, right. I can make you special armors if you bring me the right materials.\n If you get me five hides, I can make you a leather armor. \nIt's much lighter than the copper armor, but takes nearly as much damage."); 
-		case "talk":
-		case "t":
-			System.out.println("Blacksmith: Well, I have one more set I could sell you. All made of iron, but... I really don't wanna get rid of it. Maybe I'll give it for a favor at a later date.");			
-		default: 
-			System.out.println("Blacksmith: Speak up, kid, I got no idea what you're saying?");
-			shop = "";
-		}
+		Item[] shopList = new Item[]{items.getItems().get(6),items.getItems().get(7),items.getItems().get(8),items.getItems().get(9),items.getItems().get(0)};
+		Shop blacksmiths = new Shop(Locations.blacksmith, shopList, true, null);
+		blacksmiths.runShop(player);
 		return player;
 	}
 	public static Character talkToCoon(Character player, Items items){
-		System.out.println("Coon: " + player.getCurrentLocation().getNPCs().get(0).getTalkTo());
-		String shop = "";
-		while (shop == "");
-		System.out.println("Buy, Sell, Talk");
-		shop = Input.getInput();
-		switch (shop){
-		case "buy": 
-		case "b": 
-			System.out.println("Coon: What will it be?");
-			Item[] shopList = new Item[]{items.getItems().get(3),items.getItems().get(4),items.getItems().get(5),items.getItems().get(0)};
-			player = LocHandlers.buyShop(player, shopList);
-		case "sell":
-		case "s":
-			String npcName = "Coon";
-			player = sell(player, npcName);
-			break;
-		case "talk":
-		case "t":
-			System.out.println("Coon: just talk? That's not gonna put food on my shelves.");	
-			break;
-		default: 
-			System.out.println("Coon: What are you saying?");
-			shop = "";
-		}
+		Item[] shopList = new Item[]{items.getItems().get(3),items.getItems().get(4),items.getItems().get(5),items.getItems().get(0)};
+		Shop CoonsGeneralStore = new Shop(Locations.Coon, shopList, true, null);
+		player = CoonsGeneralStore.runShop(player);
 		return player;
 	}
-	private static Character sell(Character player, String npcName) {
-		if (player.getInventory().size() > 0){
-			printSellable(player, npcName);
-			Item itemToSell = stringToItem(player.getInventory());
-			if (itemToSell != null){
-				player = sellItem(itemToSell, player);
-			} else {
-				System.out.println("You don't have any of those.");
-			}
-		} else {
-			System.out.println("Coon: You don\'t have one of those and you know it.");
-		}
-		return player;
-	}
-	private static Character sellItem(Item itemToSell, Character player){
-		System.out.println("You have " + itemToSell.getCount() + ".\nHow many will you sell?");	
-		int number = -1;
-		while (number == -1){
-			number = Input.getInteger();
-			if (number >= 0 && number <= itemToSell.getCount()){
-				System.out.println("Sold for " + itemToSell.getValue()/2 + " Gold");
-				player.setGold(itemToSell.getValue()/2);
-			} else{
-				System.out.println("Coon: You don\'t have that many!");
-				number = -1;
-			}
-		}
-		return player;
-		
-	}
-	private static Item stringToItem(Vector<Item> vector){
-		String Sale = Input.getInput();
-		for (int i = 0;i < vector.size();i++){
-			if (Sale.equals(vector.get(i).getName())){
-				return vector.get(i);
-			}
-		}
-		return null;
-	}
-	private static void printSellable(Character player, String npcName) {
-		System.out.println(npcName + ": What have you got for me?");
-		System.out.println("Count\tItem\tGoldvalue.");
-		for (int i = 0;i < player.getInventory().size();i++){
-			if (!player.getInventory().get(i).getKeyItem()){
-			System.out.println(player.getInventory().get(i).getCount() + "  " + player.getInventory().get(i).getName() + "  " + player.getInventory().get(i).getValue()/2);
-			}
-		}
-	}
+	
+	
+	
+	
 	public static Character talkToGuardDog(Character player, Items items) {
 		if (LocHandlers.getBrotherQuest() == 2) {
 			Locations.forestWestGate.addExit(new Exit(Exit.east, Locations.forestVillage));
@@ -452,11 +369,12 @@ public class NPCHandlers {
 		return player;
 	}
 	public static Character talkToSalesCow(Character player, Items items) {
-		System.out.println(Locations.salesCow.getTalkTo());
 		Item[] shopList = new Item[]{items.getItems().get(14),items.getItems().get(15),items.getItems().get(0)};
-		player = LocHandlers.buyShop(player, shopList);
+		Shop farmStall = new Shop(Locations.salesCow, shopList, false, null);
+		player = farmStall.runShop(player);
 		return player;
 	}
+	
 	public static Character talkToFarmer(Character player, Items items) {
 		System.out.println(Locations.farmer.getTalkTo());
 		return player;
