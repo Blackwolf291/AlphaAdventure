@@ -44,16 +44,19 @@ public class Character implements Serializable{
 		setName();
 		species = setRace();
 		pickABoon(5);
-		calcMaxHP();
+		calcDerivedStats();
 		hp = maxHP;
-		calcAttack();
-		calcMaxMana();
 		mana = maxMana;
 		enemy = new Creature();
-		calcShield();
-		calcDodge();
 		currentWeapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
 		updateStatsScreen();
+	}
+	public void calcDerivedStats(){
+		calcAttack();
+		calcShield();
+		calcMaxHP();
+		calcDodge();
+		calcMaxMana();
 	}
 	public int gainStat(int stat, int boostValue, String description){
 		System.out.println(description);
@@ -81,6 +84,7 @@ public class Character implements Serializable{
 				System.out.println("please pick one");
 				boonChoice = "";
 		}
+		updateStatsScreen();
 		return boonChoice;
 	}
 	public int getCha(){
@@ -267,10 +271,7 @@ public class Character implements Serializable{
 		xp = xp - 100*level;
 		++level;
 		pickABoon(1);
-		calcMaxHP();
-		calcMaxMana();
-		calcAttack();
-		calcShield();
+		calcDerivedStats();
 		hp = maxHP;
 		mana = maxMana;			
 		System.out.println("Congratulations, you are now level " + level);
