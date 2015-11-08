@@ -1,7 +1,5 @@
 package TextGame;
 
-import java.util.Vector;
-
 public class NPCHandlers {
 	static int IceCounter = 0;
 	static int IceSpellCounter = 0;

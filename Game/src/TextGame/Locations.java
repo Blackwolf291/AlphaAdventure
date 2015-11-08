@@ -121,14 +121,15 @@ public class Locations{
 	Ice = new NPC("Ice", "He's a white arctic fox. the badge on the strap of his backpack says he's a medic.", "Can I help you with anything?");
 	guardDog = new NPC ("Guard Dog", "He is a big and beefy German Shepherd, standing in the way with a heavy sword in his hands.\nMaybe messing with him is a bad idea.", "Sorry, I can't let you pass.");
 	Luka = new NPC ("Luka", "He is a big and beefy German Shepherd, standing guard with his trusted blade.", "Whenever you wanna go another round, but this time, I won't hold back.");
-	blacksmith = new NPC("Blacksmith","He's a big burly bull, whipping a hammer around as he moves.","Can I get you anything?");
-	Coon = new NPC("Coon","He's a tiny raccoon, standing behind the counter with a big smile.","Hello and welcome to Coon's Buy & Sell. How can I help?");
+	blacksmith = new ShopNPC("Blacksmith","He's a big burly bull, whipping a hammer around as he moves.","Can I get you anything?", null, null, null, null, null, null, null, null);
+	Coon = new ShopNPC("Coon","He's a tiny raccoon, standing behind the counter with a big smile.","Hello and welcome to Coon's Buy & Sell. How can I help?", null, null, null, null, null, null, null, null);
 	realestateShark = new NPC("Shark","Laying in the pond is a shark, wearing a suit, with a waterproof suitcase to boot.","Hello there, welcome to our latest sale. Would you happen to be interrested?");
 	kindHellhound = new NPC("Hellhound", "In a small ring of burnt grass sits the hellhound, his back resting against the wall of the building. \nHis hair flaming, in a trail down his back all the way to the tail.","Hey, welcome to my little abode. It's great to see you again, is there anything I can do for my savior?");
 	Jake = new NPC("Jake", "The hellhound seems a lot more relaxed. He's wearing fire and smoke as his clothing.", "Hey, nice to see you again.");
 	guardCat = new NPC("Guard Cat", "He lays in the gate opening lazily, \nbut you got a feeling he knows exactly what\'s going on around him.", "Hey, will you get out of my shadow, or do I have to claw you out of it?");
 	farmer = new NPC("farmer", "He is a brown horse in large overalls sitting in a rocking chair \nwith a straw in his mouth.", "Hey there, how can I help you, my friend?");
-	salesCow = new NPC("Sales Cow", "She\'s a brown and white cow with blue eyes. \nShe\'s wearing a light pink dress.", "Healing milk and great cheeses here, would you like to buy something?");	
+	salesCow = new ShopNPC("Sales Cow", "She\'s a brown and white cow with blue eyes. \nShe\'s wearing a light pink dress.", "Healing milk and great cheeses here, would you like to buy something?", null, null, null, null, null, null, null, null);	
+	//TODO add flavor to shop npcs
 	
 	Hellhound.addAttack(bite);
 	Hellhound.addAttack(claws);

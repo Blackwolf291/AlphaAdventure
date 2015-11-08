@@ -55,6 +55,49 @@ public class Character implements Serializable{
 		currentWeapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
 		updateStatsScreen();
 	}
+	public int gainStat(int stat, int boostValue, String description){
+		System.out.println(description);
+		stat += boostValue;
+		return stat;
+	}
+	public String applyBoon(String boonChoice, int x){
+		switch (boonChoice) {
+		case "strength":
+			strength = gainStat(strength, x, "You have gotten stronger.");
+			break;
+		case "speed":
+			speed = gainStat(speed, x, "You have gotten faster.");
+			break;
+		case "toughness":
+			toughness = gainStat(toughness, x, "You have gotten tougher.");
+			break;
+		case "intelligence":
+			intelligence = gainStat(intelligence, x, "You have gotten faster.");
+			break;
+		case "persuasion":
+			charisma = gainStat(charisma, x, "You have gotten more convincing.");
+			break;
+			default:
+				System.out.println("please pick one");
+				boonChoice = "";
+		}
+		return boonChoice;
+	}
+	public int getCha(){
+		return charisma;
+	}
+	public int getInt(){
+		return intelligence;
+	}
+	public int getTgh(){
+		return toughness;
+	}
+	public int getSpd(){
+		return speed;
+	}
+	public int getStr(){
+		return strength;
+	}
 	public void calcMaxMana(){
 		maxMana = intelligence + level;
 	}
@@ -119,9 +162,6 @@ public class Character implements Serializable{
 		Weapon spare = currentWeapon;
 		currentWeapon = weapon;
 		return spare;
-	}
-	public void setSpeed(int value){
-		speed = value;
 	}
 	public Shield setShield(Shield shield){
 		Shield spare = currentShield;
@@ -215,34 +255,6 @@ public class Character implements Serializable{
 		updateStatsScreen();
 		return;
 	}
-	public int gainStat(int stat, int boostValue, String description){
-		System.out.println(description);
-		stat += boostValue;
-		return stat;
-	}
-	public String applyBoon(String boonChoice, int x){
-		switch (boonChoice) {
-		case "strength":
-			strength = gainStat(strength, x, "You have gotten stronger.");
-			break;
-		case "speed":
-			speed = gainStat(speed, x, "You have gotten faster.");
-			break;
-		case "toughness":
-			toughness = gainStat(toughness, x, "You have gotten tougher.");
-			break;
-		case "intelligence":
-			intelligence = gainStat(intelligence, x, "You have gotten faster.");
-			break;
-		case "persuasion":
-			charisma = gainStat(charisma, x, "You have gotten more convincing.");
-			break;
-			default:
-				System.out.println("please pick one");
-				boonChoice = "";
-		}
-		return boonChoice;
-	}
 	public void pickABoon(int x){
 		System.out.println("Gain a bonus to a stat.");
 		System.out.println("Strength, Speed, Toughness, Intelligence, Charisma.");
@@ -274,21 +286,7 @@ public class Character implements Serializable{
 	public int getXP(){
 		return xp;
 	}
-	public int getCha(){
-		return charisma;
-	}
-	public int getInt(){
-		return intelligence;
-	}
-	public int getTgh(){
-		return toughness;
-	}
-	public int getSpd(){
-		return speed;
-	}
-	public int getStr(){
-		return strength;
-	}
+	
 	public PlayerRace getspecies(){
 		return species;
 	}
@@ -433,7 +431,7 @@ public class Character implements Serializable{
 		GameScreen.statsScreen.append("Speed: " + speed+ "\n");
 		GameScreen.statsScreen.append("Toughness: " + toughness+ "\n");
 		GameScreen.statsScreen.append("Intelligence: " + intelligence+ "\n");
-		GameScreen.statsScreen.append("Persuasion: " + charisma+ "\n");
+		GameScreen.statsScreen.append("Persuasion: " + charisma + "\n");
 		GameScreen.statsScreen.append("Gold: " + gold + "\n");
 	}
 	private Character combatInventory(Items items) {
