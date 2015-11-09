@@ -4,6 +4,7 @@ public class InputHolder {
 	private String storage;
 	public void addNewInput(String input){
 		storage = input;
+		storage.intern();
 		synchronized(this){
 			this.notify();
 		}

@@ -41,3 +41,8 @@
 /ShopNPC.class
 /coreStats.class
 /CoreStats.class
+/StatsSetupTest.class
+/StatsModifyTest.class
+/AllTests.class
+/InGameTime.class
+/InGameTimeTest.class

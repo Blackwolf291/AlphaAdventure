@@ -1,11 +1,7 @@
 package TextGame;
 
 public class Main{
-	static int turnCounter = 0;
-	static int hourCounter = 1;
-	static boolean pm = true;
-	static String ampm = "PM";
-	static int dayCounter = 1;
+	
 	static String command;
 	static Items items;
 	static Character player;
@@ -27,8 +23,8 @@ public class Main{
 		
 	}
 	private static void startTurn(){
-		increaseIngameTime();
-		player.setMana(player.getMana() + player.getInt());
+		InGameTime.addTurn();
+		player.setMana(player.getMana() + player.think());
 		System.out.println("Other commands: Inventory, Stats, Save");
 	}
 	private static void runGameLoop(){
@@ -43,24 +39,7 @@ public class Main{
 		initiateGame();
 		runGameLoop();
 	}
-	private static void increaseIngameTime() {
-		turnCounter++;
-		if (turnCounter >= 12){
-			turnCounter -= 12;
-			hourCounter++;
-		}
-		if (hourCounter > 12){
-			hourCounter -= 12;
-			if (pm){
-				ampm = "AM";
-				dayCounter++;
-			}else{
-				ampm = "PM";
-			}
-			pm = !pm;
-			
-		}
-	}
+	
 	private static void parseAndExecuteCommand(){
 		switch (CommandList.valueOf(command)){
 		case inventory:

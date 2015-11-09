@@ -80,7 +80,7 @@ public class NPCHandlers {
 			break;
 		case "trick":
 			int trickcounter = 0;
-			if (player.getInt() + player.getLvl() + Input.dice(1,10) > 25 + 5 * trickcounter){
+			if (player.think() + player.getLvl() + Input.dice(1,10) > 25 + 5 * trickcounter){
 			System.out.println("The guard looks at you unbelievingly, but you manage to distract him long enough to sneak past him.");
 			trickcounter++;
 			player.setCurrentLocation(Locations.forestVillage);
@@ -89,7 +89,7 @@ public class NPCHandlers {
 			}
 			break;
 		case "con":
-			if (player.getCha() + player.getLvl() + Input.dice(1,10) >= 25){
+			if (player.persuade() + player.getLvl() + Input.dice(1,10) >= 25){
 				System.out.println("After a lot of talking, he relents, a little. \n guard: If you could do me a favor, I'll let you in. \n My little brother has gone to the Temple, but hasn't returned. Could you go investigate?"); 
 				System.out.println("YES or NO.");
 				boolean choice = Input.yesNo(player);

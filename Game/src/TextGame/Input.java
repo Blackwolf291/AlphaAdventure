@@ -45,18 +45,19 @@ public class Input{
 		return null;
 	}
 	public static String getInput() {
-		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
+		System.out.print(InGameTime.getTime()+">");
 		String input = holder.getNewInput();
-        return input.toLowerCase();
+		String result = input.toLowerCase();
+		return result;
     }
 	
 	public static String getCapInput() {
-		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
+		System.out.print(InGameTime.getTime()+">");
 		String capInput = holder.getNewInput();
         return capInput;
 	}
 	public static int getInteger() {
-		System.out.print("Day " + Main.dayCounter + ", " + Main.hourCounter + ":" + (Main.turnCounter*5) + Main.ampm + ">");
+		System.out.print(InGameTime.getTime()+">");
 		int number = Integer.parseInt(holder.getNewInput());
         return number;
 	}

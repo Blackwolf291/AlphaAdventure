@@ -9,11 +9,7 @@ public class Character implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private PlayerRace species;
-	private int strength = 10;
-	private int speed = 10;
-	private int toughness = 10;
-	private int intelligence = 10;
-	private int charisma = 10;
+	private CoreStats stats;
 	private int maxHP;
 	private int hp;
 	private int xp = 0;
@@ -43,7 +39,7 @@ public class Character implements Serializable{
 	public Character (){
 		setName();
 		species = setRace();
-		pickABoon(5);
+		stats.pickABoon(5);
 		calcDerivedStats();
 		hp = maxHP;
 		mana = maxMana;
@@ -58,55 +54,17 @@ public class Character implements Serializable{
 		calcDodge();
 		calcMaxMana();
 	}
-	public int gainStat(int stat, int boostValue, String description){
-		System.out.println(description);
-		stat += boostValue;
-		return stat;
+	public int think(){
+		return stats.getInt();
 	}
-	public String applyBoon(String boonChoice, int x){
-		switch (boonChoice) {
-		case "strength":
-			strength = gainStat(strength, x, "You have gotten stronger.");
-			break;
-		case "speed":
-			speed = gainStat(speed, x, "You have gotten faster.");
-			break;
-		case "toughness":
-			toughness = gainStat(toughness, x, "You have gotten tougher.");
-			break;
-		case "intelligence":
-			intelligence = gainStat(intelligence, x, "You have gotten faster.");
-			break;
-		case "persuasion":
-			charisma = gainStat(charisma, x, "You have gotten more convincing.");
-			break;
-			default:
-				System.out.println("please pick one");
-				boonChoice = "";
-		}
-		updateStatsScreen();
-		return boonChoice;
-	}
-	public int getCha(){
-		return charisma;
-	}
-	public int getInt(){
-		return intelligence;
-	}
-	public int getTgh(){
-		return toughness;
-	}
-	public int getSpd(){
-		return speed;
-	}
-	public int getStr(){
-		return strength;
+	public int persuade(){
+		return stats.getCha();
 	}
 	public void calcMaxMana(){
-		maxMana = intelligence + level;
+		maxMana = stats.getInt() + level;
 	}
 	public void calcAttack(){
-		attack = strength + level;
+		attack = stats.getStr() + level;
 	}
 	public int getDodge(){
 		return dodge;
@@ -115,7 +73,7 @@ public class Character implements Serializable{
 		shield = 10 + currentShield.getShieldBonus() + level + currentArmor.getShielding() + currentHelmet.getShieldBonus();
 	}
 	public void calcMaxHP(){
-		maxHP = toughness*(9+level);
+		maxHP = stats.getTgh()*(9+level);
 	}
 	public void setEnemy(Creature newCreature){
 		enemy = newCreature;
@@ -180,7 +138,7 @@ public class Character implements Serializable{
 		return spare;
 	}
 	public void calcDodge(){
-		dodge = speed - currentArmor.getSpeedPenalty();
+		dodge = stats.getSpd() - currentArmor.getSpeedPenalty();
 	}
 	public Armor setArmor(Armor armor){
 		Armor spare = currentArmor;
@@ -259,18 +217,11 @@ public class Character implements Serializable{
 		updateStatsScreen();
 		return;
 	}
-	public void pickABoon(int x){
-		System.out.println("Gain a bonus to a stat.");
-		System.out.println("Strength, Speed, Toughness, Intelligence, Charisma.");
-		String boonChoice = Input.getInput();
-		do {
-			boonChoice = applyBoon(boonChoice, x);
-		} while (boonChoice.length() == 0);
-	}
+	
 	private void lvlUp() {
 		xp = xp - 100*level;
 		++level;
-		pickABoon(1);
+		stats.pickABoon(1);
 		calcDerivedStats();
 		hp = maxHP;
 		mana = maxMana;			
@@ -421,18 +372,17 @@ public class Character implements Serializable{
 		}
 		return player;
 	}
-	
 	private void updateStatsScreen(){
 		GameScreen.statsScreen.setText(name + "\n");
 		GameScreen.statsScreen.append("level" + level+ "\n");
 		GameScreen.statsScreen.append("XP: " + xp + "/" + (level*100)+ "\n");
 		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP+ "\n");
 		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP+ "\n");
-		GameScreen.statsScreen.append("Strength: " + strength+ "\n");
-		GameScreen.statsScreen.append("Speed: " + speed+ "\n");
-		GameScreen.statsScreen.append("Toughness: " + toughness+ "\n");
-		GameScreen.statsScreen.append("Intelligence: " + intelligence+ "\n");
-		GameScreen.statsScreen.append("Persuasion: " + charisma + "\n");
+		GameScreen.statsScreen.append("Strength: " + stats.getStr()+ "\n");
+		GameScreen.statsScreen.append("Speed: " + stats.getSpd()+ "\n");
+		GameScreen.statsScreen.append("Toughness: " + stats.getTgh()+ "\n");
+		GameScreen.statsScreen.append("Intelligence: " + stats.getInt()+ "\n");
+		GameScreen.statsScreen.append("Persuasion: " + stats.getCha() + "\n");
 		GameScreen.statsScreen.append("Gold: " + gold + "\n");
 	}
 	private Character combatInventory(Items items) {
