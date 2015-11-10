@@ -5,6 +5,7 @@ import java.util.Vector;
 public class Inventory {
 	Vector<Item> items = new Vector<>();
 	private Vector<Key> keychain = new Vector<>();
+	Equipment equipment;
 	public void printCombatInventory(){
 		for (int i = 0; i < items.size(); i++){
 			if (items.get(i).getCombatUse()){
@@ -55,33 +56,52 @@ public class Inventory {
 			}
 		}
 	}
-	Character weaponSwap (Character player, Item weapon){
+	public void equipItem(String command, Items items){
+		switch (command){
+		case "equip copper armor": 
+		case "equip copperarmor": 
+			armorSwap((Armor) items.copperArmor);
+		break;
+		case "equip copper helmet":
+		case "equip copperhelmet":
+			helmetSwap((Helmet) items.copperHelmet);
+		break;
+		case "equip copper shield":
+		case "equip coppershield":
+			shieldSwap((Shield) items.copperShield);
+		break;
+		case "equip copper sword":
+		case "equip coppersword":
+			weaponSwap((Weapon) items.copperSword);
+		break;
+		case "equip leather armor": 
+		case "equip leatherarmor": 
+			armorSwap((Armor) items.leatherArmor);
+		break;
+		default:
+			System.out.println("Sorry, you cannot equip that or");
+			System.out.println("you don\'t own such a thing.");
+		}
+	}
+	void weaponSwap (Weapon weapon){
 		removeItem(weapon);
-		Item spare = player.setWeapon((Weapon) weapon);
+		addItem(equipment.swapWeapon(weapon));
 		System.out.println("You equipped a " + weapon.getName() + ".");
-		addItem(spare);
-		return player;
 	}
-	Character shieldSwap (Character player, Item shield){
+	void shieldSwap (Shield shield){
 		removeItem(shield);
-		Item spare = player.setShield((Shield) shield);
+		addItem(equipment.swapShield(shield));
 		System.out.println("You equipped a " + shield.getName() + ".");
-		addItem(spare);
-		return player;
 	}
-	Character armorSwap (Character player, Item armor){
+	void armorSwap (Armor armor){
 		removeItem(armor);
-		Item spare = player.setArmor((Armor) armor);
+		addItem(equipment.swapArmor(armor));
 		System.out.println("You equipped a " + armor.getName() + ".");
-		addItem(spare);
-		return player;
 	}
-	Character helmetSwap (Character player, Item helmet){
+	void helmetSwap (Helmet helmet){
 		removeItem(helmet);
-		Item spare = player.setHelmet((Helmet) helmet);
+		addItem(equipment.swapHelmet(helmet));
 		System.out.println("You equipped a " + helmet.getName() + ".");
-		addItem(spare);
-		return player;
 	}
 	public Vector<Key> getKeychain() {
 		return keychain;

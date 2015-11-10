@@ -3,7 +3,7 @@ package TextGame;
 public class Armor extends Item{
 	private int dodgePenalty;
 	private int shielding;
-	public Armor(String name, int count, boolean combatUse, boolean use, boolean keyItem, int value, int dodgePenalty, int shielding) {
+	public Armor(String name, int count, boolean combatUse, boolean use, boolean keyItem, int value, int shielding, int dodgePenalty) {
 		super(name, count, combatUse, use, keyItem, value);
 		this.dodgePenalty = dodgePenalty;
 		this.shielding = shielding;

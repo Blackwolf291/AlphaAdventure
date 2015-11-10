@@ -23,14 +23,11 @@ public class Character implements Serializable{
 	private Vector<Spell> spells;
 	private Location currentLocation;
 	private Inventory inventory = new Inventory(); 
+	private Equipment equipment;
 	private Location base;
 	private boolean combat = false;
 	private boolean win = true;
 	private boolean itemUsed = false;
-	private Weapon currentWeapon;
-	private Shield currentShield = new Shield ();
-	private Armor currentArmor = new Armor();
-	private Helmet currentHelmet = new Helmet();
 	private Creature enemy;
 	private boolean playerTurn;
 	private boolean creatureTurn;
@@ -40,11 +37,11 @@ public class Character implements Serializable{
 		setName();
 		species = setRace();
 		stats.pickABoon(5);
+		equipment = new Equipment(species);
 		calcDerivedStats();
 		hp = maxHP;
 		mana = maxMana;
 		enemy = new Creature();
-		currentWeapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
 		updateStatsScreen();
 	}
 	public void calcDerivedStats(){
@@ -70,7 +67,7 @@ public class Character implements Serializable{
 		return dodge;
 	}
 	public void calcShield(){
-		shield = 10 + currentShield.getShieldBonus() + level + currentArmor.getShielding() + currentHelmet.getShieldBonus();
+		shield = 10 + level + equipment.calcShield();
 	}
 	public void calcMaxHP(){
 		maxHP = stats.getTgh()*(9+level);
@@ -85,7 +82,7 @@ public class Character implements Serializable{
 		itemUsed = real;
 	}
 	public Weapon getWeapon(){
-		return currentWeapon;
+		return equipment.getWeapon();
 	}
 	public Vector<Spell> getSpells(){
 		return spells;
@@ -120,32 +117,8 @@ public class Character implements Serializable{
 	public int getMana(){
 		return mana;
 	}
-	public Weapon setWeapon (Weapon weapon){
-		Weapon spare = currentWeapon;
-		currentWeapon = weapon;
-		return spare;
-	}
-	public Shield setShield(Shield shield){
-		Shield spare = currentShield;
-		currentShield = shield;
-		calcShield();
-		return spare;
-	}
-	public Helmet setHelmet(Helmet helmet){
-		Helmet spare = currentHelmet;
-		currentHelmet = helmet;
-		calcShield();
-		return spare;
-	}
 	public void calcDodge(){
-		dodge = stats.getSpd() - currentArmor.getSpeedPenalty();
-	}
-	public Armor setArmor(Armor armor){
-		Armor spare = currentArmor;
-		currentArmor = armor;
-		calcShield();
-		calcDodge();
-		return spare;
+		dodge = stats.getSpd() - equipment.speedPenalty();
 	}
 	public void setAttack(int value){
 		attack = value;
@@ -439,7 +412,7 @@ public class Character implements Serializable{
 				switch (action){
 				case "attack":
 				case "a":
-					currentWeapon.attack(this, enemy);
+					equipment.getWeapon().attack(this, enemy);
 					break;
 			case "flee":
 			case "f":

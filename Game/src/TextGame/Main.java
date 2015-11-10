@@ -10,6 +10,7 @@ public class Main{
 		frame.run();
 		items = new Items();
 		player = new Character();
+		InGameTime.setDefaultTime();
 		@SuppressWarnings("unused")
 		Locations worldMap = new Locations(items, player);
     	System.out.println("Alpha adventure");  
@@ -107,7 +108,7 @@ public class Main{
 					LocHandlers.make(player);
 					break;
 				case equip:
-					items.equipItem(command, player);
+					player.getInventory().equipItem(command, items);
 					break;
 				default:
 					player = Locations.action(command, player, items);

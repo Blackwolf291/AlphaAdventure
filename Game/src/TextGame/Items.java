@@ -5,22 +5,22 @@ import java.util.Vector;
 public class Items {
 
 	Vector<Item> items = new Vector<Item>();
-	private Item None;
-	private Item brothersScarf;
-	private Item vineJuice;
-	private Item potion;
-	private Item ether;
-	private Item elixer;
-	private Item copperSword;
-	private Item copperShield;
-	private Item copperHelmet;
-	private Item copperArmor;
-	private Item leatherArmor;
-	private Item hide;
-	private Item goldenChestnut;
-	private Item farmKey;
-	private Item milk;
-	private Item cheese;
+	Item None;
+	Item brothersScarf;
+	Item vineJuice;
+	Item potion;
+	Item ether;
+	Item elixer;
+	Item copperSword;
+	Item copperShield;
+	Item copperHelmet;
+	Item copperArmor;
+	Item leatherArmor;
+	Item hide;
+	Item goldenChestnut;
+	Item farmKey;
+	Item milk;
+	Item cheese;
 	public Items(){		
 		None = new Item ("none", 0, false, false, false, 0);
 		items.add(None);
@@ -38,7 +38,7 @@ public class Items {
 		items.add(copperSword);
 		copperHelmet = new Helmet ("copper helmet", 1, false, false, false, 200, 5);
 		items.add(copperHelmet);
-		copperArmor = new Armor ("copper armor", 1, false, false, false, 750, 10, 0);
+		copperArmor = new Armor ("copper armor", 1, false, false, false, 750, 5, 1);
 		items.add(copperArmor);
 		copperShield = new Shield ("copper shield", 1, false, false, false, 300, 5, 0);
 		items.add(copperShield);
@@ -100,34 +100,6 @@ public class Items {
 		default:
 			System.out.println("You don't own such a thing.");
 			player.setItemUsed(false);
-		}
-		return player;
-	}
-	public Character equipItem(String command, Character player){
-		switch (command){
-		case "equip copper armor": 
-		case "equip copperarmor": 
-			player = player.getInventory().armorSwap(player, copperArmor);
-		break;
-		case "equip copper helmet":
-		case "equip copperhelmet":
-			player = player.getInventory().helmetSwap(player, copperHelmet);
-		break;
-		case "equip copper shield":
-		case "equip coppershield":
-			player = player.getInventory().shieldSwap(player, copperShield);
-		break;
-		case "equip copper sword":
-		case "equip coppersword":
-			player = player.getInventory().weaponSwap(player, copperSword);
-		break;
-		case "equip leather armor": 
-		case "equip leatherarmor": 
-			player = player.getInventory().armorSwap(player, leatherArmor);
-		break;
-		default:
-			System.out.println("Sorry, you cannot equip that or");
-			System.out.println("you don\'t own such a thing.");
 		}
 		return player;
 	}
