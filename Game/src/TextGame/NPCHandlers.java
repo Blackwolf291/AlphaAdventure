@@ -110,7 +110,7 @@ public class NPCHandlers {
 	public static Character talkToIce(Character player) {
 		System.out.println("Ice: " + Locations.Ice.getTalkTo());
 		if(player.getCurrentLocation().equals(Locations.wreck)||player.getCurrentLocation().equals(Locations.beach)){
-		if(player.getHP() < player.getMaxHP()){
+		if(!player.manaIsFull()){
 			System.out.println("No, Heal, Ship");
 		} else {
 			System.out.println("No, Ship");
@@ -121,8 +121,8 @@ public class NPCHandlers {
 			System.out.println("Ice: Maybe some other time then.");
 			break;
 		case "heal":
-			if(player.getHP() < player.getMaxHP()){
-				player.setHP(player.getMaxHP());
+			if(!player.hpIsFull()){
+				player.revive();
 				System.out.println("A white glow envelops you.");
 				System.out.println("Ice: There, all healed up.");
 				if (IceCounter < 3) {
@@ -154,7 +154,7 @@ public class NPCHandlers {
 			System.out.println("Ice: Sorry, I can't help you with that.");
 		}
 		} else if (player.getCurrentLocation().equals(Locations.IceRoom)){
-			if(player.getHP() < player.getMaxHP()){
+			if(!player.hpIsFull()){
 				System.out.println("No, Heal, Magic");
 			} else {
 				System.out.println("No, Magic");
@@ -165,8 +165,8 @@ public class NPCHandlers {
 				System.out.println("Ice: Maybe some other time then.");
 				break;
 			case "heal":
-				if(player.getHP() < player.getMaxHP()){
-					player.setHP(player.getMaxHP());
+				if(!player.hpIsFull()){
+					player.revive();
 					System.out.println("A white glow envelops you.");
 					System.out.println("Ice: There, all healed up.");
 				} else {

@@ -54,6 +54,9 @@ public class CoreStats {
 	public int gainStat(int stat, int boostValue, String description){
 		System.out.println(description);
 		stat += boostValue;
+		if (stat<0){
+			stat = 0;
+		}
 		return stat;
 	}
 	

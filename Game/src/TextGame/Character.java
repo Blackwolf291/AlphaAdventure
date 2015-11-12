@@ -9,17 +9,7 @@ public class Character implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private PlayerRace species;
-	private CoreStats stats;
-	private int maxHP;
-	private int hp;
-	private int xp = 0;
-	private int level = 1;
-	private int gold = 0;
-	private int shield;
-	private int attack;
-	private int mana;
-	private int maxMana;
-	private int dodge;
+	private PlayerStats stats;
 	private Vector<Spell> spells;
 	private Location currentLocation;
 	private Inventory inventory = new Inventory(); 
@@ -36,42 +26,22 @@ public class Character implements Serializable{
 	public Character (){
 		setName();
 		species = setRace();
-		stats.pickABoon(5);
 		equipment = new Equipment(species);
-		calcDerivedStats();
-		hp = maxHP;
-		mana = maxMana;
+		stats = new PlayerStats(equipment.calcShield(), equipment.speedPenalty());
 		enemy = new Creature();
 		updateStatsScreen();
 	}
-	public void calcDerivedStats(){
-		calcAttack();
-		calcShield();
-		calcMaxHP();
-		calcDodge();
-		calcMaxMana();
-	}
+	
 	public int think(){
 		return stats.getInt();
 	}
 	public int persuade(){
 		return stats.getCha();
 	}
-	public void calcMaxMana(){
-		maxMana = stats.getInt() + level;
-	}
-	public void calcAttack(){
-		attack = stats.getStr() + level;
-	}
 	public int getDodge(){
-		return dodge;
+		return stats.calcDodge();
 	}
-	public void calcShield(){
-		shield = 10 + level + equipment.calcShield();
-	}
-	public void calcMaxHP(){
-		maxHP = stats.getTgh()*(9+level);
-	}
+	
 	public void setEnemy(Creature newCreature){
 		enemy = newCreature;
 	}
@@ -102,26 +72,11 @@ public class Character implements Serializable{
 	public boolean getItemUsed(){
 		return itemUsed;
 	}
-	public int getMaxMana(){
-		return maxMana;
-	}
 	public void applyManaCost(int cost){
-		setMana(getMana() - cost);
-	}
-	public void setMana(int value){
-		mana = value;
-		if (mana > maxMana){
-			mana = maxMana;
-		}
+		stats.addMana(getMana() - cost);
 	}
 	public int getMana(){
-		return mana;
-	}
-	public void calcDodge(){
-		dodge = stats.getSpd() - equipment.speedPenalty();
-	}
-	public void setAttack(int value){
-		attack = value;
+		return stats.getMana();
 	}
 	public boolean getCombat(){
 		return combat;
@@ -146,11 +101,10 @@ public class Character implements Serializable{
 		return inventory;
 	}
 	public void setGold(int goldGained){
-		gold = gold + goldGained;
-		return;
+		stats.addGold(goldGained);
 	}
 	public int getGold(){
-		return gold;
+		return stats.getGold();
 	}
 	public void setCurrentLocation(Location newLocation){
 		currentLocation = newLocation;
@@ -163,53 +117,31 @@ public class Character implements Serializable{
 	public Location getCurrentLocation(){
 		return currentLocation;
 	}
-	public int getMaxHP(){
-		return maxHP;
+	public boolean manaIsFull(){
+		return stats.manaIsFull();
+	}
+	public boolean hpIsFull(){
+		return stats.hpIsFull();
 	}
 	public int getAttack(){
-		return attack;
+		return stats.calcAttack();
 	}
 	public int getShield(){
-		return shield;
+		return stats.calcShield();
 	}
 	public void setHPWithBonus(int HP){
-		hp = HP;
+		stats.addHPWithBonus(HP);
+		updateStatsScreen();
 	}
 	public void setHP(int HP){
-		hp = HP;
-		if (HP > maxHP){
-			HP = maxHP;
-		}
+		stats.addHP(HP);
 		updateStatsScreen();
-	}
-	public void setGainedXP(int gainedXP){
-		xp = xp + gainedXP;
-		while (xp > level*100) {
-			lvlUp();
-		}
-		updateStatsScreen();
-		return;
-	}
-	
-	private void lvlUp() {
-		xp = xp - 100*level;
-		++level;
-		stats.pickABoon(1);
-		calcDerivedStats();
-		hp = maxHP;
-		mana = maxMana;			
-		System.out.println("Congratulations, you are now level " + level);
-		System.out.println("Your max HP is now " + hp);
-		System.out.println("Your max mana is now " + mana);
 	}
 	public int getLvl(){
-		return level;
+		return stats.getLvl();
 	}
 	public int getHP(){
-		return hp;
-	}
-	public int getXP(){
-		return xp;
+		return stats.getHP();
 	}
 	
 	public PlayerRace getspecies(){
@@ -292,7 +224,7 @@ public class Character implements Serializable{
 	void playerLose() {
 		GameScreen.textArea.setText("");
 		System.out.println(getEnemy().getLoss());
-		setHP(getMaxHP()/2);
+		revive();
 		setCurrentLocation(getBase());
 		if (base == Locations.beach){
 			System.out.println("You wake up the next day. sagged into the sand. feeling refreshed.");
@@ -302,8 +234,9 @@ public class Character implements Serializable{
 		GameScreen.textArea.setText("");
 		System.out.println(enemy.getVictory());
 		System.out.println("You gained " + enemy.getXP() + " experience.");
-		setGainedXP(enemy.getXP());
+		stats.addXP(enemy.getXP());
 		setGold(enemy.getGold());
+		updateStatsScreen();
 		win = true;
 		System.out.println("You gained " + enemy.getGold() + " gold.");
 		if (Input.dice(1,100) >= enemy.getDropChance()){
@@ -325,7 +258,7 @@ public class Character implements Serializable{
 			System.out.println("You tripped while trying to escape. it easily caught up.");
 			break;
 		default:
-			int run = level + dodge + escapeDie;
+			int run = stats.calcRun() + escapeDie;
 			if (run >= enemy.getChase()){
 				escape = true;
 				System.out.println("You manage to get away.");
@@ -347,16 +280,7 @@ public class Character implements Serializable{
 	}
 	private void updateStatsScreen(){
 		GameScreen.statsScreen.setText(name + "\n");
-		GameScreen.statsScreen.append("level" + level+ "\n");
-		GameScreen.statsScreen.append("XP: " + xp + "/" + (level*100)+ "\n");
-		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP+ "\n");
-		GameScreen.statsScreen.append("HP: " + hp + "/" + maxHP+ "\n");
-		GameScreen.statsScreen.append("Strength: " + stats.getStr()+ "\n");
-		GameScreen.statsScreen.append("Speed: " + stats.getSpd()+ "\n");
-		GameScreen.statsScreen.append("Toughness: " + stats.getTgh()+ "\n");
-		GameScreen.statsScreen.append("Intelligence: " + stats.getInt()+ "\n");
-		GameScreen.statsScreen.append("Persuasion: " + stats.getCha() + "\n");
-		GameScreen.statsScreen.append("Gold: " + gold + "\n");
+		stats.updateStatsScreen();
 	}
 	private Character combatInventory(Items items) {
 		inventory.printCombatInventory();
@@ -479,5 +403,11 @@ public class Character implements Serializable{
 	}
 	public void setPlayerTurn(boolean b) {
 		playerTurn=b;
+	}
+	public void revive(){
+		stats.revive();
+	}
+	public void setMana(int value) {
+		stats.addMana(value);
 	}
 }
