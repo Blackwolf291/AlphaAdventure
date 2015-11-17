@@ -1,7 +1,5 @@
 package TextGame;
 
-import java.util.Enumeration;
-
 public class LocHandlers {
 
 	private static int ftDonations = 0;
@@ -43,20 +41,9 @@ public class LocHandlers {
 				System.out.println("As he crawls to his feet, all menace is gone from his appearance. \nYes, he is still the hellhound, but he's cute and cuddly, not menacing. \nHellhound: You saved me. Let's get out of here.\nThe hellhound leads you out of the temple. Hellhound: you really saved me back there. I wish I could repay you, but I don't have anything.");
 				player.setCurrentLocation(Locations.forestTempleEntrance);
 				Locations.forest.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
-				Locations.forest.addExit(new Exit(Exit.south, Locations.abandonedShelter));
+				Locations.forest.addExit(Exit.south, Locations.abandonedShelter);
 				System.out.println( player.getCurrentLocation().getDescription());
-
-				// Show available exits
-				System.out.println( "\nAvailable exits :" );
-				for (Enumeration<Exit> e = player.getCurrentLocation().getExits().elements(); e.hasMoreElements();)
-				{
-					Exit an_exit = (Exit) e.nextElement();
-					System.out.println(an_exit);
-				}
-					if (player.getCurrentLocation().getNPCs().size() != 0){
-					System.out.println("You see " + player.getCurrentLocation().getNPCs().get(0).getName());
-					System.out.println("You can LOOK or TALK");
-					}
+				player.getCurrentLocation().printOptions();
 			}
 		} else{
 			System.out.println("You find nothing of value.");
@@ -67,20 +54,9 @@ public class LocHandlers {
 		System.out.println("As he crawls to his feet, all menace is gone from his appearance. \nYes, he is still the hellhound, but he's cute and cuddly, not menacing. \nHellhound: You saved me. Let's get out of here.\nThe hellhound leads you out of the temple. Hellhound: you really saved me back there. I wish I could repay you, but I don't have anything.");
 		player.setCurrentLocation(Locations.forestTempleEntrance);
 		Locations.forest.setLocDescription ("It looks bright and green and full of life.\nYou hear leaves rustle on the breeze.\nThere are passageways deeper into the forest, maybe wild trails. A trail of burned leaves and ash leads due South.");
-		Locations.forest.addExit(new Exit(Exit.south, Locations.abandonedShelter));
+		Locations.forest.addExit(Exit.south, Locations.abandonedShelter);
 		System.out.println( player.getCurrentLocation().getDescription());
-
-		// Show available exits
-		System.out.println( "\nAvailable exits :" );
-		for (Enumeration<Exit> e = player.getCurrentLocation().getExits().elements(); e.hasMoreElements();)
-		{
-			Exit an_exit = (Exit) e.nextElement();
-			System.out.println(an_exit);
-		}
-			if (player.getCurrentLocation().getNPCs().size() != 0){
-			System.out.println("You see " + player.getCurrentLocation().getNPCs().get(0).getName());
-			System.out.println("You can LOOK or TALK");
-			}
+		player.getCurrentLocation().printOptions();
 	}
 	public static Character setFTDonations(Character player){
 		System.out.println("You stand in front of the offer block. There is a slot in the middle to prevent people from retrieving offers given. Will you donate?");
@@ -154,12 +130,12 @@ public class LocHandlers {
 	player.setBase(Locations.livingRoom);
 	Locations.vacantHome.setLocName("Your front yard.");
 	Locations.vacantHome.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
-	Locations.vacantHome.addExit(new Exit(Exit.in, Locations.livingRoom));
+	Locations.vacantHome.addExit(Exit.in, Locations.livingRoom);
 	
 	if (Locations.beach.getNPCs().contains(Locations.Ice)){
 		Locations.beach.getNPCs().remove(Locations.Ice);
 		Locations.IceRoom.getNPCs().add(Locations.Ice);
-		Locations.livingRoom.addExit(new Exit(Exit.north, Locations.IceRoom));
+		Locations.livingRoom.addExit(Exit.north, Locations.IceRoom);
 	}
 	}else{ 
 		System.out.println("You cannot make a base of this location.");
@@ -172,7 +148,7 @@ public class LocHandlers {
 					System.out.println("You used the key. the door opened.");
 					player.getInventory().items.remove(key);
 					player.getInventory().getKeychain().remove(key);
-					key.getLocation().addExit(new Exit (Exit.in, key.getDestination()));
+					key.getLocation().addExit(Exit.in, key.getDestination());
 					return player;
 			}
 		} 

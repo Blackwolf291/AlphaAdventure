@@ -1,7 +1,6 @@
 package TextGame;
 
 import java.io.Serializable;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class Character implements Serializable{
@@ -10,7 +9,7 @@ public class Character implements Serializable{
 	private String name;
 	private PlayerRace species;
 	private PlayerStats stats;
-	private Vector<Spell> spells;
+	private Vector<Spell> spells = new Vector<>();
 	private Location currentLocation;
 	private Inventory inventory = new Inventory(); 
 	private Equipment equipment;
@@ -108,10 +107,6 @@ public class Character implements Serializable{
 	}
 	public void setCurrentLocation(Location newLocation){
 		currentLocation = newLocation;
-		return;
-	}
-	public void setCurrentLocation(Exit an_exit){
-		currentLocation = an_exit.getLeadsTo();
 		return;
 	}
 	public Location getCurrentLocation(){
@@ -307,17 +302,8 @@ public class Character implements Serializable{
 	private void combatRoundUp() {
 		System.out.println(getCurrentLocation().getDescription());
 		
-		// Show available exits
-		System.out.println( "\nAvailable exits :" );
-		for (Enumeration<Exit> e = getCurrentLocation().getExits().elements(); e.hasMoreElements();)
-		{
-			Exit an_exit = (Exit) e.nextElement();
-			System.out.println(an_exit);
-		}
-			if (getCurrentLocation().getNPCs().size() != 0){
-			System.out.println("You see " + getCurrentLocation().getNPCs().get(0).getName());
-			System.out.println("You can LOOK or TALK");
-			}
+		getCurrentLocation().printOptions();
+		
 	}
 	public Character combat(Items items){
 		setCombat(true);
@@ -336,7 +322,7 @@ public class Character implements Serializable{
 				switch (action){
 				case "attack":
 				case "a":
-					equipment.getWeapon().attack(this, enemy);
+					equipment.attack(this, enemy);;
 					break;
 			case "flee":
 			case "f":
@@ -409,5 +395,8 @@ public class Character implements Serializable{
 	}
 	public void setMana(int value) {
 		stats.addMana(value);
+	}
+	public void setLocation(Exit exit){
+		currentLocation = getCurrentLocation().getNewLocation(exit);
 	}
 }

@@ -50,7 +50,10 @@ public class Input{
 		String result = input.toLowerCase();
 		return result;
     }
-	
+	public static void waitForPlayer(){
+		System.out.println("Press enter to continue.");
+		holder.getNewInput();
+	}
 	public static String getCapInput() {
 		System.out.print(InGameTime.getTime()+">");
 		String capInput = holder.getNewInput();

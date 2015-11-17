@@ -1,21 +1,26 @@
 package TextGame;
-
+import java.util.*;
 public class InputHolder {
-	private String storage;
+	
+	private static Vector<String> storage = new Vector<>();
 	public void addNewInput(String input){
-		storage = input;
-		storage.intern();
+		storage.add(input);
 		synchronized(this){
 			this.notify();
 		}
 	}
 	public String getNewInput(){
-		try {
-			synchronized(this){
-				this.wait();
+		if (storage.size()==0){
+			try {
+				synchronized(this){
+					this.wait();
+				}
+			} catch (InterruptedException e) {
 			}
-		} catch (InterruptedException e) {
 		}
-		return storage;
+		return storage.remove(0);
+	}
+	public static void preStore(Vector<String> commands){
+		storage = commands;
 	}
 }

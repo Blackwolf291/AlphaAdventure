@@ -1,7 +1,5 @@
 package TextGame;
 
-import java.util.Enumeration;
-
 public class Locations{
 	static Location extraLocation;
 	static Location beach;
@@ -155,181 +153,155 @@ public class Locations{
 	extraLocation.addCreature(GuardDog);
 	extraLocation.addCreature(alphaWolf);
 	extraLocation.addCreature(GuardCat);
-	extraLocation.addExit(new Exit(Exit.special, beach));
+	extraLocation.addExit(Exit.special, beach);
 	
-	beach.addExit (new Exit(Exit.north, wreck));
-	beach.addExit (new Exit(Exit.east, forest));
+	beach.addExit (Exit.north, wreck);
+	beach.addExit (Exit.east, forest);
 
-	wreck.addExit (new Exit(Exit.south, beach));
+	wreck.addExit (Exit.south, beach);
 	wreck.addNPC(IceUnknown);
 	
-	forest.addExit (new Exit(Exit.west, beach));
-	forest.addExit (new Exit(Exit.southeast, forestWestGate));
-	forest.addExit (new Exit(Exit.northeast, forestAscent));	
+	forest.addExit (Exit.west, beach);
+	forest.addExit (Exit.southeast, forestWestGate);
+	forest.addExit (Exit.northeast, forestAscent);	
 	forest.addCreature(feralWolf);
 	forest.addCreature(vines);
 	forest.addCreature(mentalSquirrel);
 	forest.addCreature(littleBlackFox);
 	
-	forestWestGate.addExit(new Exit(Exit.northwest, forest));
+	forestWestGate.addExit(Exit.northwest, forest);
 	forestWestGate.addNPC(guardDog);
 	
-	forestAscent.addExit(new Exit(Exit.southwest, forest));
+	forestAscent.addExit(Exit.southwest, forest);
 	forestAscent.addCreature(feralWolf);
 	forestAscent.addCreature(giantPrayingManthis);
-	forestAscent.addExit(new Exit(Exit.north, forestTempleEntrance));
+	forestAscent.addExit(Exit.north, forestTempleEntrance);
 	forestAscent.addCreature(vines);
 	
-	forestVillage.addExit(new Exit(Exit.west, forestWestGate));
-	forestVillage.addExit(new Exit(Exit.northeast, forestBlacksmith));
-	forestVillage.addExit(new Exit(Exit.southwest, forestGeneralStore));
-	forestVillage.addExit(new Exit(Exit.northwest, vacantHome));
-	forestVillage.addExit(new Exit(Exit.east, forestEastGate));
+	forestVillage.addExit(Exit.west, forestWestGate);
+	forestVillage.addExit(Exit.northeast, forestBlacksmith);
+	forestVillage.addExit(Exit.southwest, forestGeneralStore);
+	forestVillage.addExit(Exit.northwest, vacantHome);
+	forestVillage.addExit(Exit.east, forestEastGate);
 	
-	forestTempleEntrance.addExit(new Exit(Exit.south, forestAscent));
+	forestTempleEntrance.addExit(Exit.south, forestAscent);
 	forestTempleEntrance.addCreature(giantPrayingManthis);
-	forestTempleEntrance.addExit(new Exit(Exit.in, forestTempleMain));
+	forestTempleEntrance.addExit(Exit.in, forestTempleMain);
 	forestTempleEntrance.addCreature(alphaWolf);
 	forestTempleEntrance.addCreature(feralWolf);
 	
-	forestBlacksmith.addExit(new Exit(Exit.southwest, forestVillage));
+	forestBlacksmith.addExit(Exit.southwest, forestVillage);
 	forestBlacksmith.addNPC(blacksmith);
 	
-	forestGeneralStore.addExit(new Exit(Exit.northeast, forestVillage));
+	forestGeneralStore.addExit(Exit.northeast, forestVillage);
 	forestGeneralStore.addNPC(Coon);
 	
-	vacantHome.addExit(new Exit(Exit.southeast, forestVillage));
+	vacantHome.addExit(Exit.southeast, forestVillage);
 	vacantHome.addNPC(realestateShark);
 	
-	livingRoom.addExit(new Exit(Exit.out, vacantHome));
+	livingRoom.addExit(Exit.out, vacantHome);
 	
-	IceRoom.addExit(new Exit(Exit.south, livingRoom));
+	IceRoom.addExit(Exit.south, livingRoom);
 	IceRoom.addNPC(Ice);
 	
-	forestTempleMain.addExit(new Exit(Exit.out, forestTempleEntrance));
-	forestTempleMain.addExit(new Exit(Exit.down, forestTempleBasement));
+	forestTempleMain.addExit(Exit.out, forestTempleEntrance);
+	forestTempleMain.addExit(Exit.down, forestTempleBasement);
 	
-	forestTempleBasement.addExit(new Exit(Exit.up, forestTempleMain));
+	forestTempleBasement.addExit(Exit.up, forestTempleMain);
 	
-	abandonedShelter.addExit(new Exit(Exit.north, forest));
+	abandonedShelter.addExit(Exit.north, forest);
 	abandonedShelter.addNPC(kindHellhound);
 	
-	lukasPlace.addExit(new Exit(Exit.out, forestVillage));
+	lukasPlace.addExit(Exit.out, forestVillage);
 	lukasPlace.addNPC(Jake);
 	
-	forestEastGate.addExit(new Exit(Exit.west, forestVillage));
-	forestEastGate.addExit(new Exit(Exit.east, greatPlainsWest));
+	forestEastGate.addExit(Exit.west, forestVillage);
+	forestEastGate.addExit(Exit.east, greatPlainsWest);
 	forestEastGate.addNPC(guardCat);
 	
-	greatPlainsWest.addExit(new Exit(Exit.west, forestEastGate));
-	greatPlainsWest.addExit(new Exit (Exit.northeast, greatPlainsWest));
-	greatPlainsWest.addExit(new Exit (Exit.east, farm));
-	greatPlainsWest.addExit(new Exit (Exit.southeast, greatPlainsSouth));
+	greatPlainsWest.addExit(Exit.west, forestEastGate);
+	greatPlainsWest.addExit(Exit.northeast, greatPlainsWest);
+	greatPlainsWest.addExit(Exit.east, farm);
+	greatPlainsWest.addExit(Exit.southeast, greatPlainsSouth);
 	greatPlainsWest.addCreature(alphaWolf);
 	greatPlainsWest.addCreature(feralWolf);
 	greatPlainsWest.addCreature(ragingBull);
 	greatPlainsWest.addCreature(bigHorse);
 	
-	greatPlainsNorth.addExit(new Exit (Exit.north, mountainSlopes));
-	greatPlainsNorth.addExit(new Exit (Exit.southwest, greatPlainsWest));
-	greatPlainsNorth.addExit(new Exit (Exit.south, farm));
-	greatPlainsNorth.addExit(new Exit (Exit.southeast, greatPlainsEast));
+	greatPlainsNorth.addExit(Exit.north, mountainSlopes);
+	greatPlainsNorth.addExit(Exit.southwest, greatPlainsWest);
+	greatPlainsNorth.addExit(Exit.south, farm);
+	greatPlainsNorth.addExit(Exit.southeast, greatPlainsEast);
 	greatPlainsNorth.addCreature(ragingBull);
 	greatPlainsNorth.addCreature(bigHorse);
 	
-	greatPlainsEast.addExit(new Exit (Exit.northwest, greatPlainsWest));
-	greatPlainsEast.addExit(new Exit (Exit.west, farm));
-	greatPlainsEast.addExit(new Exit (Exit.southwest, greatPlainsSouth));
+	greatPlainsEast.addExit(Exit.northwest, greatPlainsWest);
+	greatPlainsEast.addExit(Exit.west, farm);
+	greatPlainsEast.addExit(Exit.southwest, greatPlainsSouth);
 	greatPlainsEast.addCreature(ragingBull);
 	greatPlainsEast.addCreature(bigHorse);
 	
-	greatPlainsSouth.addExit(new Exit (Exit.south, oldRoad));
-	greatPlainsSouth.addExit(new Exit (Exit.northwest, greatPlainsWest));
-	greatPlainsSouth.addExit(new Exit (Exit.north, farm));
-	greatPlainsSouth.addExit(new Exit (Exit.northeast, greatPlainsEast));
+	greatPlainsSouth.addExit(Exit.south, oldRoad);
+	greatPlainsSouth.addExit(Exit.northwest, greatPlainsWest);
+	greatPlainsSouth.addExit(Exit.north, farm);
+	greatPlainsSouth.addExit(Exit.northeast, greatPlainsEast);
 	greatPlainsSouth.addCreature(ragingBull);
 	greatPlainsSouth.addCreature(bigHorse);
 	
-	farm.addExit(new Exit (Exit.north, greatPlainsNorth));
-	farm.addExit(new Exit (Exit.west, greatPlainsWest));
-	farm.addExit(new Exit (Exit.east, greatPlainsEast));
-	farm.addExit(new Exit (Exit.south, greatPlainsSouth));
-	farm.addExit(new Exit (Exit.southwest, barn));
-	farm.addExit(new Exit (Exit.northwest, farmHouse));
-	farm.addExit(new Exit (Exit.northeast, stalls));
+	farm.addExit(Exit.north, greatPlainsNorth);
+	farm.addExit(Exit.west, greatPlainsWest);
+	farm.addExit(Exit.east, greatPlainsEast);
+	farm.addExit(Exit.south, greatPlainsSouth);
+	farm.addExit(Exit.southwest, barn);
+	farm.addExit(Exit.northwest, farmHouse);
+	farm.addExit(Exit.northeast, stalls);
 	
-	barn.addExit(new Exit (Exit.northeast, farm));
+	barn.addExit(Exit.northeast, farm);
 	
-	farmHouse.addExit(new Exit (Exit.southeast, farm));
+	farmHouse.addExit(Exit.southeast, farm);
 	farmHouse.addNPC(farmer);
 	farmHouse.setLock(true);
 	
-	stalls.addExit(new Exit (Exit.southwest, farm));
+	stalls.addExit(Exit.southwest, farm);
 	stalls.addNPC(salesCow);
 	
-	farmHouseInside.addExit(new Exit (Exit.out, farmHouse));
+	farmHouseInside.addExit(Exit.out, farmHouse);
 	
-	mountainSlopes.addExit(new Exit (Exit.south, greatPlainsNorth));
-	mountainSlopes.addExit(new Exit (Exit.north, mountainPass));
-	mountainSlopes.addExit(new Exit (Exit.in, mountainCaves));
+	mountainSlopes.addExit(Exit.south, greatPlainsNorth);
+	mountainSlopes.addExit(Exit.north, mountainPass);
+	mountainSlopes.addExit(Exit.in, mountainCaves);
 	
-	mountainPass.addExit(new Exit (Exit.south, mountainSlopes));
+	mountainPass.addExit(Exit.south, mountainSlopes);
 	
-	mountainCaves.addExit(new Exit (Exit.out, mountainSlopes));
+	mountainCaves.addExit(Exit.out, mountainSlopes);
 	
-	oldRoad.addExit(new Exit (Exit.north, greatPlainsSouth));
-	oldRoad.addExit(new Exit (Exit.south, cityGate));
+	oldRoad.addExit(Exit.north, greatPlainsSouth);
+	oldRoad.addExit(Exit.south, cityGate);
 	
-	cityGate.addExit(new Exit (Exit.north, oldRoad));
+	cityGate.addExit(Exit.north, oldRoad);
 	
 	player.setCurrentLocation(beach);
 	player.setBase(beach);
 	}
 	
-	public Location getLocation(Exit an_exit) {
-		Location location = an_exit.getLeadsTo();
-		return location;
-	}
+public static Character action (String command, Character player, Items items){
 	
-public static Character action (String Command, Character player, Items items){
-	
-	// Search for an exit match
-	for (@SuppressWarnings("rawtypes")
-	Enumeration e = player.getCurrentLocation().getExits().elements(); e.hasMoreElements();)
-	{
-		Exit an_exit = (Exit) e.nextElement();
-
-		if ( (an_exit.getDirectionName().compareTo(Command) == 0) || (an_exit.getShortDirectionName().compareTo(Command) == 0 )){
+	for (Exit exit : player.getCurrentLocation().getExits()){
+		if (command.equals(exit.getDirectionName())||command.equals(exit.getShortDirectionName())){
 			if (Input.coin()){
 				if (player.getCurrentLocation().getCreatures().size() > 0){
 					player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
 					player = player.combat(items);
 				}
-			} else{
+				if (!player.getWin()){
+					return player;
+			}
 			
 			//change location
-			player.setCurrentLocation(an_exit.getLeadsTo());
-
-			// Show room description 
-			System.out.println( player.getCurrentLocation().getDescription());
-
-			// Show available exits
-			System.out.println( "\nAvailable exits :" );
-			for (e = player.getCurrentLocation().getExits().elements(); e.hasMoreElements();){
-				an_exit = (Exit) e.nextElement();
-				System.out.println(an_exit);
+			player.setLocation(exit);
 			}
-				if (player.getCurrentLocation().getNPCs().size() != 0){
-				System.out.println("You see " + player.getCurrentLocation().getNPCs().get(0).getName());
-				System.out.println("You can LOOK or TALK");
-				}
-			}		
-
-			// Event handled
-			return player;
 		}				
 	}
-
 	// Event handled
 	return player;
 }

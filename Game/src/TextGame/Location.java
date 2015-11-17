@@ -1,5 +1,8 @@
 package TextGame;
 
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 public class Location {
@@ -7,32 +10,22 @@ public class Location {
 	
 	private String locName;
 	private String locDescription;
-	private Vector<Creature> creatures;
-	private Vector<NPC> npcs;
-	private Vector<Exit> exits;
+	private Vector<Creature> creatures = new Vector<>();
+	private Vector<NPC> npcs = new Vector<>();
+	private Map<Exit, Location> exits = new EnumMap<Exit, Location>(Exit.class);
 	private boolean lock = false;
 	public Location(){
 		locName = new String ();
 		locDescription = new String();
-		creatures = new Vector<Creature>();
-		npcs = new Vector<NPC>();
-		exits = new Vector<Exit>();
-		
 	}
 	public Location( String loc ){
 		locName = loc;
 		locDescription = new String();
-		npcs = new Vector<NPC>();
-		creatures = new Vector<Creature>();
-		exits = new Vector<Exit>();
 		}	
 
 	public Location( String loc, String description){
 		locName = loc;
 		locDescription = description;
-		npcs = new Vector<NPC>();
-		creatures = new Vector<Creature>();
-		exits = new Vector<Exit>();
 		}
 
 	public String toString(){
@@ -64,28 +57,29 @@ public class Location {
 			creatures.removeElement (creature);
 		}
 	}
+
 	@SuppressWarnings("unchecked")
 	public Vector<Creature> getCreatures (){
 		return (Vector<Creature>) creatures.clone();
 	}
 	
-	public void addExit ( Exit exit ){
-		exits.addElement (exit);
+	public void addExit (Exit exit, Location destination){
+		exits.put(exit, destination);
 	}
 
 	public void removeExit ( Exit exit )
 	{
-		if (exits.contains (exit))
+		if (exits.containsKey(exit))
 		{
-			exits.removeElement (exit);
+			exits.remove(exit);
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	public Vector<Exit> getExits (){
-		return (Vector<Exit>) exits.clone();
+	public Set<Exit> getExits (){
+		return exits.keySet();
 	}
-	
+	public Location getNewLocation(Exit exit){
+		return exits.get(exit);
+	}
 	public String getLocName(){
 	return locName;
 	}
@@ -107,5 +101,15 @@ public class Location {
 	}
 	public void setLock(boolean lock) {
 		this.lock = lock;
+	}
+	public void printOptions() {
+		System.out.println( "\nAvailable exits :" );
+		for (Exit exit : getExits()){
+			System.out.println(exit.getDirectionName());
+		}
+		if (npcs.size() != 0){
+			System.out.println("You see " + npcs.get(0).getName());
+			System.out.println("You can LOOK or TALK");
+		}
 	}
 }

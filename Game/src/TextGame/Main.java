@@ -42,7 +42,7 @@ public class Main{
 	}
 	
 	private static void parseAndExecuteCommand(){
-		switch (CommandList.valueOf(command)){
+		switch (CommandList.find(command)){
 		case inventory:
 			player = player.getInventory().checkInventory(player, items);
 			if (!player.getItemUsed()){
@@ -88,7 +88,7 @@ public class Main{
 			player = LocHandlers.search(player, items);
 			break;
 			default:
-				switch (ShorthandCommands.valueOf(command.split("")[0])){
+				switch (ShorthandCommands.find(command.split("")[0])){
 				case use:
 					items.useItem(command, player);
 					break;
@@ -113,7 +113,12 @@ public class Main{
 				default:
 					player = Locations.action(command, player, items);
 			}	
-		}		
+		}
+		Input.waitForPlayer();
+		GameScreen.textArea.setText("");
+		System.out.println( player.getCurrentLocation().getLocName());
+		System.out.println( player.getCurrentLocation().getDescription());
+		player.getCurrentLocation().printOptions();
 	}
 }
 

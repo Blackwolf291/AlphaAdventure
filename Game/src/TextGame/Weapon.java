@@ -37,6 +37,8 @@ public class Weapon extends Item{
 		boolean hit = decideHit(player, enemy);
 		if (hit){
 			dealDamage(player, enemy);
+		}else {
+			System.out.println("You missed");
 		}
 		if (player.getEnemy().getHP() <= 0){
 			player.setWin(true);

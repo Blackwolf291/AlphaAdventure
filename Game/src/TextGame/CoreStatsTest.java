@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class StatsModifyTest {
+public class CoreStatsTest {
 
 	CoreStats stats;
 	@Test

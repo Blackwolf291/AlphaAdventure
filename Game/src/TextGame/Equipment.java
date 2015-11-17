@@ -15,7 +15,7 @@ public class Equipment {
 		helmet = new Helmet();
 	}
 	private void setDefaultWeapon(PlayerRace species){
-		new Weapon (species.getAttack(), species.getUnarmedStrike());
+		weapon = new Weapon (species.getAttack(), species.getUnarmedStrike());
 	}
 	public int calcShield(){
 		int shielding = shield.getShieldBonus()+armor.getShielding()+helmet.getShieldBonus();
@@ -27,6 +27,9 @@ public class Equipment {
 	}
 	public Weapon getWeapon(){
 		return weapon;
+	}
+	public void attack(Character player, Creature enemy){
+		weapon.attack(player, enemy);
 	}
 	public Weapon swapWeapon (Weapon weapon){
 		Weapon spare = this.weapon;

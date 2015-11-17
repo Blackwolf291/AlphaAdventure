@@ -2,6 +2,8 @@ package TextGame;
 
 import static org.junit.Assert.*;
 
+import java.util.Vector;
+
 import org.junit.Test;
 
 public class PlayerStatsTest {
@@ -23,7 +25,11 @@ public class PlayerStatsTest {
 	@Test
 		public void testValidStatEdits(){
 			PlayerStats stats = new PlayerStats();
-			//stats.addXP(350);
+			Vector<String> commands = new Vector<>();
+			commands.add("str");
+			commands.add("charisma");
+			InputHolder.preStore(commands);
+			stats.addXP(350);
 			stats.increaseCoreStat("str", 5);
 			stats.increaseCoreStat("spd", 5);
 			stats.increaseCoreStat("tgh", 5);

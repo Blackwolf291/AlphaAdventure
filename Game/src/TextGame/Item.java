@@ -19,6 +19,9 @@ public class Item {
 	public String getName(){
 		return name;
 	}
+	public String toString(){
+		return name;
+	}
 	public void setCount(int count){
 		this.count = count;
 		return;
