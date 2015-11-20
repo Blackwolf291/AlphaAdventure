@@ -14,5 +14,14 @@ public class ExitTest {
 	public void exitShouldNotMatchAnything() {
 		assertEquals(Exit.undefined,Exit.find("ape"));
 	}
-
+	@Test
+	public void exitShouldBeFound(){
+		assert(Exit.north.is("n"));
+		assert(Exit.east.is("east"));
+	}
+	@Test
+	public void exitShouldNotBeFound(){
+		assert(!Exit.north.is("s"));
+		assert(!Exit.east.is("up"));
+	}
 }

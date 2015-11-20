@@ -36,4 +36,8 @@ public enum Exit {
 		return undefined;
 		}
 	}
+
+	public boolean is(String command) {
+		return command.equals(fullName)||command.equals(shortName);
+	}
 }

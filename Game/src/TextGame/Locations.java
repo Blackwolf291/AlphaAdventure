@@ -287,7 +287,7 @@ public class Locations{
 public static Character action (String command, Character player, Items items){
 	
 	for (Exit exit : player.getCurrentLocation().getExits()){
-		if (command.equals(exit.toString())||command.equals(exit.getShortDirectionName())){
+		if (exit.is(command)){
 			if (Input.coin()){
 				if (player.hasEnemy()){
 					player.getEnemy(); 
