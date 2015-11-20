@@ -17,7 +17,7 @@ public class LocHandlers {
 			case "help":
 				System.out.println("As you approach the circle, smoke starts rising from it.\nWhen it clears, the five hooded men lay crumpled on the floor. \nIn the middle of the circle, stands a canine, sure, but this one is no longer chained. \nHe is nude now, twice as tall as the teen was, his hair flaming, in a trail down his back all the way to the tail. \nIt's a hellhound, and he seems angry. \nHellhound: Time for you to die!");
 				brotherQuest = 1;
-				player.setEnemy(Locations.extraLocation.getCreatures().get(0));
+				player.setBoss(0);
 				player = player.combat(items);
 				if (player.getWin()){
 					brotherQuest = 2;
@@ -34,7 +34,7 @@ public class LocHandlers {
 			}
 		} else if (brotherQuest == 1 && player.getCurrentLocation().equals(Locations.forestTempleBasement)){
 			System.out.println("The hellhound charges you with a roar. A flame rushing at you from the darkness.");
-			player.setEnemy(Locations.extraLocation.getCreatures().get(0));
+			player.setBoss(0);
 			player = player.combat(items);
 			if (player.getWin()){
 				brotherQuest = 2;
@@ -88,36 +88,36 @@ public class LocHandlers {
 		brotherQuest = value;
 	}
 	public static Character talk(Character player, Items items){
-		if (player.getCurrentLocation().getNPCs().contains(Locations.Ice)){
+		if (player.getCurrentLocation().isNPC(Locations.Ice)){
 			player = NPCHandlers.talkToIce(player);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.guardDog)){
+		} else if (player.getCurrentLocation().isNPC(Locations.guardDog)){
 			player = NPCHandlers.talkToGuardDog(player, items);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.Coon)){
+		} else if (player.getCurrentLocation().isNPC(Locations.Coon)){
 			player = NPCHandlers.talkToCoon(player, items);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.IceUnknown)){
+		} else if (player.getCurrentLocation().isNPC(Locations.IceUnknown)){
 			NPCHandlers.talkToIceUnknown();
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.realestateShark)){
+		} else if (player.getCurrentLocation().isNPC(Locations.realestateShark)){
 			player = NPCHandlers.talkToShark(player);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.blacksmith)){
+		} else if (player.getCurrentLocation().isNPC(Locations.blacksmith)){
 			player = NPCHandlers.talkToBlacksmith(player, items);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.Luka)){
+		} else if (player.getCurrentLocation().isNPC(Locations.Luka)){
 			player = NPCHandlers.talkToLuka(player, items);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.kindHellhound)){
+		} else if (player.getCurrentLocation().isNPC(Locations.kindHellhound)){
 			player = NPCHandlers.talkToHellhound(player);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.Jake)){
+		} else if (player.getCurrentLocation().isNPC(Locations.Jake)){
 			player = NPCHandlers.talkToJake(player, items);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.guardCat)){
+		} else if (player.getCurrentLocation().isNPC(Locations.guardCat)){
 			player = NPCHandlers.talkToGuardCat(player, items);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.salesCow)){
+		} else if (player.getCurrentLocation().isNPC(Locations.salesCow)){
 			player = NPCHandlers.talkToSalesCow(player, items);
-		} else if (player.getCurrentLocation().getNPCs().contains(Locations.farmer)){
+		} else if (player.getCurrentLocation().isNPC(Locations.farmer)){
 			player = NPCHandlers.talkToFarmer(player, items);
 		}
 		return player;
 	}
 	public static Character look(Character player){
-		if (player.getCurrentLocation().getNPCs().size()>0){
-		System.out.println(player.getCurrentLocation().getNPCs().get(0).getDescription());
+		if (player.getCurrentLocation().hasNPC()){
+		System.out.println(player.getCurrentLocation().getNPC().getDescription());
 		} else if (player.getCurrentLocation() == Locations.forestTempleMain){
 			player = LocHandlers.setFTDonations(player);
 		}
@@ -132,9 +132,9 @@ public class LocHandlers {
 	Locations.vacantHome.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
 	Locations.vacantHome.addExit(Exit.in, Locations.livingRoom);
 	
-	if (Locations.beach.getNPCs().contains(Locations.Ice)){
-		Locations.beach.getNPCs().remove(Locations.Ice);
-		Locations.IceRoom.getNPCs().add(Locations.Ice);
+	if (Locations.beach.hasNPC()){
+		Locations.beach.removeNPC();
+		Locations.IceRoom.addNPC(Locations.Ice);
 		Locations.livingRoom.addExit(Exit.north, Locations.IceRoom);
 	}
 	}else{ 

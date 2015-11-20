@@ -116,7 +116,7 @@ public class Main{
 		}
 		Input.waitForPlayer();
 		GameScreen.textArea.setText("");
-		System.out.println( player.getCurrentLocation().getLocName());
+		System.out.println( player.getCurrentLocation().toString());
 		System.out.println( player.getCurrentLocation().getDescription());
 		player.getCurrentLocation().printOptions();
 	}

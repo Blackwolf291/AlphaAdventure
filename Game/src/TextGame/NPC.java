@@ -10,7 +10,7 @@ public class NPC {
 		description = npcDescription;
 		talkTo = npcTalkTo;
 	}
-	public String getName(){
+	public String toString(){
 		return name;
 	}
 	public String getDescription(){

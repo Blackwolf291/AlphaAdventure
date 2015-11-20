@@ -287,10 +287,10 @@ public class Locations{
 public static Character action (String command, Character player, Items items){
 	
 	for (Exit exit : player.getCurrentLocation().getExits()){
-		if (command.equals(exit.getDirectionName())||command.equals(exit.getShortDirectionName())){
+		if (command.equals(exit.toString())||command.equals(exit.getShortDirectionName())){
 			if (Input.coin()){
-				if (player.getCurrentLocation().getCreatures().size() > 0){
-					player.setEnemy(player.getCurrentLocation().getCreatures().get(Input.dice(1,player.getCurrentLocation().getCreatures().size()))); 
+				if (player.hasEnemy()){
+					player.getEnemy(); 
 					player = player.combat(items);
 				}
 				if (!player.getWin()){

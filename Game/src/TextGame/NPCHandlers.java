@@ -12,7 +12,7 @@ public class NPCHandlers {
 		if (choice){
 			if (player.getGold() >= 10000)
 			System.out.println("Shark: She's all yours pall.");
-			Locations.vacantHome.removeNPC(Locations.realestateShark);
+			Locations.vacantHome.removeNPC();
 			System.out.println("Set the village home as your base?");
 			boolean confirm = Input.yesNo(player);
 			if (confirm){
@@ -33,8 +33,8 @@ public class NPCHandlers {
 		Locations.vacantHome.setLocName("Your front yard.");
 		Locations.vacantHome.setLocDescription("Welcome home. You have a small pool in your front yard, a tree, and a lot of grass.");
 		Locations.vacantHome.addExit(Exit.in, Locations.livingRoom);
-		if (oldBase.getNPCs().contains(Locations.Ice)){
-			oldBase.getNPCs().remove(Locations.Ice);
+		if (oldBase.isNPC(Locations.Ice)){
+			oldBase.removeNPC();
 			player.getBase().addExit(Exit.north, Locations.IceRoom);
 		}
 	}
@@ -57,22 +57,22 @@ public class NPCHandlers {
 	public static Character talkToGuardDog(Character player, Items items) {
 		if (LocHandlers.getBrotherQuest() == 2) {
 			Locations.forestWestGate.addExit(Exit.east, Locations.forestVillage);
-			Locations.forestWestGate.removeNPC(Locations.guardDog);
+			Locations.forestWestGate.removeNPC();
 			System.out.println("So you found my brother, how is he? \nThat's good to hear. \nMy name is Luka, welcome to the village.");
 			Locations.forestWestGate.addNPC(Locations.Luka);
 		} else if (helpQuest){
 			System.out.println("The guard seems lonely. \n Guard: Did you find him? \n Oh... maybe next time?");
 		} else {
-		System.out.println("Guard: " + player.getCurrentLocation().getNPCs().get(0).getTalkTo());
+		System.out.println("Guard: " + player.getCurrentLocation().getNPC().getTalkTo());
 		System.out.println("You could try FIGHTing past him, TRICKing him, or CONvincing him to let you by.");
 		String plan = Input.getInput();
 		switch (plan) {
 		case "fight":
-			player.setEnemy(Locations.extraLocation.getCreatures().get(1));
+			player.setBoss(1);
 			player.combat(items);
 			if (player.getWin()){
 				Locations.forestWestGate.addExit(Exit.east, Locations.forestVillage);
-				Locations.forestWestGate.removeNPC(Locations.guardDog);
+				Locations.forestWestGate.removeNPC();
 				System.out.println("Guard: You fight well for an outsider. Please be welcome in our village.");
 				System.out.println("Guard; My name is Luka, nice to meet you.");
 				Locations.forestWestGate.addNPC(Locations.Luka);
@@ -132,11 +132,11 @@ public class NPCHandlers {
 					System.out.println("Move Ice into your base?");
 					boolean moveIn = Input.yesNo(player);
 					if (moveIn){
-						Locations.wreck.removeNPC(Locations.Ice);
+						Locations.wreck.removeNPC();
 						if (player.getBase() == Locations.beach) {
 							Locations.beach.addNPC(Locations.Ice);
 						} else if (player.getBase() == Locations.livingRoom){
-							Locations.IceRoom.getNPCs().add(Locations.Ice);
+							Locations.IceRoom.addNPC(Locations.Ice);
 							Locations.livingRoom.addExit(Exit.north, Locations.IceRoom);
 						}
 					} else {
@@ -199,7 +199,7 @@ public class NPCHandlers {
 	public static void talkToIceUnknown() {
 		System.out.println("Stranger: " + Locations.IceUnknown.getTalkTo());
 		System.out.println("Stranger: I was a medic aboard the ship before the disaster. If you need it, I can heal you.");
-		Locations.wreck.removeNPC(Locations.IceUnknown);
+		Locations.wreck.removeNPC();
 		Locations.wreck.addNPC(Locations.Ice);
 	}
 	public static Character talkToLuka(Character player, Items items){
@@ -216,7 +216,7 @@ public class NPCHandlers {
 				case "yes":
 				case "y":
 					System.out.println("Luka: You will? Thank you so much. \n The big Shepherd \nLuka: I know the cabin. I\'ll be right back.");
-					player.setEnemy(Locations.extraLocation.getCreatures().get(2));
+					player.setBoss(2);
 					player = player.combat(items);
 					if (player.getWin()){
 						System.out.println("Only a few minutes later, Luka walks back down the path, holding the paw of a hellhound. \nHe\'s not really looking anywhere but at the panicked looking hellhound.\nLuka: Easy Jake, it\'s not so bad. You're still my brother.\nLuka: I\'ll convince the village you\'re still you. And look " + player.getName() + " is here too. \nLuca: " + player.getName() + ", please, take him to my home." );
@@ -228,7 +228,7 @@ public class NPCHandlers {
 					}
 					player.setCurrentLocation(Locations.lukasPlace);
 					}
-					Locations.forest.addCreature(Locations.extraLocation.getCreatures().get(2));
+					Locations.forest.addCreature(Locations.extraLocation.chooseEnemy(2));
 					break;
 				case "sorry...":
 				case "sorry":
@@ -247,7 +247,7 @@ public class NPCHandlers {
 			System.out.println("Luka: hey, welcome back. Wanna go for a fight? \n YES, NO.");
 			boolean choice = Input.yesNo(player);
 			if (choice){
-				player.setEnemy(Locations.extraLocation.getCreatures().get(1));
+				player.setBoss(1);
 				player.combat(items);
 				if (player.getWin()){
 					System.out.println("It seems you are still the better warrior.");
@@ -268,7 +268,7 @@ public class NPCHandlers {
 			case "home":
 			case "h":
 				System.out.println("Hellhound: Really? Luka said that? Well then, Luka, Jake is coming home!");
-				Locations.abandonedShelter.removeNPC(Locations.kindHellhound);
+				Locations.abandonedShelter.removeNPC();
 				Locations.forestVillage.addExit(Exit.north, Locations.lukasPlace);
 				break;
 			case "stay":

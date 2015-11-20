@@ -264,9 +264,12 @@ public class Character implements Serializable{
 		}
 		return escape;
 	}
+	boolean hasEnemy(){
+		return enemy != null;
+	}
 	Character hunt(Character player, Items items){
-		if (currentLocation.getCreatures().size() > 0){
-			enemy = currentLocation.getCreatures().get(Input.dice(1,currentLocation.getCreatures().size())); 
+		if (hasEnemy()){
+			enemy = currentLocation.chooseEnemy(); 
 			player = combat(items);
 		}else{
 			System.out.println("There's nothing to hunt here.");
@@ -398,5 +401,10 @@ public class Character implements Serializable{
 	}
 	public void setLocation(Exit exit){
 		currentLocation = getCurrentLocation().getNewLocation(exit);
+	}
+
+	public void setBoss(int index) {
+		enemy = Locations.extraLocation.chooseEnemy(index);
+		
 	}
 }

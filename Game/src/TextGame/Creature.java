@@ -25,7 +25,26 @@ public class Creature {
 	
 	public Creature (){
 	}
-	
+	public Creature(Creature enemy){
+		this.name = enemy.name;
+		this.initialDescription = enemy.initialDescription;
+		this.description = enemy.description;
+		this.hp = enemy.hp;
+		this.dodge = enemy.dodge;
+		this.shield = enemy.shield;
+		this.chase = enemy.chase;
+		this.attacks = enemy.attacks;
+		this.victory = enemy.victory;
+		this.loss = enemy.loss;
+		this.xp = enemy.xp;
+		this.gold = enemy.gold;
+		this.goldLoss = enemy.goldLoss;
+		this.itemDrop = enemy.itemDrop;
+		this.dropChance = enemy.dropChance;
+		this.canFlee = enemy.canFlee;
+		this.attack = enemy.attack;
+		this.damage = enemy.damage;
+	}
 	public Creature (String name, String initialDescription, String description, int hp, int dodge, int shield, int chase, String victory, String loss, int xp, int gold, int goldLoss, Item itemDrop, int dropChance, boolean canFlee, int attack, int damage) {
 		this.name = name;
 		this.initialDescription = initialDescription;
@@ -45,6 +64,9 @@ public class Creature {
 		this.canFlee = canFlee;
 		this.attack = attack;
 		this.damage = damage;
+	}
+	public Creature clone(){
+		return new Creature(this);
 	}
 	public int getDamage(){
 		return damage;

@@ -11,7 +11,7 @@ public class Location {
 	private String locName;
 	private String locDescription;
 	private Vector<Creature> creatures = new Vector<>();
-	private Vector<NPC> npcs = new Vector<>();
+	private NPC npc = null;
 	private Map<Exit, Location> exits = new EnumMap<Exit, Location>(Exit.class);
 	private boolean lock = false;
 	public Location(){
@@ -33,34 +33,44 @@ public class Location {
 	}
 
 	public void addNPC ( NPC npc ){
-		npcs.addElement (npc);
+			this.npc = npc;
 	}
 
-	public void removeNPC ( NPC npc )
-	{
-		if (npcs.contains (npc))
-		{
-			npcs.removeElement (npc);
-		}
+	public void removeNPC (){
+		npc = null;
 	}
-	public Vector<NPC> getNPCs (){
-		return (Vector<NPC>) npcs;
+	public NPC getNPC (){
+		return npc;
+	}
+	public boolean hasNPC() {
+		return npc != null;
+	}
+	public boolean isNPC(NPC npc){
+		return npc.equals(this.npc);
 	}
 	public void addCreature ( Creature creature ){
 		creatures.addElement (creature);
 	}
 
-	public void removeCreature ( Creature creature )
-	{
-		if (creatures.contains (creature))
-		{
+	public void removeCreature ( Creature creature ){
+		if (creatures.contains (creature)){
 			creatures.removeElement (creature);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public Vector<Creature> getCreatures (){
-		return (Vector<Creature>) creatures.clone();
+	public Creature chooseEnemy (){
+		if (creatures.size()>0){
+			return chooseEnemy(Input.dice(1,creatures.size())).clone();
+		}else{
+			return null;
+		}
+	}
+	public Creature chooseEnemy (int index){
+		try{
+			return creatures.get(index);
+		}catch(IndexOutOfBoundsException e){
+			return null;
+		}
 	}
 	
 	public void addExit (Exit exit, Location destination){
@@ -78,12 +88,13 @@ public class Location {
 		return exits.keySet();
 	}
 	public Location getNewLocation(Exit exit){
-		return exits.get(exit);
+		Location newLocation = exits.get(exit);
+		if (newLocation != null){
+			return newLocation;
+		}
+		return this;
 	}
-	public String getLocName(){
-	return locName;
-	}
-
+	
 	public void setLocName( String lName){
 	locName = lName;
 	}
@@ -105,11 +116,12 @@ public class Location {
 	public void printOptions() {
 		System.out.println( "\nAvailable exits :" );
 		for (Exit exit : getExits()){
-			System.out.println(exit.getDirectionName());
+			System.out.println(exit.toString());
 		}
-		if (npcs.size() != 0){
-			System.out.println("You see " + npcs.get(0).getName());
+		if (npc != null){
+			System.out.println("You see " + npc.toString());
 			System.out.println("You can LOOK or TALK");
 		}
 	}
+	
 }

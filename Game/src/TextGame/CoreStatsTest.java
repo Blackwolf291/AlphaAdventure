@@ -22,7 +22,12 @@ public class CoreStatsTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void testIfBoonsWillFailWhenGivenABadArgument(){
 		stats =  new CoreStats();
-		assertEquals(statsTest("junk"), 55);
+		assertEquals(55, statsTest("junk"));
+	}
+	@Test(expected = IllegalArgumentException.class)
+	public void testIfBoonsWillFailWhenGivenInputWithCaps(){
+		stats =  new CoreStats();
+		assertEquals(55, statsTest("Strength"));
 	}
 	
 	public int statsTest(String x){

@@ -22,7 +22,7 @@ public enum Exit {
 		this.shortName = shortName;
 	}
 
-	public String getDirectionName() {
+	public String toString() {
 		return fullName;
 	}
 
