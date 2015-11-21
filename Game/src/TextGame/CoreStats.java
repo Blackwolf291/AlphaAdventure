@@ -15,7 +15,7 @@ public class CoreStats {
 	
 	private void persistOnBoonChoice(int boonSize){
 		try{
-			String boonChoice = Input.getInput();
+			String boonChoice = Input.getUntimedInput();
 			boonChoice = applyBoon(boonChoice, boonSize);
 		}catch (IllegalArgumentException e){
 			System.out.println("Please pick one of the stats presented.");

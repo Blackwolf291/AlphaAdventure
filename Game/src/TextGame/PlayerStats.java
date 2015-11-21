@@ -17,10 +17,7 @@ public class PlayerStats {
 		rechargeAllMana();
 	}
 	public PlayerStats(){
-		stats = new CoreStats();
-		calcDerivedStats(0, 0);
-		healAllHP();
-		rechargeAllMana();
+		this(0, 0);
 	}
 	public void calcDerivedStats(int shielding, int dodgePenalty){
 		this.shielding = shielding;
@@ -59,8 +56,8 @@ public class PlayerStats {
 	}
 	public int calcShield(){
 		int shield = level + shielding;
-		if (shield<level){
-			shield = level;
+		if (shield<0){
+			shield = 0;
 		}
 		return shield;
 	}
@@ -92,7 +89,7 @@ public class PlayerStats {
 		GameScreen.statsScreen.append("Gold: " + gold + "\n");
 	}
 	public void addXP(int gainedXP){
-		if (xp>0){
+		if (gainedXP>0){
 			xp = xp + gainedXP;
 			while (xp > level*100) {
 				lvlUp();

@@ -9,7 +9,7 @@ public class Input{
 		boolean confirm = false;
  		String Choice = "";
  		while (Choice.length() < 1){
- 			Choice = getInput();
+ 			Choice = getUntimedInput();
      		switch(Choice) {
          		case "yes":
          		case "y":
@@ -50,12 +50,17 @@ public class Input{
 		String result = input.toLowerCase();
 		return result;
     }
+	public static String getUntimedInput() {
+		System.out.print(">");
+		String input = holder.getNewInput();
+        return input.toLowerCase();
+	}
 	public static void waitForPlayer(){
 		System.out.println("Press enter to continue.");
 		holder.getNewInput();
 	}
 	public static String getCapInput() {
-		System.out.print(InGameTime.getTime()+">");
+		System.out.print(">");
 		String capInput = holder.getNewInput();
         return capInput;
 	}

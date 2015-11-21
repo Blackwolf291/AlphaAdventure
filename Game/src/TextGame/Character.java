@@ -171,7 +171,7 @@ public class Character implements Serializable{
 			System.out.println("Please enter your species");
 			System.out.println("option species so far:");
 			System.out.println("Wolf, Lion, Bear, Eagle, Fox and Crocodile");
-			playerSpecies = Input.getInput();
+			playerSpecies = Input.getUntimedInput();
 		}
 		return playerSpecies;
 	}

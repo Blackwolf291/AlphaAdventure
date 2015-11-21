@@ -2,7 +2,7 @@ package TextGame;
 import java.util.*;
 public class InputHolder {
 	
-	private static Vector<String> storage = new Vector<>();
+	private static ArrayList<String> storage = new ArrayList<>();
 	public void addNewInput(String input){
 		storage.add(input);
 		synchronized(this){
@@ -20,7 +20,7 @@ public class InputHolder {
 		}
 		return storage.remove(0);
 	}
-	public static void preStore(Vector<String> commands){
+	public static void preStore(ArrayList<String> commands){
 		storage = commands;
 	}
 }
