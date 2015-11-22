@@ -48,7 +48,7 @@ public class Items {
 		items.add(hide);
 		goldenChestnut = new HPItem ("golden chestnut", 1, true, true, false, 15, 0, "It\'s crunchy, but does feel great.");
 		items.add(goldenChestnut);
-		farmKey = new Key ("farm key", 1, Locations.farmHouse, Locations.farmHouseInside);
+		farmKey = new Key ("farm key", 1, Locations.farmHouse, Exit.in, Locations.farmHouseInside);
 		items.add(farmKey);
 		milk = new HPItem ("milk", 1, true, true, false, 20, 100, "It\'s creamy.");
 		items.add(milk);
