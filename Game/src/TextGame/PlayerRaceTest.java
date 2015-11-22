@@ -6,21 +6,19 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-public class GameStartTest {
+public class PlayerRaceTest {
 
 	@Test
-	public void testNormalStartWithoutLoading() {
+	public void testRaceSelect() {
 		ArrayList<String> commands = new ArrayList<>();
-		commands.add("no");
-		commands.add("Shade");
-		commands.add("y");
+		commands.add("fox");
+		commands.add("n");
+		commands.add("tiger");
 		commands.add("wolf");
-		commands.add("y");
-		commands.add("persuasion");
 		commands.add("yes");
 		InputHolder.preStore(commands);
-		Main.initiateGame();
-		assertEquals(1, Main.player.getLvl());
+		assertEquals(PlayerRace.wolf, PlayerRace.setRace());
+		PlayerRace.bear.printFullBodyDescription();
 	}
 
 }
