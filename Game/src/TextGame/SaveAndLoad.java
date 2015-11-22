@@ -17,19 +17,13 @@ public class SaveAndLoad {
 		}
 		
 	}
-	public static Character loadGame(Character player){
-		try {
+	public static Character loadGame(Character player) throws IOException, ClassNotFoundException{
 			FileInputStream playerLoad = new FileInputStream("/tmp/saveGame.ser");
 			ObjectInputStream load = new ObjectInputStream(playerLoad);
 			player = (Character) load.readObject();
 			load.close();
 			playerLoad.close();
-		} catch (IOException e) {
-			System.out.println("No save game recorded.");
-		} catch (ClassNotFoundException e) {
-			System.out.println("You found a glitch in the save/load system. Please copy-paste this message to me.");
-			e.printStackTrace();
-		}
+		
 		
 		return player;
 	}

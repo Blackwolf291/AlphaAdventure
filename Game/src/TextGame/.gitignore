@@ -57,3 +57,6 @@
 /ExitTest.class
 /LocationTest.class
 /CommandListTest.class
+/GameStartTest.class
+/SpellBook.class
+/SpellBookTest.class

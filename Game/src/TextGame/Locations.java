@@ -51,7 +51,6 @@ public class Locations{
 
 	
 	public Locations(Items items, Character player) {
-	//set up locations
 	extraLocation = new Location ("Extra Location", "Here I keep all special encounters. If you came here you found a bug.");	
 	beach = new Location ("Beach", "you are on the pearly white sands of an unknown beach.\nYou see the wreck of the ship to the East, \nand a dense forest to the North.");
 	wreck = new Location ("Wreck", "You have reached the shipwreck.\nIt looks stable now but there seems to be no way through. \nA dazed white fox sits among the wreckage.");

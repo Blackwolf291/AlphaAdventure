@@ -1,7 +1,6 @@
 package TextGame;
 
 import java.io.Serializable;
-import java.util.Vector;
 
 public class Character implements Serializable{
 
@@ -9,7 +8,7 @@ public class Character implements Serializable{
 	private String name;
 	private PlayerRace species;
 	private PlayerStats stats;
-	private Vector<Spell> spells = new Vector<>();
+	private SpellBook spells = new SpellBook();
 	private Location currentLocation;
 	private Inventory inventory = new Inventory(); 
 	private Equipment equipment;
@@ -53,20 +52,8 @@ public class Character implements Serializable{
 	public Weapon getWeapon(){
 		return equipment.getWeapon();
 	}
-	public Vector<Spell> getSpells(){
-		return spells;
-	}
-	public void printSpellList(){
-		if(spells.size() > 0){
-			printSpells();
-		} else{
-			System.out.println("You don\'t have any spells.");
-		}
-	}
-	public void printSpells(){
-		for (int i = 0; i == spells.size(); i++){
-			System.out.println(spells.get(i).getName());
-			}
+	public void printSpellBook(){
+		spells.printSpellBook();
 	}
 	public boolean getItemUsed(){
 		return itemUsed;
@@ -88,6 +75,9 @@ public class Character implements Serializable{
 	}
 	public boolean getWin () {
 		return win;
+	}
+	public boolean hasSpell(Spell spell){
+		return spells.hasSpell(spell);
 	}
 	public void setBase(Location playerBase){
 		base = playerBase;
@@ -212,7 +202,7 @@ public class Character implements Serializable{
 	void printSituation() {
 		System.out.println(getEnemy().getDescription());
 		System.out.println("You may try to ATTACK, FLEE, use an ITEM.");
-		if (spells.size() > 0){
+		if (spells.hasSpells()){
 			System.out.println("Or you may cast a spell.");
 		}
 	}
@@ -340,7 +330,7 @@ public class Character implements Serializable{
 				break;
 			case "minor heal":
 			case "heal":
-				if (getSpells().contains(Locations.minorHeal)){
+				if (hasSpell(Locations.minorHeal)){
 				Locations.minorHeal.cast(this);
 				playerTurn = false;
 				}else{
@@ -349,7 +339,7 @@ public class Character implements Serializable{
 				break;
 			case "fireball":
 			case "fire":
-				if (getSpells().contains(Locations.fireball)){
+				if (hasSpell(Locations.fireball)){
 				Locations.fireball.cast(this);
 				playerTurn = false;
 				}else{
@@ -406,5 +396,17 @@ public class Character implements Serializable{
 	public void setBoss(int index) {
 		enemy = Locations.extraLocation.chooseEnemy(index);
 		
+	}
+	public boolean hasSpells(){
+		return spells.hasSpells();
+	}
+
+	public void printSpellList() {
+		spells.printSpellBook();
+		
+	}
+
+	public void addSpell(Spell spell) {
+		spells.addSpell(spell);
 	}
 }

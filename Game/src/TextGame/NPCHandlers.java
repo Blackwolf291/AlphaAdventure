@@ -185,7 +185,7 @@ public class NPCHandlers {
 					IceSpellCounter++;
 					System.out.println("Ice: Let\'s try getting you to a state where you can summon the magic and use it.\nIce: Today you learn the heal spell.");
 					System.out.println("A few hours later you feel you can reliably cast Heal.");
-					player.getSpells().add(Locations.minorHeal);
+					player.addSpell(Locations.minorHeal);
 					System.out.println("You have learned Minor heal. \nYou can use Fireball in combat by typing \'fireball\' \nor cast the strongest fire spell you know by typing \'fire\'. \nFire spells cannot be used outside of battle.");
 					
 				}
@@ -338,7 +338,7 @@ public class NPCHandlers {
 		System.out.println("Learn Fireball? yes/no");
 		boolean choice = Input.yesNo(player);
 		if (choice){
-			player.getSpells().add(Locations.fireball);
+			player.addSpell(Locations.fireball);
 			System.out.println("You have learned Fireball. \nYou can use Fireball in combat by typing \'fireball\' \nor cast the strongest fire spell you know by typing \'fire\'. \nFire spells cannot be used outside of battle.");
 		}
 		return player;

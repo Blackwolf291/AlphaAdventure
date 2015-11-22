@@ -16,12 +16,12 @@ public class ExitTest {
 	}
 	@Test
 	public void exitShouldBeFound(){
-		assert(Exit.north.is("n"));
-		assert(Exit.east.is("east"));
+		assertTrue(Exit.north.is("n"));
+		assertTrue(Exit.east.is("east"));
 	}
 	@Test
 	public void exitShouldNotBeFound(){
-		assert(!Exit.north.is("s"));
-		assert(!Exit.east.is("up"));
+		assertFalse(Exit.north.is("s"));
+		assertFalse(Exit.east.is("up"));
 	}
 }

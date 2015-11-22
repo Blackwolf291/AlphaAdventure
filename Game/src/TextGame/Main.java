@@ -1,27 +1,49 @@
 package TextGame;
 
+import java.io.IOException;
+
 public class Main{
 	
 	static String command;
 	static Items items;
 	static Character player;
-	private static void initiateGame(){
+	static void initiateGame(){
 		Runnable frame = new GameScreen();
 		frame.run();
 		items = new Items();
-		player = new Character();
+		tryLoadGame();
 		InGameTime.setDefaultTime();
+		if (player == null){
+			player = new Character();
+		}
 		@SuppressWarnings("unused")
 		Locations worldMap = new Locations(items, player);
     	System.out.println("Alpha adventure");  
-    	System.out.println("Do you wish to load your last save game?");
-    	boolean load = Input.yesNo(player);
-    	if (load){
-    	  		player = SaveAndLoad.loadGame(player);
-    	}
     	GameScreen.textArea.setText("");
 		System.out.println( "You wake up on the beach.\nThe sand feels warm, and you can't remember how you got here.\nYou see the wreck of a ship to the North, \nand a dense forest to the East.");
 		
+	}
+	private static void tryLoadGame() {
+		
+		try {
+			persistLoadGame();
+		} catch (ClassNotFoundException e) {
+			System.out.println("save data corrupted");
+			tryLoadGame();
+		} catch (IOException e) {
+			System.out.println("no save data present");
+			tryLoadGame();
+		}
+		
+	}
+	private static void persistLoadGame() throws ClassNotFoundException, IOException {
+		System.out.println("Do you wish to load your last save game?");
+    	if (Input.yesNo(player)){
+    	  		player = SaveAndLoad.loadGame(player);
+    	}
+    	else{
+    		player = null;
+    	}
 	}
 	private static void startTurn(){
 		InGameTime.addTurn();
@@ -30,7 +52,7 @@ public class Main{
 	}
 	private static void runGameLoop(){
 		boolean running = true;
-		while (running == true){
+		while (running){
 			startTurn();
 			command = Input.getInput();
 			parseAndExecuteCommand();
@@ -71,14 +93,14 @@ public class Main{
 			LocHandlers.look(player);
 			break;
 		case heal:
-			if (player.getSpells().contains(Locations.minorHeal)){
+			if (player.hasSpell(Locations.minorHeal)){
 				player = Locations.minorHeal.cast(player);
 			}else{
 				System.out.println("No such move");
 			}
 			break;
 		case fire:
-			if (player.getSpells().contains(Locations.fireball)){
+			if (player.hasSpell(Locations.fireball)){
 				player = Locations.fireball.cast(player);
 			}else{
 				System.out.println("No such move");
