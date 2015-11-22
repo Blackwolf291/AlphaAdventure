@@ -43,9 +43,7 @@ public class Character implements Serializable{
 	public void setEnemy(Creature newCreature){
 		enemy = newCreature;
 	}
-	public Creature getEnemy(){
-		return enemy;
-	}
+	
 	public void setItemUsed(boolean real){
 		itemUsed = real;
 	}
@@ -157,7 +155,7 @@ public class Character implements Serializable{
 	}
 	
 	void printSituation() {
-		System.out.println(getEnemy().getDescription());
+		System.out.println(enemy.getDescription());
 		System.out.println("You may try to ATTACK, FLEE, use an ITEM.");
 		if (spells.hasSpells()){
 			System.out.println("Or you may cast a spell.");
@@ -165,7 +163,7 @@ public class Character implements Serializable{
 	}
 	void playerLose() {
 		GameScreen.textArea.setText("");
-		System.out.println(getEnemy().getLoss());
+		System.out.println(enemy.getLoss());
 		revive();
 		setCurrentLocation(getBase());
 		if (base == Locations.beach){
@@ -193,7 +191,7 @@ public class Character implements Serializable{
 		switch (escapeDie){
 		case 6:
 			escape = true;
-			System.out.println("The " + enemy.getName() + "tripped when trying to chase you. you manage to get away.");
+			System.out.println("The " + enemy + "tripped when trying to chase you. you manage to get away.");
 			break;
 		case 0:
 			escape = false;
@@ -237,7 +235,7 @@ public class Character implements Serializable{
 		return this;
 	}
 	private void flee() {
-		if (getEnemy().getCanFlee()){
+		if (enemy.getCanFlee()){
 			playerTurn = false;
 			boolean escape = decideEscape();
 		if (escape){
@@ -263,8 +261,8 @@ public class Character implements Serializable{
 		lose = false;
 		creatureTurn = true;
 		playerTurn = true;
-		System.out.println("You face a " + getEnemy().getName());
-		System.out.println(getEnemy().getInitialDescription());
+		System.out.println("You face a " + enemy);
+		System.out.println(enemy.getInitialDescription());
 		while (getCombat()){
 			while (playerTurn){
 				printSituation();
@@ -312,7 +310,7 @@ public class Character implements Serializable{
 				setCombat(false);
 						}
 			if (creatureTurn){
-				getEnemy().turn(this);
+				enemy.turn(this);
 				if (getHP() <= 0){
 					lose = true;
 					setCombat(false);
@@ -365,5 +363,16 @@ public class Character implements Serializable{
 
 	public void addSpell(Spell spell) {
 		spells.addSpell(spell);
+	}
+
+	public int getEnemyHP() {
+		return enemy.getHP();
+	}
+
+	public String getEnemyName() {
+		return enemy.toString();
+	}
+	public void dealDamage(int damage){
+		enemy.changeHP(-damage);
 	}
 }

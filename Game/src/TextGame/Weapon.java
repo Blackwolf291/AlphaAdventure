@@ -40,17 +40,16 @@ public class Weapon extends Item{
 		}else {
 			System.out.println("You missed");
 		}
-		if (player.getEnemy().getHP() <= 0){
+		if (player.getEnemyHP() <= 0){
 			player.setWin(true);
 		}
 	}
 	private void dealDamage(Character player, Creature enemy) {
-		System.out.println("You hit the " + player.getEnemy().getName());
+		System.out.println("You hit the " + player.getEnemyName());
 		int playerDamage = getDamage();
 		if (playerDamage >= enemy.getShield()){
 			int damage = playerDamage - enemy.getShield();
-			int HP = enemy.getHP() - damage;
-			enemy.setHP(HP);
+			enemy.changeHP(-damage);
 			System.out.println("for " + damage + " damage");
 		} else{
 			System.out.println("but it did no damage.");

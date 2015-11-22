@@ -289,8 +289,7 @@ public static Character action (String command, Character player, Items items){
 		if (exit.is(command)){
 			if (Input.coin()){
 				if (player.hasEnemy()){
-					player.getEnemy(); 
-					player = player.combat(items);
+					player.combat(items);
 				}
 				if (!player.getWin()){
 					return player;

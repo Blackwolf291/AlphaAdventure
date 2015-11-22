@@ -12,7 +12,7 @@ public class DamageSpell extends Spell{
 				printCastDescription();
 				int rolledDamage = damage;
 				System.out.println("You deal " + rolledDamage + " Damage.");
-				player.getEnemy().setHP(player.getEnemy().getHP() - rolledDamage);
+				player.dealDamage(rolledDamage);
 				player.applyManaCost(getCost());
 			}else{
 				cantCast();

@@ -80,8 +80,8 @@ public class Creature {
 	public void setDodge(int value){
 		dodge = value;
 	}
-	public void setHP(int HP){
-	hp = HP;
+	public void changeHP(int HP){
+	hp += HP;
 	}
 	public void addAttack (Attack attack){
 		attacks.add(attack);
@@ -125,7 +125,7 @@ public class Creature {
  	public int getHP(){
 		return hp;
 	}
-	public String getName(){
+	public String toString(){
 		return name;
 		
 	}
