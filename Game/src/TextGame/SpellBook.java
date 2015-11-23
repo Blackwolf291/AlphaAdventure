@@ -29,4 +29,7 @@ public class SpellBook {
 	public void addSpell(Spell spell) {
 		spells.add(spell);
 	}
+	public void castSpell(Character player, Spell spell){
+		spell.cast(player);
+	}
 }

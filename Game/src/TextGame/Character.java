@@ -57,7 +57,7 @@ public class Character implements Serializable{
 		return itemUsed;
 	}
 	public void applyManaCost(int cost){
-		stats.addMana(getMana() - cost);
+		stats.addMana(-cost);
 	}
 	public int getMana(){
 		return stats.getMana();
@@ -286,7 +286,7 @@ public class Character implements Serializable{
 			case "minor heal":
 			case "heal":
 				if (hasSpell(Locations.minorHeal)){
-				Locations.minorHeal.cast(this);
+				castSpell(Locations.minorHeal);
 				playerTurn = false;
 				}else{
 					System.out.println("No such move");
@@ -295,7 +295,7 @@ public class Character implements Serializable{
 			case "fireball":
 			case "fire":
 				if (hasSpell(Locations.fireball)){
-				Locations.fireball.cast(this);
+					castSpell(Locations.fireball);
 				playerTurn = false;
 				}else{
 					System.out.println("No such move");
@@ -324,6 +324,9 @@ public class Character implements Serializable{
 		}
 		
 	return this;	
+	}
+	void castSpell(Spell spell){
+		spells.castSpell(this, spell);
 	}
 	private void endCombat() {
 		if (win){

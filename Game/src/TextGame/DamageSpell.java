@@ -18,9 +18,11 @@ public class DamageSpell extends Spell{
 				cantCast();
 			}
 		}else{
-			printCastDescription();
-			player.applyManaCost(getCost());
-			System.out.println("But it accomplished nothing.");
+			if (player.getMana()>=getCost()){
+				printCastDescription();
+				player.applyManaCost(getCost());
+				System.out.println("But it accomplished nothing.");
+			}
 		}
 		return player;
 	}

@@ -8,8 +8,7 @@ public class Main{
 	static Items items;
 	static Character player;
 	static void initiateGame(){
-		Runnable frame = new GameScreen();
-		frame.run();
+		launchFrame();
 		items = new Items();
 		tryLoadGame();
 		InGameTime.setDefaultTime();
@@ -22,6 +21,10 @@ public class Main{
     	GameScreen.textArea.setText("");
 		System.out.println( "You wake up on the beach.\nThe sand feels warm, and you can't remember how you got here.\nYou see the wreck of a ship to the North, \nand a dense forest to the East.");
 		
+	}
+	static void launchFrame() {
+		Runnable frame = new GameScreen();
+		frame.run();
 	}
 	private static void tryLoadGame() {
 		

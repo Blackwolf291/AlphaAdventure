@@ -77,12 +77,12 @@ public class LocationTest {
 		assertEquals(null, l1.getNPC());
 		l1.addNPC(Shade);
 		assertEquals(Shade, l1.getNPC());
-		assert(l1.hasNPC());
-		assert(l1.isNPC(Shade));
-		assert(!l1.isNPC(Tiger));
+		assertTrue(l1.hasNPC());
+		assertTrue(l1.isNPC(Shade));
+		assertFalse(l1.isNPC(Tiger));
 		l1.removeNPC();
 		assertEquals(null, l1.getNPC());
-		assert(!l1.hasNPC());
-		assert(!l1.isNPC(Shade));
+		assertFalse(l1.hasNPC());
+		assertFalse(l1.isNPC(Shade));
 	}
 }
