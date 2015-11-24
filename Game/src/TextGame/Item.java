@@ -16,9 +16,6 @@ public class Item {
 		this.keyItem = keyItem;
 		this.value = value;
 	}
-	public String getName(){
-		return name;
-	}
 	public String toString(){
 		return name;
 	}
@@ -40,5 +37,9 @@ public class Item {
 	}
 	public int getCount(){
 		return count;
+	}
+	public Character use(Character player){
+		System.out.println("You can't use that");
+		return player;
 	}
 }

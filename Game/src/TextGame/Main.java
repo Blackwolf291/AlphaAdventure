@@ -50,7 +50,7 @@ public class Main{
 	}
 	private static void startTurn(){
 		InGameTime.addTurn();
-		player.setMana(player.getMana() + player.think());
+		player.addMana(player.think());
 		System.out.println("Other commands: Inventory, Stats, Save");
 	}
 	private static void runGameLoop(){

@@ -37,7 +37,7 @@ public class Input{
 	}
 	public static Item findItem(Item[] options, String choice){
 		for (int i = 0; i< options.length; i++){
-			if (choice == options[i].getName()){
+			if (choice == options[i].toString()){
 				return options[i];
 			}
 		}

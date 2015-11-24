@@ -9,7 +9,7 @@ public class Inventory {
 	public void printCombatInventory(){
 		for (int i = 0; i < items.size(); i++){
 			if (items.get(i).getCombatUse()){
-				System.out.println(items.get(i).getCount() + items.get(i).getName() + ", ");
+				System.out.println(items.get(i).getCount() + items.get(i).toString() + ", ");
 			}
 		}
 		System.out.println("or you can RETURN.");
@@ -37,7 +37,7 @@ public class Inventory {
 	public Character checkInventory(Character player, Items items) {
 		if (this.items.size() > 0){
 			for (int i = 0; i < this.items.size(); i++){
-				System.out.println(this.items.get(i).getCount() + this.items.get(i).getName() + ", ");
+				System.out.println(this.items.get(i).getCount() + this.items.get(i).toString() + ", ");
 			}
 			System.out.println("or you can RETURN.");
 		}else{
@@ -52,7 +52,7 @@ public class Inventory {
 		System.out.println("Count\tItem\tGoldvalue.");
 		for (int i = 0;i < items.size();i++){
 			if (!items.get(i).getKeyItem()){
-				System.out.println(items.get(i).getCount() + "  " + items.get(i).getName() + "  " + items.get(i).getValue()/2);
+				System.out.println(items.get(i).getCount() + "  " + items.get(i) + "  " + items.get(i).getValue()/2);
 			}
 		}
 	}
@@ -86,22 +86,22 @@ public class Inventory {
 	void weaponSwap (Weapon weapon){
 		removeItem(weapon);
 		addItem(equipment.swapWeapon(weapon));
-		System.out.println("You equipped a " + weapon.getName() + ".");
+		System.out.println("You equipped a " + weapon + ".");
 	}
 	void shieldSwap (Shield shield){
 		removeItem(shield);
 		addItem(equipment.swapShield(shield));
-		System.out.println("You equipped a " + shield.getName() + ".");
+		System.out.println("You equipped a " + shield + ".");
 	}
 	void armorSwap (Armor armor){
 		removeItem(armor);
 		addItem(equipment.swapArmor(armor));
-		System.out.println("You equipped a " + armor.getName() + ".");
+		System.out.println("You equipped a " + armor + ".");
 	}
 	void helmetSwap (Helmet helmet){
 		removeItem(helmet);
 		addItem(equipment.swapHelmet(helmet));
-		System.out.println("You equipped a " + helmet.getName() + ".");
+		System.out.println("You equipped a " + helmet + ".");
 	}
 	public Vector<Key> getKeychain() {
 		return keychain;

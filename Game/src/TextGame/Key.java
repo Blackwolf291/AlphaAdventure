@@ -16,10 +16,11 @@ public class Key extends Item{
 	Location getDestination(){
 		return destination;
 	}
-	void use(Character player){
+	public Character use(Character player){
 		if (player.getCurrentLocation()==location){
 			location.setLock(false);
 			location.addExit(exitType, destination);
 		}
+		return player;
 	}
 }

@@ -12,31 +12,35 @@ public class HPAndMPItem extends Consumable{
 	public HPAndMPItem(String name, int count, boolean combatUse, boolean use, boolean keyItem, int value, String useDescription) {
 		super(name, count, combatUse, use, keyItem, value, useDescription);
 	}
-	Character use(Character player) {
+	public Character use(Character player) {
 		player = heal(player);
+		player = manaRec(player);
 		return player;
+	}
+	public String toString(){
+		return super.toString();
 	}
 	Character manaRec(Character player){
 		if (getCount()>0){
 			player.getInventory().removeItem(this);
-			player.setMana(player.getMana() + manaBoost);
+			player.addMana(manaBoost);
 			System.out.println(useDescription);
 			System.out.println("You gained "+ manaBoost + " mana.");
 			player.setItemUsed(true);
 		} else {
-			System.out.println("You don\'t have any " + getName() + " .");
+			System.out.println("You don\'t have any " + toString() + " .");
 		}
 		return player;
 	}
 	Character heal(Character player){
 		if (getCount()>0){
 			player.getInventory().removeItem(this);
-			player.setHP(player.getHP() + hp);
+			player.addHP(hp);
 			System.out.println(useDescription);
 			System.out.println("You gained "+ hp + " hp.");
 			player.setItemUsed(true);
 		} else {
-			System.out.println("You don\'t have any " + getName() + " .");
+			System.out.println("You don\'t have any " + toString() + " .");
 		}
 		return player;
 	}
@@ -48,7 +52,7 @@ public class HPAndMPItem extends Consumable{
 			System.out.println("You gained "+ hp + " hp.\nYou feel better than normal.");
 			player.setItemUsed(true);
 		} else {
-			System.out.println("You don\'t have any " + getName() + " .");
+			System.out.println("You don\'t have any " + toString() + " .");
 		}
 		return player;
 	}

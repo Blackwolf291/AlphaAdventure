@@ -57,7 +57,10 @@ public class Character implements Serializable{
 		return itemUsed;
 	}
 	public void applyManaCost(int cost){
-		stats.addMana(-cost);
+		addMana(-cost);
+	}
+	public void addMana(int manaBoost){
+		stats.addMana(manaBoost);
 	}
 	public int getMana(){
 		return stats.getMana();
@@ -116,7 +119,7 @@ public class Character implements Serializable{
 		stats.addHPWithBonus(HP);
 		updateStatsScreen();
 	}
-	public void setHP(int HP){
+	public void addHP(int HP){
 		stats.addHP(HP);
 		updateStatsScreen();
 	}
@@ -343,9 +346,6 @@ public class Character implements Serializable{
 	}
 	public void revive(){
 		stats.revive();
-	}
-	public void setMana(int value) {
-		stats.addMana(value);
 	}
 	public void setLocation(Exit exit){
 		currentLocation = getCurrentLocation().getNewLocation(exit);

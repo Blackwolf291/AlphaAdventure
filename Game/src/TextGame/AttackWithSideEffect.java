@@ -41,7 +41,7 @@ public class AttackWithSideEffect {
 			if (dealsDamage()){
 				if (getDamage() + enemy.getDamage() > player.getShield()){
 					int damage = getDamage() + enemy.getDamage() - player.getShield();
-					player.setHP(player.getHP() - damage);
+					player.addHP(player.getHP() - damage);
 					System.out.println("It hit you for " + damage + "damage");
 				}
 				else{

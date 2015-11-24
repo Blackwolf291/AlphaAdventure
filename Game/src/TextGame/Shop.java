@@ -63,7 +63,7 @@ public class Shop {
 	private static void printItemList(Item[] forSale){
 		System.out.println("Item \tPrice.");
 		for (int i = 0; i< forSale.length; i++){
-			System.out.println(forSale[i].getName() + "\t" + forSale[i].getValue());
+			System.out.println(forSale[i] + "\t" + forSale[i].getValue());
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class Shop {
 	private static Character buyItem(Character player, Item item){
 		player.setGold(player.getGold()-item.getValue());
 		player.getInventory().addItem(item);
-		System.out.println("You bought the " + item.getName());
+		System.out.println("You bought the " + item);
 		return player;
 	}
 	
@@ -115,7 +115,7 @@ public class Shop {
 	private static Item inputToItem(Vector<Item> vector){
 		String Sale = Input.getInput();
 		for (int i = 0;i < vector.size();i++){
-			if (Sale.equals(vector.get(i).getName())){
+			if (Sale.equals(vector.get(i))){
 				return vector.get(i);
 			}
 		}
