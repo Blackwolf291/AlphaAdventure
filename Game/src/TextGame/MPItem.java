@@ -8,6 +8,7 @@ public class MPItem extends HPAndMPItem{
 	}
 	public Character use(Character player){
 		player = manaRec(player);
+		player.getInventory().removeItem(this);
 		return player;
 	}
 }

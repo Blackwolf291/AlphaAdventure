@@ -115,7 +115,7 @@ public class Character implements Serializable{
 	public int getShield(){
 		return stats.calcShield();
 	}
-	public void setHPWithBonus(int HP){
+	public void addHPWithBonus(int HP){
 		stats.addHPWithBonus(HP);
 		updateStatsScreen();
 	}
