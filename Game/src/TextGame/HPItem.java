@@ -7,6 +7,7 @@ public class HPItem extends HPAndMPItem{
 	}
 	public Character use(Character player){
 		player = heal(player);
+		player.getInventory().removeItem(this);
 		return player;
 	}
 }

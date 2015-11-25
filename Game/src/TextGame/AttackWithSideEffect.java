@@ -38,20 +38,26 @@ public class AttackWithSideEffect {
 	public Character attack(Character player, Creature enemy){
 		System.out.println(getDescription());
 		if (getAttack() + enemy.getHit() >= player.getDodge()){
-			if (dealsDamage()){
-				if (getDamage() + enemy.getDamage() > player.getShield()){
-					int damage = getDamage() + enemy.getDamage() - player.getShield();
-					player.addHP(player.getHP() - damage);
-					System.out.println("It hit you for " + damage + "damage");
-				}
-				else{
-					System.out.println("It hit you but failed to do any damage");
-				}
-			}
+			checkAndDealDamage(player, enemy);
 		}
 		else {
 			System.out.println("It missed");
 		}
 		return player;
+	}
+	private void checkAndDealDamage(Character player, Creature enemy) {
+		if (dealsDamage()){
+			dealDamage(player, enemy);
+		}
+	}
+	private void dealDamage(Character player, Creature enemy) {
+		if (getDamage() + enemy.getDamage() > player.getShield()){
+			int damage = getDamage() + enemy.getDamage() - player.getShield();
+			player.addHP(player.getHP() - damage);
+			System.out.println("It hit you for " + damage + "damage");
+		}
+		else{
+			System.out.println("It hit you but failed to do any damage");
+		}
 	}
 }
