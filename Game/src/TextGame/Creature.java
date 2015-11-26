@@ -1,6 +1,6 @@
 package TextGame;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Creature {
 
@@ -10,7 +10,7 @@ public class Creature {
 	private int hp;
 	private int dodge;
 	private int shield;
-	private Vector<AttackWithSideEffect> attacks;
+	private ArrayList<AttackWithSideEffect> attacks = new ArrayList<>();
 	private int chase;
 	private String victory;
 	private String loss;
@@ -53,7 +53,6 @@ public class Creature {
 		this.dodge = dodge;
 		this.shield = shield;
 		this.chase = chase;
-		this.attacks = new Vector<>();
 		this.victory = victory;
 		this.loss = loss;
 		this.xp = xp;
@@ -113,7 +112,7 @@ public class Creature {
 	public int getChase(){
 		return chase;
 	}
-	public Vector<AttackWithSideEffect> getAttack(){
+	public ArrayList<AttackWithSideEffect> getAttack(){
 		return attacks;
 	}
 	public int getShield(){
