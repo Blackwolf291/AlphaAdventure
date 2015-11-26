@@ -378,4 +378,7 @@ public class Character implements Serializable{
 	public void dealDamage(int damage){
 		enemy.changeHP(-damage);
 	}
+	public void increaseCoreStat(String stat, int increase){
+		stats.increaseCoreStat(stat, increase);
+	}
 }

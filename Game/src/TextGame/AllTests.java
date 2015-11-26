@@ -23,6 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	SpellBookTest.class, 
 	HPAndMPItemTest.class,
 	CreatureTest.class,
+	HealSpellTest.class,
 	PlayerRaceTest.class})
 public class AllTests {
 	public static Character kickUpAPlayer(){

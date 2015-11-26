@@ -9,7 +9,7 @@ public class HealSpell extends Spell{
 	public Character cast (Character player){
 		if (player.getMana()>=getCost()){
 			printCastDescription();
-			player.addHP(player.getHP() + HPHealed);
+			player.addHP(HPHealed);
 			player.applyManaCost(getCost());
 		}
 		else {
