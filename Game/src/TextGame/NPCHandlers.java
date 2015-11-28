@@ -8,14 +8,12 @@ public class NPCHandlers {
 		System.out.println("Shark: " + Locations.realestateShark.getTalkTo());
 		System.out.println("Shark: This beautiful little home can be yours for only 10.000 gold. Interrested?");
 		System.out.println("Yes or No");
-		boolean choice = Input.yesNo(player);
-		if (choice){
+		if (Input.convertYesNoToBoolean()){
 			if (player.getGold() >= 10000)
 			System.out.println("Shark: She's all yours pall.");
 			Locations.vacantHome.removeNPC();
 			System.out.println("Set the village home as your base?");
-			boolean confirm = Input.yesNo(player);
-			if (confirm){
+			if (Input.convertYesNoToBoolean()){
 				setVacantHomeBase(player);
 			}else{
 				System.out.println("The vacant home remains vacant.");
@@ -92,8 +90,7 @@ public class NPCHandlers {
 			if (player.persuade() + player.getLvl() + Input.dice(1,10) >= 25){
 				System.out.println("After a lot of talking, he relents, a little. \n guard: If you could do me a favor, I'll let you in. \n My little brother has gone to the Temple, but hasn't returned. Could you go investigate?"); 
 				System.out.println("YES or NO.");
-				boolean choice = Input.yesNo(player);
-				if(choice){
+				if(Input.convertYesNoToBoolean()){
 					System.out.println("You'll do it? Thanks.");
 					helpQuest = true;
 				}else{
@@ -130,8 +127,7 @@ public class NPCHandlers {
 				} else if (IceCounter == 3 && player.getBase() != player.getCurrentLocation()){
 					System.out.println("Ice: Maybe it's time I moved out of this wreck.");
 					System.out.println("Move Ice into your base?");
-					boolean moveIn = Input.yesNo(player);
-					if (moveIn){
+					if (Input.convertYesNoToBoolean()){
 						Locations.wreck.removeNPC();
 						if (player.getBase() == Locations.beach) {
 							Locations.beach.addNPC(Locations.Ice);
@@ -245,8 +241,7 @@ public class NPCHandlers {
 			}	
 		}else{
 			System.out.println("Luka: hey, welcome back. Wanna go for a fight? \n YES, NO.");
-			boolean choice = Input.yesNo(player);
-			if (choice){
+			if (Input.convertYesNoToBoolean()){
 				player.setBoss(1);
 				player.combat(items);
 				if (player.getWin()){
@@ -336,8 +331,7 @@ public class NPCHandlers {
 		System.out.println("Jake: " + Locations.Jake.getTalkTo());
 		System.out.println("Jake: I can never repay you enough for all you have done. \nJake: Maybe I can do something for you in return. \nJake: I\'ve been practicing with fire, and I think I can teach you FIREBALL. \nJake: Would you like that?");
 		System.out.println("Learn Fireball? yes/no");
-		boolean choice = Input.yesNo(player);
-		if (choice){
+		if (Input.convertYesNoToBoolean()){
 			player.addSpell(Locations.fireball);
 			System.out.println("You have learned Fireball. \nYou can use Fireball in combat by typing \'fireball\' \nor cast the strongest fire spell you know by typing \'fire\'. \nFire spells cannot be used outside of battle.");
 		}

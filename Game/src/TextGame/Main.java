@@ -41,7 +41,7 @@ public class Main{
 	}
 	private static void persistLoadGame() throws ClassNotFoundException, IOException {
 		System.out.println("Do you wish to load your last save game?");
-    	if (Input.yesNo(player)){
+    	if (Input.convertYesNoToBoolean()){
     	  		player = SaveAndLoad.loadGame(player);
     	}
     	else{

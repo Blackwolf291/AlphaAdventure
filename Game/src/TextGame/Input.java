@@ -5,7 +5,7 @@ import java.util.Random;
 public class Input{
 	public static Random randomGenerator = new Random();
 	public static InputHolder holder = new InputHolder();
-	public static boolean yesNo(Character player){
+	public static boolean convertYesNoToBoolean(){
 		boolean confirm = false;
  		String Choice = "";
  		while (Choice.length() < 1){
@@ -65,34 +65,18 @@ public class Input{
         return capInput;
 	}
 	public static int getInteger() {
-		System.out.print(InGameTime.getTime()+">");
-		int number = Integer.parseInt(holder.getNewInput());
-        return number;
+		int number = 0;
+		try{
+			number = askInteger();
+		} catch (NumberFormatException e) { 
+			number = getInteger();
+		}
+		return number;
 	}
-	 public static boolean okay() {
-			System.out.println("are you sure?");
-	 		System.out.println("Yes or No");
-	 		boolean confirm = false;
-	 		String Choice = "";
-	 		while (Choice.length() < 1){
-	 			Choice = getInput();
-	     		switch(Choice) {
-	         		case "yes":
-	         		case "y":
-	         			confirm = true;
-	         			break;
-	         		case "no":
-	         		case "n": 	
-	         			confirm = false;
-	         			break;
-	         		default:
-	         			System.out.println("a yes or no answer will do");
-	         			Choice = "";
-	     		}
-	 		
-	 		}	
-	 		return confirm;
-		 }
+	private static int askInteger(){
+		System.out.print(InGameTime.getTime()+">");
+		return Integer.parseInt(holder.getNewInput());
+	}
 	 public static int dice(int dice, int diesize){
 		int result = 0;
 		for (int i = dice; i > 0;i--){

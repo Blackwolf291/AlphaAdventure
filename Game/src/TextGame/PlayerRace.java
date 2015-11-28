@@ -65,6 +65,7 @@ public enum PlayerRace {
 		try{
 			return valueOf(choice);
 		} catch (IllegalArgumentException e){
+			System.out.println("That's not a race.");
 			return undefined;
 		}
 	}
@@ -82,7 +83,6 @@ public enum PlayerRace {
 		while (race.equals(undefined)) {
 			String species = getPlayerSpecies();
     		race = find(species);
-    		System.out.println("That's not a race.");
 		}
 		return race;
 	}
@@ -90,8 +90,9 @@ public enum PlayerRace {
 		PlayerRace race = undefined;
 		while (race.equals(undefined)) {
 			race = chooseRace(race);
-    		System.out.println("Your a " + race);
-    		if (!Input.okay()){
+    		System.out.println("Your a " + race + "Are you sure?");
+    		
+    		if (!Input.convertYesNoToBoolean()){
     			race = undefined;
     		}
     	}

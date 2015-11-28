@@ -143,17 +143,16 @@ public class Character implements Serializable{
 		}
 		return name;
 	}
-	private boolean nameAccept(boolean nameChoice){
+	private boolean nameAccept(){
 		name = askName();
-		System.out.println("Your name is " + name);
-		nameChoice = Input.okay();
-		return nameChoice;
+		System.out.println("Your name is " + name + "Is this right?");
+		return Input.convertYesNoToBoolean();
 	}
 	private void setName(){
 		boolean nameChoice = false;
     	while (!nameChoice) {
     		name = "";
-    		nameChoice = nameAccept(nameChoice);
+    		nameChoice = nameAccept();
     	}	
 	}
 	

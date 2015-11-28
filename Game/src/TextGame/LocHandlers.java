@@ -61,8 +61,7 @@ public class LocHandlers {
 	public static Character setFTDonations(Character player){
 		System.out.println("You stand in front of the offer block. There is a slot in the middle to prevent people from retrieving offers given. Will you donate?");
 		System.out.println("Yes or No?");
-		boolean choice = Input.yesNo(player);
-		if (choice){
+		if (Input.convertYesNoToBoolean()){
 			System.out.println("How much?");
 			int value = Input.getInteger();
 			ftDonations = ftDonations + value;
