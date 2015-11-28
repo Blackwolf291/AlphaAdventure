@@ -3,41 +3,44 @@ package TextGame;
 import java.util.Random;
 
 public class Input{
-	public static Random randomGenerator = new Random();
-	public static InputHolder holder = new InputHolder();
+	private static Random randomGenerator = new Random();
+	private static InputHolder holder = new InputHolder();
 	public static boolean convertYesNoToBoolean(){
 		boolean confirm = false;
- 		String Choice = "";
- 		while (Choice.length() < 1){
- 			Choice = getUntimedInput();
-     		switch(Choice) {
-         		case "yes":
-         		case "y":
-         			confirm = true;
-         			break;
-         		case "no":
-         		case "n": 	
-         			confirm = false;
-         			break;
-         		default:
-         			System.out.println("a yes or no answer will do");
-         			Choice = "";
-     		}
- 		
- 		}	
+ 		try{
+ 			confirm = askYesNo();
+ 		}catch (IllegalArgumentException e){
+ 			confirm = convertYesNoToBoolean();
+ 		}
  		return confirm;
+	}
+	private static boolean askYesNo() {
+		boolean confirm;
+ 		switch(getUntimedInput()) {
+     		case "yes":
+     		case "y":
+     			confirm = true;
+     			break;
+     		case "no":
+     		case "n": 	
+     			confirm = false;
+     			break;
+     		default:
+     			System.out.println("a yes or no answer will do");
+     			throw new IllegalArgumentException();
+ 		}
+		return confirm;
 	}
 	public static Item chooseItem (Item[] options){
 		Item itemChoice = null;
 		while (itemChoice == null){
-			String choice = Input.getInput();
-			itemChoice = findItem(options, choice);
+			itemChoice = findItem(options, Input.getInput());
 		}
 		return itemChoice;
 	}
-	public static Item findItem(Item[] options, String choice){
+	private static Item findItem(Item[] options, String choice){
 		for (int i = 0; i< options.length; i++){
-			if (choice == options[i].toString()){
+			if (choice.equals(options[i].toString())){
 				return options[i];
 			}
 		}
@@ -88,5 +91,7 @@ public class Input{
 		boolean result = randomGenerator.nextBoolean();
 		return result;
 	}
-	
+	public static void addInput(String input){
+		holder.addNewInput(input);
+	}
 }

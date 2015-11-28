@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-public class GameStartTest {
+public class MainTest {
 
 	@Test
 	public void testNormalStartWithoutLoading() {
@@ -18,9 +18,12 @@ public class GameStartTest {
 		commands.add("y");
 		commands.add("persuasion");
 		commands.add("yes");
+		commands.add("");
+		commands.add("quit");
+		commands.add("");
 		InputHolder.preStore(commands);
-		Main.initiateGame();
-		assertEquals(1, Main.player.getLvl());
+		Main.main(null);
+		
 	}
 
 }

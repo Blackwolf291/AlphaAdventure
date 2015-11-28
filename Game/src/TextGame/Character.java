@@ -145,7 +145,7 @@ public class Character implements Serializable{
 	}
 	private boolean nameAccept(){
 		name = askName();
-		System.out.println("Your name is " + name + "Is this right?");
+		System.out.println("Your name is " + name + "\nIs this right?");
 		return Input.convertYesNoToBoolean();
 	}
 	private void setName(){

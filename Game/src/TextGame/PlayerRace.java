@@ -90,7 +90,7 @@ public enum PlayerRace {
 		PlayerRace race = undefined;
 		while (race.equals(undefined)) {
 			race = chooseRace(race);
-    		System.out.println("Your a " + race + "Are you sure?");
+    		System.out.println("Your a " + race + "\nAre you sure?");
     		
     		if (!Input.convertYesNoToBoolean()){
     			race = undefined;

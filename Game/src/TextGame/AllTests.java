@@ -21,7 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	DamageSpellTest.class, 
 	CommandListTest.class, 
 	ExitTest.class, 
-	GameStartTest.class, 
+	MainTest.class, 
 	SpellBookTest.class, 
 	HPAndMPItemTest.class,
 	CreatureTest.class,

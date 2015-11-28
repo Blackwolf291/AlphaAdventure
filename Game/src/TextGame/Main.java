@@ -3,10 +3,11 @@ package TextGame;
 import java.io.IOException;
 
 public class Main{
-	
-	static String command;
-	static Items items;
+	private static boolean running = true;
+	private static String command;
+	private static Items items;
 	static Character player;
+	static Runnable frame = new GameScreen();
 	static void initiateGame(){
 		launchFrame();
 		items = new Items();
@@ -23,7 +24,6 @@ public class Main{
 		
 	}
 	static void launchFrame() {
-		Runnable frame = new GameScreen();
 		frame.run();
 	}
 	private static void tryLoadGame() {
@@ -54,7 +54,6 @@ public class Main{
 		System.out.println("Other commands: Inventory, Stats, Save");
 	}
 	private static void runGameLoop(){
-		boolean running = true;
 		while (running){
 			startTurn();
 			command = Input.getInput();
@@ -112,6 +111,8 @@ public class Main{
 		case search:
 			player = LocHandlers.search(player, items);
 			break;
+		case quit:
+			running = false;
 			default:
 				switch (ShorthandCommands.find(command.split("")[0])){
 				case use:

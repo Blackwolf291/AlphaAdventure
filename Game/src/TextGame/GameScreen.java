@@ -19,7 +19,7 @@ public class GameScreen extends JFrame implements Runnable{
 					String userInput = textField.getText();
 					textField.setText("");
 					textArea.append(userInput + "\n");
-					Input.holder.addNewInput(userInput);
+					Input.addInput(userInput);
 				}
 			}
 			public void keyReleased(KeyEvent arg0) {

@@ -1,7 +1,7 @@
 package TextGame;
 
 public enum CommandList {
-	inventory, hunt, spells, talk, open, save, make, look, heal, fire, search, other;
+	inventory, hunt, spells, talk, open, save, make, look, heal, fire, search, quit, other;
 
 	public static CommandList find(String command) {
 		try{
