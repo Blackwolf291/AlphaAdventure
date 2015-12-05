@@ -1,15 +1,13 @@
 package TextGame;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import org.junit.Test;
 
 public class MainTest {
 
-	@Test
-	public void testNormalStartWithoutLoading() {
+	@Test (timeout = 2000)
+	public void testTheGameCanOpenAndShut() {
 		ArrayList<String> commands = new ArrayList<>();
 		commands.add("no");
 		commands.add("Shade");

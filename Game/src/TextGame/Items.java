@@ -63,36 +63,36 @@ public class Items {
 		case "drink vine juice":
 		case "vinejuice":
 		case "vine juice":
-		player = ((Consumable) vineJuice).use(player);
+		player = vineJuice.use(player);
 		player.setItemUsed(true);
 		break;
 		case "use potion":
 		case "drink potion":
 		case "potion":
-			player = ((Consumable) potion).use(player);
+			player = potion.use(player);
 			player.setItemUsed(true);
 			break;
 		case "use ether":
 		case "drink ether":
 		case "ether":
-			player = ((Consumable) ether).use(player);
+			player = ether.use(player);
 			player.setItemUsed(true);
 			break;
 		case "use elixer":
 		case "drink elixer":
 		case "elixer":
-			player = ((Consumable) elixer).use(player);
+			player = elixer.use(player);
 			player.setItemUsed(true);
 		break;
 		case "drink milk":
 		case "use milk":
 		case "milk":
-			player = ((Consumable) milk).use(player);
+			player = milk.use(player);
 			break;
 		case "use cheese":
 		case "eat cheese":
 		case "cheese":
-			player = ((Consumable) cheese).use(player);
+			player = cheese.use(player);
 			break;
 		case "return":
 			player.setItemUsed(false);
