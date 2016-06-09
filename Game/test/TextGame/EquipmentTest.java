@@ -4,9 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import items.Helmet;
+import items.ItemFactory;
+import items.equipment.Armor;
+import items.equipment.Shield;
+
 public class EquipmentTest {
 	Equipment equipment;
-	Items items = new Items();
+	ItemFactory items = new ItemFactory();
 	@Test
 	public void testDefaults() {
 		equipment = new Equipment();

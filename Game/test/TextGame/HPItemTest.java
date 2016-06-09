@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import items.HPItem;
+import items.Item;
+
 public class HPItemTest {
 
 	@Test

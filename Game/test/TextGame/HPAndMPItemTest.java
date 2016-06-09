@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import items.HPAndMPItem;
+import items.Item;
+
 public class HPAndMPItemTest {
 
 	@Test

@@ -1,6 +1,10 @@
 package TextGame;
 
+import items.ItemFactory;
+
 public class Locations{
+	
+	private static RandomValueGenerator random = new RandomValueGenerator();
 	static Location extraLocation;
 	static Location beach;
 	static Location wreck;
@@ -50,7 +54,7 @@ public class Locations{
 	static Spell light;
 
 	
-	public Locations(Items items, Character player) {
+	public Locations(ItemFactory items, Character player) {
 	extraLocation = new Location ("Extra Location", "Here I keep all special encounters. If you came here you found a bug.");	
 	beach = new Location ("Beach", "you are on the pearly white sands of an unknown beach.\nYou see the wreck of the ship to the East, \nand a dense forest to the North.");
 	wreck = new Location ("Wreck", "You have reached the shipwreck.\nIt looks stable now but there seems to be no way through. \nA dazed white fox sits among the wreckage.");
@@ -84,7 +88,7 @@ public class Locations{
 	mountainCaves = new Location ("Mountain Caves", "It\'s damp and dark. You\'ll need a light to proceed.");
 	oldRoad = new Location ("Old Road", "Trails of an old highway lead from the city \ninto the hills where they vanish. \nYou see a concrete wall topped with a barb wire fence.");
 	cityGate = new Location ("City Gate", "As you walk up to an abandoned gatehouse. The gate is shut tight. \nYou'll need a Key Card to open it.");
-	
+	/*
 	Creature feralWolf = new Creature("Feral Wolf", "He leaps out of the bushes with a loud snarl", "He circles around, waiting to strike", 100, 14, 0, 25, "The wolf tries to lunge at you one last time,\n but his paws can no longer hold him and he collapses.", "You pass out as his's teeth close around your neck.", 10, 10, 5, items.items.get(0), 0, true, 0, Input.dice(1, 10) + 1);
 	Creature vines = new Creature("Vines", "You feel a tug around your ankle. \nYou rip loose, turning around to see a mass of tentacles.", "The tentacles weave and wither around.", 140, 17, 0, 15, "The vines dry up and wither away.", "You feel the vines wrap around your body, \nbefore one whaps around your throat and squeezes tight.", 25, 15, 7, items.items.get(2), 50, true, 0, 0);
 	Creature giantPrayingManthis = new Creature("Giant Praying Manthis", "Before you stands a giant insect, on four hind legs and sharp front legs. He looks hungry.", "He rubs his sharp forearms together, licking his lips.", 90, 26, 0, 20, "With that final blow, it falls apart. Arms stuck in the earth.", "As you fall to the ground, it picks you up, and the last thing you see is his mouth closing around your head.", 15, 20, 10, items.items.get(0), 0, true, 5, 0);
@@ -109,9 +113,9 @@ public class Locations{
 	Attack pounce = new Attack ("pounce", "He leaps onto your chest, nibbling at your throat.", 10, Input.dice(3, 10) + 3);
 	Attack scratch = new Attack ("scratch", "He scratches you with his claws.", 15, Input.dice(2, 10) + 2);
 	Attack throwNut = new Attack ("throw nut", "He throws an acorn, hitting you in the head.", 25, Input.dice(2, 6) + 2);
-	
+	*/
 	minorHeal = new HealSpell ("minor heal", 75, "A white light washes over you.",100);
-	fireball = new DamageSpell ("fireball", 100, "You throw a ball of fire.", Input.dice(10, 10));
+	fireball = new DamageSpell ("fireball", 100, "You throw a ball of fire.", random.rollDice(10, 10));
 	light = new UtilitySpell ("light", 35, "You glow brightly.");
 	
 	IceUnknown = new NPC ("White Arctic Fox", "You see him looking dazed, sitting among the wreckage.", "Hey, glad to see I'm not the only survivor. my name is Ice.");
@@ -125,9 +129,9 @@ public class Locations{
 	Jake = new NPC("Jake", "The hellhound seems a lot more relaxed. He's wearing fire and smoke as his clothing.", "Hey, nice to see you again.");
 	guardCat = new NPC("Guard Cat", "He lays in the gate opening lazily, \nbut you got a feeling he knows exactly what\'s going on around him.", "Hey, will you get out of my shadow, or do I have to claw you out of it?");
 	farmer = new NPC("farmer", "He is a brown horse in large overalls sitting in a rocking chair \nwith a straw in his mouth.", "Hey there, how can I help you, my friend?");
-	salesCow = new ShopNPC("Sales Cow", "She\'s a brown and white cow with blue eyes. \nShe\'s wearing a light pink dress.", "Healing milk and great cheeses here, would you like to buy something?", null, null, null, null, null, null, null, null);	
+	salesCow = new ShopNPC("Sales Cow", "She\'s a brown and white cow with blue eyes. \nShe\'s wearing a light pink dress.", "Healing milk and great cheeses here, would you like to buy something?", null, null, null, null, null, null, null, null);}	
 	//TODO add flavor to shop npcs
-	
+	/*
 	Hellhound.addAttack(bite);
 	Hellhound.addAttack(claws);
 	feralWolf.addAttack(bite);
@@ -282,12 +286,12 @@ public class Locations{
 	player.setCurrentLocation(beach);
 	player.setBase(beach);
 	}
-	
-public static Character action (String command, Character player, Items items){
+	*/
+public static Character action (String command, Character player, ItemFactory items){
 	
 	for (Exit exit : player.getCurrentLocation().getExits()){
 		if (exit.is(command)){
-			if (Input.coin()){
+			if (random.flipCoin()){
 				if (player.hasEnemy()){
 					player.combat(items);
 				}

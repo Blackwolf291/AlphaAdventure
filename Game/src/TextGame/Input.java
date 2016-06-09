@@ -1,9 +1,6 @@
 package TextGame;
 
-import java.util.Random;
-
 public class Input{
-	private static Random randomGenerator = new Random();
 	private static InputHolder holder = new InputHolder();
 	public static boolean convertYesNoToBoolean(){
 		boolean confirm = false;
@@ -31,22 +28,7 @@ public class Input{
  		}
 		return confirm;
 	}
-	public static Item chooseItem (Item[] options){
-		Item itemChoice = null;
-		while (itemChoice == null){
-			itemChoice = findItem(options, Input.getInput());
-		}
-		return itemChoice;
-	}
-	private static Item findItem(Item[] options, String choice){
-		for (int i = 0; i< options.length; i++){
-			if (choice.equals(options[i].toString())){
-				return options[i];
-			}
-		}
-		System.out.println("Sorry, that's not an option.");
-		return null;
-	}
+	
 	public static String getInput() {
 		System.out.print(InGameTime.getTime()+">");
 		String input = holder.getNewInput();
@@ -80,17 +62,7 @@ public class Input{
 		System.out.print(InGameTime.getTime()+">");
 		return Integer.parseInt(holder.getNewInput());
 	}
-	 public static int dice(int dice, int diesize){
-		int result = 0;
-		for (int i = dice; i > 0;i--){
-			result = result + randomGenerator.nextInt(diesize);
-		}
-		return result;
-	}
-	public static boolean coin () {
-		boolean result = randomGenerator.nextBoolean();
-		return result;
-	}
+	
 	public static void addInput(String input){
 		holder.addNewInput(input);
 	}

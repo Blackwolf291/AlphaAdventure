@@ -55,8 +55,6 @@ public class Shop {
 		System.out.println(salesPerson.choosePurchase);
 		printItemList(buyables);
 		System.out.println("You have " + player.getGold() + "gold.");
-		Item itemChoice = Input.chooseItem(buyables);
-		player = canBuyItem(player, itemChoice);
 		return player;
 	}
 	
@@ -78,24 +76,12 @@ public class Shop {
 	
 	private static Character buyItem(Character player, Item item){
 		player.setGold(player.getGold()-item.getValue());
-		player.getInventory().addItem(item);
 		System.out.println("You bought the " + item);
 		return player;
 	}
 	
 	Character sell(Character player) {
-		if (player.getInventory().items.size()-player.getInventory().getKeychain().size() > 0){
-			player.getInventory().printSellable(salesPerson.salesLine);
-			Item itemToSell = inputToItem(player.getInventory().items);
-			if (itemToSell != null){
-				player = sellItem(itemToSell, player);
-			} else {
-				System.out.println("You don't have any of those.");
-			}
-		} else {
-			System.out.println("You have nothing to sell");
-		}
-		return player;
+			return player;
 	}
 	private Character sellItem(Item itemToSell, Character player){
 		System.out.println(salesPerson.sellAmount);	

@@ -1,5 +1,8 @@
 package TextGame;
 
+import items.Item;
+import items.ItemFactory;
+
 public class NPCHandlers {
 	static int IceCounter = 0;
 	static int IceSpellCounter = 0;
@@ -36,13 +39,13 @@ public class NPCHandlers {
 			player.getBase().addExit(Exit.north, Locations.IceRoom);
 		}
 	}
-	public static Character talkToBlacksmith(Character player, Items items){
+	public static Character talkToBlacksmith(Character player, ItemFactory items){
 		Item[] shopList = new Item[]{items.getItems().get(6),items.getItems().get(7),items.getItems().get(8),items.getItems().get(9),items.getItems().get(0)};
 		Shop blacksmiths = new Shop(Locations.blacksmith, shopList, true, null);
 		blacksmiths.runShop(player);
 		return player;
 	}
-	public static Character talkToCoon(Character player, Items items){
+	public static Character talkToCoon(Character player, ItemFactory items){
 		Item[] shopList = new Item[]{items.getItems().get(3),items.getItems().get(4),items.getItems().get(5),items.getItems().get(0)};
 		Shop CoonsGeneralStore = new Shop(Locations.Coon, shopList, true, null);
 		player = CoonsGeneralStore.runShop(player);
@@ -52,7 +55,7 @@ public class NPCHandlers {
 	
 	
 	
-	public static Character talkToGuardDog(Character player, Items items) {
+	public static Character talkToGuardDog(Character player, ItemFactory items) {
 		if (LocHandlers.getBrotherQuest() == 2) {
 			Locations.forestWestGate.addExit(Exit.east, Locations.forestVillage);
 			Locations.forestWestGate.removeNPC();
@@ -198,7 +201,7 @@ public class NPCHandlers {
 		Locations.wreck.removeNPC();
 		Locations.wreck.addNPC(Locations.Ice);
 	}
-	public static Character talkToLuka(Character player, Items items){
+	public static Character talkToLuka(Character player, ItemFactory items){
 		System.out.println(Locations.Luka.getTalkTo());
 		if (LocHandlers.getBrotherQuest() == 3){
 			System.out.println("He\'s nearby? Why isn\'t he here? He\'s a WHAT? \nHellhound: I\'m gonna go see him, can you stand guard here for a bit? \nHellhound: Else, I\'m stuck here.");
@@ -327,7 +330,7 @@ public class NPCHandlers {
 		}
 		return player;
 	}
-	public static Character talkToJake(Character player, Items items) {
+	public static Character talkToJake(Character player, ItemFactory items) {
 		System.out.println("Jake: " + Locations.Jake.getTalkTo());
 		System.out.println("Jake: I can never repay you enough for all you have done. \nJake: Maybe I can do something for you in return. \nJake: I\'ve been practicing with fire, and I think I can teach you FIREBALL. \nJake: Would you like that?");
 		System.out.println("Learn Fireball? yes/no");
@@ -337,7 +340,7 @@ public class NPCHandlers {
 		}
 		return player;
 	}
-	public static Character talkToGuardCat(Character player, Items items) {
+	public static Character talkToGuardCat(Character player, ItemFactory items) {
 		System.out.println("Guard cat: " + Locations.guardCat.getTalkTo());
 		System.out.println("talk about HIM, his JOB, or just stand in his SUN.");
 		String choice = Input.getInput();
@@ -360,14 +363,14 @@ public class NPCHandlers {
 		}
 		return player;
 	}
-	public static Character talkToSalesCow(Character player, Items items) {
+	public static Character talkToSalesCow(Character player, ItemFactory items) {
 		Item[] shopList = new Item[]{items.getItems().get(14),items.getItems().get(15),items.getItems().get(0)};
 		Shop farmStall = new Shop(Locations.salesCow, shopList, false, null);
 		player = farmStall.runShop(player);
 		return player;
 	}
 	
-	public static Character talkToFarmer(Character player, Items items) {
+	public static Character talkToFarmer(Character player, ItemFactory items) {
 		System.out.println(Locations.farmer.getTalkTo());
 		return player;
 	}

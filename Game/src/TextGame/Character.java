@@ -2,7 +2,13 @@ package TextGame;
 
 import java.io.Serializable;
 
-public class Character implements Serializable{
+import items.Attacker;
+import items.Defender;
+import items.ItemFactory;
+import items.ItemList;
+import items.Target;
+
+public class Character implements Serializable, Target, Defender, Attacker{
 
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -10,8 +16,6 @@ public class Character implements Serializable{
 	private PlayerStats stats;
 	private SpellBook spells = new SpellBook();
 	private Location currentLocation;
-	private Inventory inventory = new Inventory(); 
-	private Equipment equipment;
 	private Location base;
 	private boolean combat = false;
 	private boolean win = true;
@@ -20,12 +24,11 @@ public class Character implements Serializable{
 	private boolean playerTurn;
 	private boolean creatureTurn;
 	private boolean lose;
+	private RandomValueGenerator randomGenerator = new RandomValueGenerator();
 	
 	public Character (){
 		setName();
 		species = PlayerRace.setRace();
-		equipment = new Equipment(species);
-		stats = new PlayerStats(equipment.calcShield(), equipment.speedPenalty());
 		enemy = new Creature();
 		updateStatsScreen();
 	}
@@ -36,6 +39,7 @@ public class Character implements Serializable{
 	public int persuade(){
 		return stats.getCha();
 	}
+	@Override
 	public int getDodge(){
 		return stats.calcDodge();
 	}
@@ -46,9 +50,6 @@ public class Character implements Serializable{
 	
 	public void setItemUsed(boolean real){
 		itemUsed = real;
-	}
-	public Weapon getWeapon(){
-		return equipment.getWeapon();
 	}
 	public void printSpellBook(){
 		spells.printSpellBook();
@@ -87,9 +88,7 @@ public class Character implements Serializable{
 	public Location getBase(){
 		return base;
 	}
-	public Inventory getInventory(){
-		return inventory;
-	}
+	
 	public void setGold(int goldGained){
 		stats.addGold(goldGained);
 	}
@@ -109,9 +108,7 @@ public class Character implements Serializable{
 	public boolean hpIsFull(){
 		return stats.hpIsFull();
 	}
-	public int getAttack(){
-		return stats.calcAttack();
-	}
+	
 	public int getShield(){
 		return stats.calcShield();
 	}
@@ -181,15 +178,14 @@ public class Character implements Serializable{
 		updateStatsScreen();
 		win = true;
 		System.out.println("You gained " + enemy.getGold() + " gold.");
-		if (Input.dice(1,100) >= enemy.getDropChance()){
+		if (randomGenerator.rollDice(1,100) >= enemy.getDropChance()){
 			System.out.println("You gained 1" + enemy.getItemDrop());
-			inventory.addItem(enemy.getItemDrop());
 		}
 	}
 	
 	public boolean decideEscape() {
 		boolean escape;
-		int escapeDie = Input.dice(1,6);
+		int escapeDie = randomGenerator.rollDice(1,6);
 		switch (escapeDie){
 		case 6:
 			escape = true;
@@ -214,7 +210,7 @@ public class Character implements Serializable{
 	boolean hasEnemy(){
 		return enemy != null;
 	}
-	Character hunt(Character player, Items items){
+	Character hunt(Character player, ItemFactory items){
 		if (hasEnemy()){
 			enemy = currentLocation.chooseEnemy(); 
 			player = combat(items);
@@ -227,11 +223,10 @@ public class Character implements Serializable{
 		GameScreen.statsScreen.setText(name + "\n");
 		stats.updateStatsScreen();
 	}
-	private Character combatInventory(Items items) {
-		inventory.printCombatInventory();
+	private Character combatInventory(ItemFactory items) {
 		String item = Input.getInput();
 		if (item.equals("return")){ 
-			items.useItem(item, this);
+			items.get(ItemList.valueOf(item)).use(this);
 			playerTurn = !getItemUsed();
 		}
 		return this;
@@ -255,7 +250,7 @@ public class Character implements Serializable{
 		getCurrentLocation().printOptions();
 		
 	}
-	public Character combat(Items items){
+	public Character combat(ItemFactory items){
 		setCombat(true);
 		GameScreen.textArea.setText("");
 		setWin(false);
@@ -272,7 +267,6 @@ public class Character implements Serializable{
 				switch (action){
 				case "attack":
 				case "a":
-					equipment.attack(this, enemy);;
 					break;
 			case "flee":
 			case "f":
@@ -374,10 +368,35 @@ public class Character implements Serializable{
 	public String getEnemyName() {
 		return enemy.toString();
 	}
+	@Override
 	public void dealDamage(int damage){
 		enemy.changeHP(-damage);
 	}
 	public void increaseCoreStat(String stat, int increase){
 		stats.increaseCoreStat(stat, increase);
+	}
+
+	@Override
+	public Attack getAttack() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getAccuracy() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getBaseDamage() {
+		return stats.calcAttack();
+	}
+	
+
+	@Override
+	public int getDefense() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

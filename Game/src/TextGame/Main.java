@@ -2,15 +2,17 @@ package TextGame;
 
 import java.io.IOException;
 
+import items.ItemFactory;
+
 public class Main{
 	private static boolean running = true;
 	private static String command;
-	private static Items items;
+	private static ItemFactory items;
 	static Character player;
 	static Runnable frame = new GameScreen();
 	static void initiateGame(){
 		launchFrame();
-		items = new Items();
+		items = ItemFactory.getFactory();
 		tryLoadGame();
 		InGameTime.setDefaultTime();
 		if (player == null){
@@ -68,7 +70,6 @@ public class Main{
 	private static void parseAndExecuteCommand(){
 		switch (CommandList.find(command)){
 		case inventory:
-			player = player.getInventory().checkInventory(player, items);
 			if (!player.getItemUsed()){
 				command = "";
 			}
@@ -80,19 +81,15 @@ public class Main{
 			player.printSpellList();
 			break;
 		case talk:
-			LocHandlers.talk(player, items);
 			break;
 		case open:
-			LocHandlers.open(player);
 			break;
 		case save:
 			SaveAndLoad.saveGame(player);
 			break;
 		case make:
-			LocHandlers.make(player);
 			break;
 		case look:
-			LocHandlers.look(player);
 			break;
 		case heal:
 			if (player.hasSpell(Locations.minorHeal)){
@@ -109,32 +106,25 @@ public class Main{
 			}
 			break;
 		case search:
-			player = LocHandlers.search(player, items);
 			break;
 		case quit:
 			running = false;
 			default:
 				switch (ShorthandCommands.find(command.split("")[0])){
 				case use:
-					items.useItem(command, player);
 					break;
 				case talk:
-					LocHandlers.talk(player, items);
 					break;
 				case look:
-					LocHandlers.look(player);
 					break;
 				case open:
-					LocHandlers.open(player);
 					break;
 				case hunt:
 					player.hunt(player, items);
 					break;
 				case make:
-					LocHandlers.make(player);
 					break;
 				case equip:
-					player.getInventory().equipItem(command, items);
 					break;
 				default:
 					player = Locations.action(command, player, items);

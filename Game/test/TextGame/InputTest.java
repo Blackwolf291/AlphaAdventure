@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import items.Item;
+
 public class InputTest {
 
 	@Test

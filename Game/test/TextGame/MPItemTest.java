@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import items.Item;
+import items.MPItem;
+
 public class MPItemTest {
 
 	@Test

@@ -1,8 +1,12 @@
 package TextGame;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Creature {
+import items.Attacker;
+import items.Defender;
+
+public class Creature implements Attacker, Defender{
 
 	private String name;
 	private String initialDescription;
@@ -10,7 +14,7 @@ public class Creature {
 	private int hp;
 	private int dodge;
 	private int shield;
-	private ArrayList<AttackWithSideEffect> attacks = new ArrayList<>();
+	private ArrayList<Attack> attacks = new ArrayList<>();
 	private int chase;
 	private String victory;
 	private String loss;
@@ -64,6 +68,7 @@ public class Creature {
 		this.attack = attack;
 		this.damage = damage;
 	}
+	@Override
 	public Creature clone(){
 		return new Creature(this);
 	}
@@ -112,18 +117,21 @@ public class Creature {
 	public int getChase(){
 		return chase;
 	}
-	public ArrayList<AttackWithSideEffect> getAttack(){
-		return attacks;
+	@Override
+	public Attack getAttack(){
+		return attacks.get(new Random().nextInt(attacks.size()));
 	}
 	public int getShield(){
 		return shield;
 	}
+	@Override
 	public int getDodge(){
 		return dodge;
 	}
  	public int getHP(){
 		return hp;
 	}
+	@Override
 	public String toString(){
 		return name;
 		
@@ -132,8 +140,29 @@ public class Creature {
 		return initialDescription;
 	}
 	public Character turn(Character player) {
-		AttackWithSideEffect currentAttack = getAttack().get(Input.dice(1,getAttack().size()));
+		Attack currentAttack = getAttack();
 		currentAttack.attack(player, this);
 		return player;
+	}
+	@Override
+	public int getDefense() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void dealDamage(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public int getAccuracy() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int getBaseDamage() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
